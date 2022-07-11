@@ -1,5 +1,7 @@
 package com.dwarfeng.familyhelper.life.sdk.util;
 
+import com.dwarfeng.subgrade.stack.exception.ServiceException;
+
 /**
  * 服务异常代码。
  *
@@ -8,9 +10,16 @@ package com.dwarfeng.familyhelper.life.sdk.util;
  */
 public final class ServiceExceptionCodes {
 
-    private static int EXCEPTION_CODE_OFFSET = 12000;
+    private static int EXCEPTION_CODE_OFFSET = 13000;
 
-    // TODO 待添加异常代码。
+    public static final ServiceException.Code USER_NOT_EXISTS =
+            new ServiceException.Code(offset(0), "user not exists");
+    public static final ServiceException.Code USER_NOT_PERMITTED_FOR_PB_SET =
+            new ServiceException.Code(offset(10), "user not permitted for pb set");
+    public static final ServiceException.Code PB_SET_NOT_EXISTS =
+            new ServiceException.Code(offset(20), "pb set not exists");
+    public static final ServiceException.Code INVALID_PERMISSION_LEVEL =
+            new ServiceException.Code(offset(30), "invalid permission level");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -35,7 +44,10 @@ public final class ServiceExceptionCodes {
         EXCEPTION_CODE_OFFSET = exceptionCodeOffset;
 
         // 以新的 EXCEPTION_CODE_OFFSET 为基准，更新异常代码的值。
-        // TODO 待添加异常代码。
+        USER_NOT_EXISTS.setCode(offset(0));
+        USER_NOT_PERMITTED_FOR_PB_SET.setCode(offset(10));
+        PB_SET_NOT_EXISTS.setCode(offset(20));
+        INVALID_PERMISSION_LEVEL.setCode(offset(30));
     }
 
     private ServiceExceptionCodes() {

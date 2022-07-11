@@ -32,6 +32,8 @@
                    ref="popbMaintainServiceImpl"/>
     <dubbo:service interface="com.dwarfeng.familyhelper.life.stack.service.PbSetMaintainService"
                    ref="pbSetMaintainServiceImpl"/>
+    <dubbo:service interface="com.dwarfeng.familyhelper.life.stack.service.PbSetOperateService"
+                   ref="pbSetOperateServiceImpl"/>
     <dubbo:service interface="com.dwarfeng.familyhelper.life.stack.service.PbNodeMaintainService"
                    ref="pbNodeMaintainServiceImpl"/>
     <dubbo:service interface="com.dwarfeng.familyhelper.life.stack.service.PbItemMaintainService"
