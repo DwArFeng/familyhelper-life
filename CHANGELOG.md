@@ -6,6 +6,15 @@
 
 - 项目结构建立，程序清理测试通过。
 
+- 建立实体以及维护服务，并通过单元测试。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.PbFileInfo。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.PbItem。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.PbNode。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.PbRecord。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.PbSet。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.Popb。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.User。
+
 #### Bug修复
 
 - (无)
