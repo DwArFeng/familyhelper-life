@@ -2,6 +2,7 @@ package com.dwarfeng.familyhelper.life.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.familyhelper.life.sdk.util.Constraints;
+import com.dwarfeng.familyhelper.life.sdk.util.ValidComparator;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbItem;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputLongIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -54,7 +55,7 @@ public class WebInputPbItem implements Bean {
     private String unit;
 
     @JSONField(name = "comparator")
-
+    @ValidComparator
     private Integer comparator;
 
     @JSONField(name = "remark")

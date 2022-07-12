@@ -2,6 +2,7 @@ package com.dwarfeng.familyhelper.life.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.familyhelper.life.sdk.bean.key.WebInputPopbKey;
+import com.dwarfeng.familyhelper.life.sdk.util.ValidPermissionLevel;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.Popb;
 import com.dwarfeng.subgrade.stack.bean.Bean;
 
@@ -35,6 +36,7 @@ public class WebInputPopb implements Bean {
     private WebInputPopbKey key;
 
     @JSONField(name = "permission_level", ordinal = 2)
+    @ValidPermissionLevel
     private int permissionLevel;
 
     @JSONField(name = "remark", ordinal = 3)
