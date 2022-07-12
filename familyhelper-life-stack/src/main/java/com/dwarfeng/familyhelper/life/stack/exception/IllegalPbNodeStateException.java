@@ -26,6 +26,6 @@ public class IllegalPbNodeStateException extends HandlerException {
 
     @Override
     public String getMessage() {
-        return "个人最佳节点 " + pbNodeKey + " 状态异常: 它是否没绑定资产目录?";
+        return "个人最佳节点 " + pbNodeKey + " 状态异常: 它是否没绑定个人最佳集合?";
     }
 }

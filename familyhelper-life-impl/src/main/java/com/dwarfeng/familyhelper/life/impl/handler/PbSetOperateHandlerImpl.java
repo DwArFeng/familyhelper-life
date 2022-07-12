@@ -37,7 +37,6 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
         this.operateHandlerValidator = operateHandlerValidator;
     }
 
-
     @Override
     public LongIdKey createPbSet(StringIdKey userKey, PbSetCreateInfo pbSetCreateInfo)
             throws HandlerException {

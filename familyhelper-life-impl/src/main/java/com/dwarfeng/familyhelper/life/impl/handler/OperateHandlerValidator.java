@@ -1,14 +1,12 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.PbItem;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbNode;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.Popb;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
 import com.dwarfeng.familyhelper.life.stack.exception.*;
-import com.dwarfeng.familyhelper.life.stack.service.PbNodeMaintainService;
-import com.dwarfeng.familyhelper.life.stack.service.PbSetMaintainService;
-import com.dwarfeng.familyhelper.life.stack.service.PopbMaintainService;
-import com.dwarfeng.familyhelper.life.stack.service.UserMaintainService;
+import com.dwarfeng.familyhelper.life.stack.service.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -33,17 +31,20 @@ public class OperateHandlerValidator {
     private final PopbMaintainService popbMaintainService;
     private final PbSetMaintainService pbSetMaintainService;
     private final PbNodeMaintainService pbNodeMaintainService;
+    private final PbItemMaintainService pbItemMaintainService;
 
     public OperateHandlerValidator(
             UserMaintainService userMaintainService,
             PopbMaintainService popbMaintainService,
             PbSetMaintainService pbSetMaintainService,
-            PbNodeMaintainService pbNodeMaintainService
+            PbNodeMaintainService pbNodeMaintainService,
+            PbItemMaintainService pbItemMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
         this.pbSetMaintainService = pbSetMaintainService;
         this.pbNodeMaintainService = pbNodeMaintainService;
+        this.pbItemMaintainService = pbItemMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -70,6 +71,16 @@ public class OperateHandlerValidator {
         try {
             if (!pbNodeMaintainService.exists(pbNodeKey)) {
                 throw new PbNodeNotExistsException(pbNodeKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSurePbItemExists(LongIdKey pbItemKey) throws HandlerException {
+        try {
+            if (!pbItemMaintainService.exists(pbItemKey)) {
+                throw new PbItemNotExistsException(pbItemKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -133,6 +144,27 @@ public class OperateHandlerValidator {
         }
     }
 
+    public void makeSurePbSetIdenticalForPbSet(LongIdKey parentNodeKey, LongIdKey childSetKey)
+            throws HandlerException {
+        try {
+            // 如果 parentNodeKey 为 null，则表示该项目是根项目，不需要进行任何判断。
+            if (Objects.isNull(parentNodeKey)) {
+                return;
+            }
+
+            PbNode parentNode = pbNodeMaintainService.get(parentNodeKey);
+            LongIdKey parentSetKey = parentNode.getSetKey();
+            if (Objects.isNull(parentSetKey)) {
+                throw new IllegalPbNodeStateException(parentNodeKey);
+            }
+            if (!Objects.equals(parentSetKey, childSetKey)) {
+                throw new PbSetNotIdenticalException(parentSetKey, childSetKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
     public void makeSureUserInspectPermittedForPbNode(StringIdKey userKey, LongIdKey pbNodeKey) throws HandlerException {
         try {
             // 1. 查找指定的个人最佳节点是否绑定个人最佳集合，如果不绑定个人最佳集合，则抛出个人最佳节点状态异常。
@@ -163,23 +195,31 @@ public class OperateHandlerValidator {
         }
     }
 
-
-    public void makeSurePbSetIdenticalForPbSet(LongIdKey parentNodeKey, LongIdKey childSetKey)
-            throws HandlerException {
+    public void makeSureUserInspectPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey) throws HandlerException {
         try {
-            // 如果 parentNodeKey 为 null，则表示该项目是根项目，不需要进行任何判断。
-            if (Objects.isNull(parentNodeKey)) {
-                return;
+            // 1. 查找指定的个人最佳项目是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳项目状态异常。
+            PbItem pbItem = pbItemMaintainService.get(pbItemKey);
+            if (Objects.isNull(pbItem.getNodeKey())) {
+                throw new IllegalPbItemStateException(pbItemKey);
             }
 
-            PbNode parentNode = pbNodeMaintainService.get(parentNodeKey);
-            LongIdKey parentSetKey = parentNode.getSetKey();
-            if (Objects.isNull(parentSetKey)) {
-                throw new IllegalPbNodeStateException(parentNodeKey);
+            // 2. 取出个人最佳项目的个人最佳节点外键，判断用户是否拥有该个人最佳节点的权限。
+            makeSureUserInspectPermittedForPbNode(userKey, pbItem.getNodeKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey) throws HandlerException {
+        try {
+            // 1. 查找指定的个人最佳项目是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳项目状态异常。
+            PbItem pbItem = pbItemMaintainService.get(pbItemKey);
+            if (Objects.isNull(pbItem.getNodeKey())) {
+                throw new IllegalPbItemStateException(pbItemKey);
             }
-            if (!Objects.equals(parentSetKey, childSetKey)) {
-                throw new PbSetNotIdenticalException(parentSetKey, childSetKey);
-            }
+
+            // 2. 取出个人最佳项目的个人最佳节点外键，判断用户是否拥有该个人最佳节点的权限。
+            makeSureUserModifyPermittedForPbNode(userKey, pbItem.getNodeKey());
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }

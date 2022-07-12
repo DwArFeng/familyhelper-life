@@ -1,10 +1,7 @@
 package com.dwarfeng.familyhelper.life.node.configuration;
 
 import com.dwarfeng.familyhelper.life.sdk.util.ServiceExceptionCodes;
-import com.dwarfeng.familyhelper.life.stack.exception.InvalidPermissionLevelException;
-import com.dwarfeng.familyhelper.life.stack.exception.PbSetNotExistsException;
-import com.dwarfeng.familyhelper.life.stack.exception.UserNotExistsException;
-import com.dwarfeng.familyhelper.life.stack.exception.UserNotPermittedForPbSetException;
+import com.dwarfeng.familyhelper.life.stack.exception.*;
 import com.dwarfeng.subgrade.impl.exception.MapServiceExceptionMapper;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
@@ -24,6 +21,11 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(UserNotPermittedForPbSetException.class, ServiceExceptionCodes.USER_NOT_PERMITTED_FOR_PB_SET);
         destination.put(PbSetNotExistsException.class, ServiceExceptionCodes.PB_SET_NOT_EXISTS);
         destination.put(InvalidPermissionLevelException.class, ServiceExceptionCodes.INVALID_PERMISSION_LEVEL);
+        destination.put(PbNodeNotExistsException.class, ServiceExceptionCodes.PB_NODE_NOT_EXISTS);
+        destination.put(IllegalPbNodeStateException.class, ServiceExceptionCodes.ILLEGAL_PB_NODE_STATE);
+        destination.put(PbSetNotIdenticalException.class, ServiceExceptionCodes.PB_SET_NOT_IDENTICAL);
+        destination.put(PbItemNotExistsException.class, ServiceExceptionCodes.PB_ITEM_NOT_EXISTS);
+        destination.put(IllegalPbItemStateException.class, ServiceExceptionCodes.ILLEGAL_PB_ITEM_STATE);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
     }
 }

@@ -36,7 +36,7 @@ public class PbNodeOperateHandlerImpl implements PbNodeOperateHandler {
             // 1. 确认用户存在。
             operateHandlerValidator.makeSureUserExists(userKey);
 
-            // 2. 确认资产目录存在。
+            // 2. 确认个人最佳集合存在。
             operateHandlerValidator.makeSurePbSetExists(setKey);
 
             // 3. 确认父个人最佳节点存在。
@@ -44,10 +44,10 @@ public class PbNodeOperateHandlerImpl implements PbNodeOperateHandler {
                 operateHandlerValidator.makeSurePbNodeExists(parentKey);
             }
 
-            // 4. 确认用户有权限操作指定的资产目录。
+            // 4. 确认用户有权限操作指定的个人最佳集合。
             operateHandlerValidator.makeSureUserModifyPermittedForPbSet(userKey, setKey);
 
-            // 5. 确认个人最佳节点与父个人最佳节点的资产目录存在。
+            // 5. 确认个人最佳节点与父个人最佳节点的个人最佳集合存在。
             operateHandlerValidator.makeSurePbSetIdenticalForPbSet(parentKey, setKey);
 
             // 6. 根据 pbNodeCreateInfo 以及创建的规则组合 个人最佳节点 实体。
@@ -84,7 +84,7 @@ public class PbNodeOperateHandlerImpl implements PbNodeOperateHandler {
             // 4. 确认用户有权限操作指定的个人最佳节点。
             operateHandlerValidator.makeSureUserModifyPermittedForPbNode(userKey, pbNodeKey);
 
-            // 5. 确认个人最佳节点与父个人最佳节点的资产目录存在。
+            // 5. 确认个人最佳节点与父个人最佳节点的个人最佳集合存在。
             operateHandlerValidator.makeSurePbSetIdenticalForPbNode(parentKey, pbNodeKey);
 
             // 6. 根据 pbNodeUpdateInfo 以及更新的规则设置 个人最佳节点 实体。

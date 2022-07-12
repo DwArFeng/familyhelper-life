@@ -20,6 +20,16 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(20), "pb set not exists");
     public static final ServiceException.Code INVALID_PERMISSION_LEVEL =
             new ServiceException.Code(offset(30), "invalid permission level");
+    public static final ServiceException.Code PB_NODE_NOT_EXISTS =
+            new ServiceException.Code(offset(40), "pb node not exists");
+    public static final ServiceException.Code ILLEGAL_PB_NODE_STATE =
+            new ServiceException.Code(offset(50), "illegal pb node state");
+    public static final ServiceException.Code PB_SET_NOT_IDENTICAL =
+            new ServiceException.Code(offset(60), "pb set not identical");
+    public static final ServiceException.Code PB_ITEM_NOT_EXISTS =
+            new ServiceException.Code(offset(70), "pb item not exists");
+    public static final ServiceException.Code ILLEGAL_PB_ITEM_STATE =
+            new ServiceException.Code(offset(80), "illegal pb item state");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -48,6 +58,11 @@ public final class ServiceExceptionCodes {
         USER_NOT_PERMITTED_FOR_PB_SET.setCode(offset(10));
         PB_SET_NOT_EXISTS.setCode(offset(20));
         INVALID_PERMISSION_LEVEL.setCode(offset(30));
+        PB_NODE_NOT_EXISTS.setCode(offset(40));
+        ILLEGAL_PB_NODE_STATE.setCode(offset(50));
+        PB_SET_NOT_IDENTICAL.setCode(offset(60));
+        PB_ITEM_NOT_EXISTS.setCode(offset(70));
+        ILLEGAL_PB_ITEM_STATE.setCode(offset(80));
     }
 
     private ServiceExceptionCodes() {
