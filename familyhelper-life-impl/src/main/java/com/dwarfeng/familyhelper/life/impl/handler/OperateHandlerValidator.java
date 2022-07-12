@@ -1,12 +1,11 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.PbNode;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.Popb;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
-import com.dwarfeng.familyhelper.life.stack.exception.InvalidPermissionLevelException;
-import com.dwarfeng.familyhelper.life.stack.exception.PbSetNotExistsException;
-import com.dwarfeng.familyhelper.life.stack.exception.UserNotExistsException;
-import com.dwarfeng.familyhelper.life.stack.exception.UserNotPermittedForPbSetException;
+import com.dwarfeng.familyhelper.life.stack.exception.*;
+import com.dwarfeng.familyhelper.life.stack.service.PbNodeMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PbSetMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PopbMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.UserMaintainService;
@@ -31,17 +30,20 @@ import java.util.Objects;
 public class OperateHandlerValidator {
 
     private final UserMaintainService userMaintainService;
-    private final PbSetMaintainService pbSetMaintainService;
     private final PopbMaintainService popbMaintainService;
+    private final PbSetMaintainService pbSetMaintainService;
+    private final PbNodeMaintainService pbNodeMaintainService;
 
     public OperateHandlerValidator(
             UserMaintainService userMaintainService,
+            PopbMaintainService popbMaintainService,
             PbSetMaintainService pbSetMaintainService,
-            PopbMaintainService popbMaintainService
+            PbNodeMaintainService pbNodeMaintainService
     ) {
         this.userMaintainService = userMaintainService;
-        this.pbSetMaintainService = pbSetMaintainService;
         this.popbMaintainService = popbMaintainService;
+        this.pbSetMaintainService = pbSetMaintainService;
+        this.pbNodeMaintainService = pbNodeMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -58,6 +60,16 @@ public class OperateHandlerValidator {
         try {
             if (!pbSetMaintainService.exists(pbSetKey)) {
                 throw new PbSetNotExistsException(pbSetKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSurePbNodeExists(LongIdKey pbNodeKey) throws HandlerException {
+        try {
+            if (!pbNodeMaintainService.exists(pbNodeKey)) {
+                throw new PbNodeNotExistsException(pbNodeKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -99,15 +111,15 @@ public class OperateHandlerValidator {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public void makeSureUserModifyPermittedForPbSet(StringIdKey userKey, LongIdKey assetCatalogKey)
+    public void makeSureUserModifyPermittedForPbSet(StringIdKey userKey, LongIdKey pbSetKey)
             throws HandlerException {
         try {
             // 1. 构造 Popb 主键。
-            PopbKey popbKey = new PopbKey(assetCatalogKey.getLongId(), userKey.getStringId());
+            PopbKey popbKey = new PopbKey(pbSetKey.getLongId(), userKey.getStringId());
 
             // 2. 查看 Popb 实体是否存在，如果不存在，则没有权限。
             if (!popbMaintainService.exists(popbKey)) {
-                throw new UserNotPermittedForPbSetException(userKey, assetCatalogKey);
+                throw new UserNotPermittedForPbSetException(userKey, pbSetKey);
             }
 
             // 3. 查看 Popb.permissionLevel 是否为 Popb.PERMISSION_LEVEL_OWNER，如果不是，则没有权限。
@@ -115,7 +127,73 @@ public class OperateHandlerValidator {
             if (Objects.equals(popb.getPermissionLevel(), Constants.PERMISSION_LEVEL_OWNER)) {
                 return;
             }
-            throw new UserNotPermittedForPbSetException(userKey, assetCatalogKey);
+            throw new UserNotPermittedForPbSetException(userKey, pbSetKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserInspectPermittedForPbNode(StringIdKey userKey, LongIdKey pbNodeKey) throws HandlerException {
+        try {
+            // 1. 查找指定的个人最佳节点是否绑定个人最佳集合，如果不绑定个人最佳集合，则抛出个人最佳节点状态异常。
+            PbNode pbNode = pbNodeMaintainService.get(pbNodeKey);
+            if (Objects.isNull(pbNode.getSetKey())) {
+                throw new IllegalPbNodeStateException(pbNodeKey);
+            }
+
+            // 2. 取出个人最佳节点的个人最佳集合外键，判断用户是否拥有该个人最佳集合的权限。
+            makeSureUserInspectPermittedForPbSet(userKey, pbNode.getSetKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForPbNode(StringIdKey userKey, LongIdKey pbNodeKey) throws HandlerException {
+        try {
+            // 1. 查找指定的个人最佳节点是否绑定个人最佳集合，如果不绑定个人最佳集合，则抛出个人最佳节点状态异常。
+            PbNode pbNode = pbNodeMaintainService.get(pbNodeKey);
+            if (Objects.isNull(pbNode.getSetKey())) {
+                throw new IllegalPbNodeStateException(pbNodeKey);
+            }
+
+            // 2. 取出个人最佳节点的个人最佳集合外键，判断用户是否拥有该个人最佳集合的权限。
+            makeSureUserModifyPermittedForPbSet(userKey, pbNode.getSetKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+
+    public void makeSurePbSetIdenticalForPbSet(LongIdKey parentNodeKey, LongIdKey childSetKey)
+            throws HandlerException {
+        try {
+            // 如果 parentNodeKey 为 null，则表示该项目是根项目，不需要进行任何判断。
+            if (Objects.isNull(parentNodeKey)) {
+                return;
+            }
+
+            PbNode parentNode = pbNodeMaintainService.get(parentNodeKey);
+            LongIdKey parentSetKey = parentNode.getSetKey();
+            if (Objects.isNull(parentSetKey)) {
+                throw new IllegalPbNodeStateException(parentNodeKey);
+            }
+            if (!Objects.equals(parentSetKey, childSetKey)) {
+                throw new PbSetNotIdenticalException(parentSetKey, childSetKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSurePbSetIdenticalForPbNode(LongIdKey parentNodeKey, LongIdKey childNodeKey)
+            throws HandlerException {
+        try {
+            PbNode childNode = pbNodeMaintainService.get(childNodeKey);
+            LongIdKey childSetKey = childNode.getSetKey();
+            if (Objects.isNull(childSetKey)) {
+                throw new IllegalPbNodeStateException(parentNodeKey);
+            }
+            makeSurePbSetIdenticalForPbSet(parentNodeKey, childSetKey);
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
