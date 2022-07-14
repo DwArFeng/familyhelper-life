@@ -34,6 +34,7 @@ public class OperateHandlerValidator {
     private final PbNodeMaintainService pbNodeMaintainService;
     private final PbItemMaintainService pbItemMaintainService;
     private final PbRecordMaintainService pbRecordMaintainService;
+    private final PbFileInfoMaintainService pbFileInfoMaintainService;
 
     public OperateHandlerValidator(
             UserMaintainService userMaintainService,
@@ -41,7 +42,8 @@ public class OperateHandlerValidator {
             PbSetMaintainService pbSetMaintainService,
             PbNodeMaintainService pbNodeMaintainService,
             PbItemMaintainService pbItemMaintainService,
-            PbRecordMaintainService pbRecordMaintainService
+            PbRecordMaintainService pbRecordMaintainService,
+            PbFileInfoMaintainService pbFileInfoMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -49,6 +51,7 @@ public class OperateHandlerValidator {
         this.pbNodeMaintainService = pbNodeMaintainService;
         this.pbItemMaintainService = pbItemMaintainService;
         this.pbRecordMaintainService = pbRecordMaintainService;
+        this.pbFileInfoMaintainService = pbFileInfoMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -95,6 +98,16 @@ public class OperateHandlerValidator {
         try {
             if (!pbRecordMaintainService.exists(pbRecordKey)) {
                 throw new PbRecordNotExistsException(pbRecordKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSurePbFileExists(LongIdKey pbFileKey) throws HandlerException {
+        try {
+            if (!pbFileInfoMaintainService.exists(pbFileKey)) {
+                throw new PbFileNotExistsException(pbFileKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);

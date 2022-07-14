@@ -34,6 +34,8 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(90), "pb record not exists");
     public static final ServiceException.Code ILLEGAL_PB_RECORD_STATE =
             new ServiceException.Code(offset(100), "illegal pb record state");
+    public static final ServiceException.Code PB_FILE_NOT_EXISTS =
+            new ServiceException.Code(offset(110), "pb file not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -69,6 +71,7 @@ public final class ServiceExceptionCodes {
         ILLEGAL_PB_ITEM_STATE.setCode(offset(80));
         PB_RECORD_NOT_EXISTS.setCode(offset(90));
         ILLEGAL_PB_RECORD_STATE.setCode(offset(100));
+        PB_FILE_NOT_EXISTS.setCode(offset(110));
     }
 
     private ServiceExceptionCodes() {
