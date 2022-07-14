@@ -3,6 +3,7 @@ package com.dwarfeng.familyhelper.life.impl.handler;
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbItem;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbNode;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.PbRecord;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.Popb;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
 import com.dwarfeng.familyhelper.life.stack.exception.*;
@@ -32,19 +33,22 @@ public class OperateHandlerValidator {
     private final PbSetMaintainService pbSetMaintainService;
     private final PbNodeMaintainService pbNodeMaintainService;
     private final PbItemMaintainService pbItemMaintainService;
+    private final PbRecordMaintainService pbRecordMaintainService;
 
     public OperateHandlerValidator(
             UserMaintainService userMaintainService,
             PopbMaintainService popbMaintainService,
             PbSetMaintainService pbSetMaintainService,
             PbNodeMaintainService pbNodeMaintainService,
-            PbItemMaintainService pbItemMaintainService
+            PbItemMaintainService pbItemMaintainService,
+            PbRecordMaintainService pbRecordMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
         this.pbSetMaintainService = pbSetMaintainService;
         this.pbNodeMaintainService = pbNodeMaintainService;
         this.pbItemMaintainService = pbItemMaintainService;
+        this.pbRecordMaintainService = pbRecordMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -81,6 +85,16 @@ public class OperateHandlerValidator {
         try {
             if (!pbItemMaintainService.exists(pbItemKey)) {
                 throw new PbItemNotExistsException(pbItemKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSurePbRecordExists(LongIdKey pbRecordKey) throws HandlerException {
+        try {
+            if (!pbRecordMaintainService.exists(pbRecordKey)) {
+                throw new PbRecordNotExistsException(pbRecordKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -220,6 +234,36 @@ public class OperateHandlerValidator {
 
             // 2. 取出个人最佳项目的个人最佳节点外键，判断用户是否拥有该个人最佳节点的权限。
             makeSureUserModifyPermittedForPbNode(userKey, pbItem.getNodeKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserInspectPermittedForPbRecord(StringIdKey userKey, LongIdKey pbRecordKey) throws HandlerException {
+        try {
+            // 1. 查找指定的个人最佳记录是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳记录状态异常。
+            PbRecord pbRecord = pbRecordMaintainService.get(pbRecordKey);
+            if (Objects.isNull(pbRecord.getItemKey())) {
+                throw new IllegalPbRecordStateException(pbRecordKey);
+            }
+
+            // 2. 取出个人最佳记录的个人最佳节点外键，判断用户是否拥有该个人最佳节点的权限。
+            makeSureUserInspectPermittedForPbItem(userKey, pbRecord.getItemKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForPbRecord(StringIdKey userKey, LongIdKey pbRecordKey) throws HandlerException {
+        try {
+            // 1. 查找指定的个人最佳记录是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳记录状态异常。
+            PbRecord pbRecord = pbRecordMaintainService.get(pbRecordKey);
+            if (Objects.isNull(pbRecord.getItemKey())) {
+                throw new IllegalPbRecordStateException(pbRecordKey);
+            }
+
+            // 2. 取出个人最佳记录的个人最佳节点外键，判断用户是否拥有该个人最佳节点的权限。
+            makeSureUserModifyPermittedForPbItem(userKey, pbRecord.getItemKey());
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }

@@ -26,6 +26,8 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(PbSetNotIdenticalException.class, ServiceExceptionCodes.PB_SET_NOT_IDENTICAL);
         destination.put(PbItemNotExistsException.class, ServiceExceptionCodes.PB_ITEM_NOT_EXISTS);
         destination.put(IllegalPbItemStateException.class, ServiceExceptionCodes.ILLEGAL_PB_ITEM_STATE);
+        destination.put(PbRecordNotExistsException.class, ServiceExceptionCodes.PB_RECORD_NOT_EXISTS);
+        destination.put(IllegalPbRecordStateException.class, ServiceExceptionCodes.ILLEGAL_PB_RECORD_STATE);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
     }
 }

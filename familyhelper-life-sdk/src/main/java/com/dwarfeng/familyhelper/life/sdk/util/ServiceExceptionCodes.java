@@ -30,6 +30,10 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(70), "pb item not exists");
     public static final ServiceException.Code ILLEGAL_PB_ITEM_STATE =
             new ServiceException.Code(offset(80), "illegal pb item state");
+    public static final ServiceException.Code PB_RECORD_NOT_EXISTS =
+            new ServiceException.Code(offset(90), "pb record not exists");
+    public static final ServiceException.Code ILLEGAL_PB_RECORD_STATE =
+            new ServiceException.Code(offset(100), "illegal pb record state");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -63,6 +67,8 @@ public final class ServiceExceptionCodes {
         PB_SET_NOT_IDENTICAL.setCode(offset(60));
         PB_ITEM_NOT_EXISTS.setCode(offset(70));
         ILLEGAL_PB_ITEM_STATE.setCode(offset(80));
+        PB_RECORD_NOT_EXISTS.setCode(offset(90));
+        ILLEGAL_PB_RECORD_STATE.setCode(offset(100));
     }
 
     private ServiceExceptionCodes() {

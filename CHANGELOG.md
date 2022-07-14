@@ -21,6 +21,7 @@
   - com.dwarfeng.familyhelper.life.impl.service.PbSetOperateServiceImpl。
   - com.dwarfeng.familyhelper.life.impl.service.PbNodeOperateServiceImpl。
   - com.dwarfeng.familyhelper.life.impl.service.PbItemOperateServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PbRecordOperateServiceImpl。
 
 #### Bug修复
 

@@ -44,6 +44,8 @@
                    ref="pbItemOperateServiceImpl"/>
     <dubbo:service interface="com.dwarfeng.familyhelper.life.stack.service.PbRecordMaintainService"
                    ref="pbRecordMaintainServiceImpl"/>
+    <dubbo:service interface="com.dwarfeng.familyhelper.life.stack.service.PbRecordOperateService"
+                   ref="pbRecordOperateServiceImpl"/>
     <dubbo:service interface="com.dwarfeng.familyhelper.life.stack.service.PbFileInfoMaintainService"
                    ref="pbFileInfoMaintainServiceImpl"/>
 
