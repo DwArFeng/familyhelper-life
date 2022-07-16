@@ -31,7 +31,7 @@ public class WebInputPbSetPermissionUpsertInfo implements Dto {
         }
     }
 
-    @JSONField(name = "account_book_key")
+    @JSONField(name = "pb_set_key")
     @Valid
     private WebInputLongIdKey pbSetKey;
 

@@ -32,7 +32,7 @@ public class WebInputPbSetUpdateInfo implements Dto {
         }
     }
 
-    @JSONField(name = "account_book_key")
+    @JSONField(name = "pb_set_key")
     @Valid
     @NotNull
     private WebInputLongIdKey pbSetKey;
