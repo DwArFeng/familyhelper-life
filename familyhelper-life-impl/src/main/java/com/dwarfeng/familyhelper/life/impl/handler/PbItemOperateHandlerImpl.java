@@ -40,10 +40,12 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
             operateHandlerValidator.makeSurePbSetExists(setKey);
 
             // 3. 确认个人最佳节点存在。
-            operateHandlerValidator.makeSurePbNodeExists(nodeKey);
+            if (Objects.nonNull(nodeKey)) {
+                operateHandlerValidator.makeSurePbNodeExists(nodeKey);
+            }
 
             // 4. 确认用户有权限操作指定的个人最佳节点。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbNode(userKey, nodeKey);
+            operateHandlerValidator.makeSureUserModifyPermittedForPbSet(userKey, setKey);
 
             // 5. 确认个人最佳节点与父个人最佳节点的个人最佳集合存在。
             operateHandlerValidator.makeSurePbSetIdenticalForPbSet(nodeKey, setKey);

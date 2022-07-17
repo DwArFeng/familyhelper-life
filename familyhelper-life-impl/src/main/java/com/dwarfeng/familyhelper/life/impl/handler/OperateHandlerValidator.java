@@ -56,7 +56,7 @@ public class OperateHandlerValidator {
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
         try {
-            if (!userMaintainService.exists(userKey)) {
+            if (Objects.isNull(userKey) || !userMaintainService.exists(userKey)) {
                 throw new UserNotExistsException(userKey);
             }
         } catch (ServiceException e) {
@@ -66,7 +66,7 @@ public class OperateHandlerValidator {
 
     public void makeSurePbSetExists(LongIdKey pbSetKey) throws HandlerException {
         try {
-            if (!pbSetMaintainService.exists(pbSetKey)) {
+            if (Objects.isNull(pbSetKey) || !pbSetMaintainService.exists(pbSetKey)) {
                 throw new PbSetNotExistsException(pbSetKey);
             }
         } catch (ServiceException e) {
@@ -76,7 +76,7 @@ public class OperateHandlerValidator {
 
     public void makeSurePbNodeExists(LongIdKey pbNodeKey) throws HandlerException {
         try {
-            if (!pbNodeMaintainService.exists(pbNodeKey)) {
+            if (Objects.isNull(pbNodeKey) || !pbNodeMaintainService.exists(pbNodeKey)) {
                 throw new PbNodeNotExistsException(pbNodeKey);
             }
         } catch (ServiceException e) {
@@ -86,7 +86,7 @@ public class OperateHandlerValidator {
 
     public void makeSurePbItemExists(LongIdKey pbItemKey) throws HandlerException {
         try {
-            if (!pbItemMaintainService.exists(pbItemKey)) {
+            if (Objects.isNull(pbItemKey) || !pbItemMaintainService.exists(pbItemKey)) {
                 throw new PbItemNotExistsException(pbItemKey);
             }
         } catch (ServiceException e) {
@@ -96,7 +96,7 @@ public class OperateHandlerValidator {
 
     public void makeSurePbRecordExists(LongIdKey pbRecordKey) throws HandlerException {
         try {
-            if (!pbRecordMaintainService.exists(pbRecordKey)) {
+            if (Objects.isNull(pbRecordKey) || !pbRecordMaintainService.exists(pbRecordKey)) {
                 throw new PbRecordNotExistsException(pbRecordKey);
             }
         } catch (ServiceException e) {
@@ -106,7 +106,7 @@ public class OperateHandlerValidator {
 
     public void makeSurePbFileExists(LongIdKey pbFileKey) throws HandlerException {
         try {
-            if (!pbFileInfoMaintainService.exists(pbFileKey)) {
+            if (Objects.isNull(pbFileKey) || !pbFileInfoMaintainService.exists(pbFileKey)) {
                 throw new PbFileNotExistsException(pbFileKey);
             }
         } catch (ServiceException e) {
@@ -222,7 +222,8 @@ public class OperateHandlerValidator {
         }
     }
 
-    public void makeSureUserInspectPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey) throws HandlerException {
+    public void makeSureUserInspectPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey)
+            throws HandlerException {
         try {
             // 1. 查找指定的个人最佳项目是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳项目状态异常。
             PbItem pbItem = pbItemMaintainService.get(pbItemKey);
@@ -230,14 +231,15 @@ public class OperateHandlerValidator {
                 throw new IllegalPbItemStateException(pbItemKey);
             }
 
-            // 2. 取出个人最佳项目的个人最佳节点外键，判断用户是否拥有该个人最佳节点的权限。
-            makeSureUserInspectPermittedForPbNode(userKey, pbItem.getNodeKey());
+            // 2. 取出个人最佳项目的个人最佳集合外键，判断用户是否拥有该个人最佳节点的权限。
+            makeSureUserInspectPermittedForPbSet(userKey, pbItem.getSetKey());
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
     }
 
-    public void makeSureUserModifyPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey) throws HandlerException {
+    public void makeSureUserModifyPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey)
+            throws HandlerException {
         try {
             // 1. 查找指定的个人最佳项目是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳项目状态异常。
             PbItem pbItem = pbItemMaintainService.get(pbItemKey);
@@ -245,14 +247,15 @@ public class OperateHandlerValidator {
                 throw new IllegalPbItemStateException(pbItemKey);
             }
 
-            // 2. 取出个人最佳项目的个人最佳节点外键，判断用户是否拥有该个人最佳节点的权限。
-            makeSureUserModifyPermittedForPbNode(userKey, pbItem.getNodeKey());
+            // 2. 取出个人最佳项目的个人最佳集合外键，判断用户是否拥有该个人最佳节点的权限。
+            makeSureUserModifyPermittedForPbSet(userKey, pbItem.getSetKey());
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
     }
 
-    public void makeSureUserInspectPermittedForPbRecord(StringIdKey userKey, LongIdKey pbRecordKey) throws HandlerException {
+    public void makeSureUserInspectPermittedForPbRecord(StringIdKey userKey, LongIdKey pbRecordKey)
+            throws HandlerException {
         try {
             // 1. 查找指定的个人最佳记录是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳记录状态异常。
             PbRecord pbRecord = pbRecordMaintainService.get(pbRecordKey);
@@ -267,7 +270,8 @@ public class OperateHandlerValidator {
         }
     }
 
-    public void makeSureUserModifyPermittedForPbRecord(StringIdKey userKey, LongIdKey pbRecordKey) throws HandlerException {
+    public void makeSureUserModifyPermittedForPbRecord(StringIdKey userKey, LongIdKey pbRecordKey)
+            throws HandlerException {
         try {
             // 1. 查找指定的个人最佳记录是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳记录状态异常。
             PbRecord pbRecord = pbRecordMaintainService.get(pbRecordKey);
