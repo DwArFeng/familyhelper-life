@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class FastJsonPbItem implements Bean {
 
-    private static final long serialVersionUID = -7882826529013199048L;
+    private static final long serialVersionUID = 2321135619595737706L;
 
     public static FastJsonPbItem of(PbItem pbItem) {
         if (Objects.isNull(pbItem)) {
@@ -24,6 +24,7 @@ public class FastJsonPbItem implements Bean {
             return new FastJsonPbItem(
                     FastJsonLongIdKey.of(pbItem.getKey()),
                     FastJsonLongIdKey.of(pbItem.getNodeKey()),
+                    FastJsonLongIdKey.of(pbItem.getSetKey()),
                     pbItem.getName(), pbItem.getUnit(), pbItem.getComparator(), pbItem.getRemark()
             );
         }
@@ -35,27 +36,31 @@ public class FastJsonPbItem implements Bean {
     @JSONField(name = "node_key", ordinal = 2)
     private FastJsonLongIdKey nodeKey;
 
-    @JSONField(name = "name", ordinal = 3)
+    @JSONField(name = "set_key", ordinal = 3)
+    private FastJsonLongIdKey setKey;
+
+    @JSONField(name = "name", ordinal = 4)
     private String name;
 
-    @JSONField(name = "unit", ordinal = 4)
+    @JSONField(name = "unit", ordinal = 5)
     private String unit;
 
-    @JSONField(name = "comparator", ordinal = 5)
+    @JSONField(name = "comparator", ordinal = 6)
     private Integer comparator;
 
-    @JSONField(name = "remark", ordinal = 6)
+    @JSONField(name = "remark", ordinal = 7)
     private String remark;
 
     public FastJsonPbItem() {
     }
 
     public FastJsonPbItem(
-            FastJsonLongIdKey key, FastJsonLongIdKey nodeKey, String name, String unit,
+            FastJsonLongIdKey key, FastJsonLongIdKey nodeKey, FastJsonLongIdKey setKey, String name, String unit,
             Integer comparator, String remark
     ) {
         this.key = key;
         this.nodeKey = nodeKey;
+        this.setKey = setKey;
         this.name = name;
         this.unit = unit;
         this.comparator = comparator;
@@ -76,6 +81,14 @@ public class FastJsonPbItem implements Bean {
 
     public void setNodeKey(FastJsonLongIdKey nodeKey) {
         this.nodeKey = nodeKey;
+    }
+
+    public FastJsonLongIdKey getSetKey() {
+        return setKey;
+    }
+
+    public void setSetKey(FastJsonLongIdKey setKey) {
+        this.setKey = setKey;
     }
 
     public String getName() {
@@ -115,6 +128,7 @@ public class FastJsonPbItem implements Bean {
         return "FastJsonPbItem{" +
                 "key=" + key +
                 ", nodeKey=" + nodeKey +
+                ", setKey=" + setKey +
                 ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +

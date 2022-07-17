@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tbl_pb_set")
 public class HibernatePbSet implements Bean {
 
-    private static final long serialVersionUID = -2479121781485015106L;
+    private static final long serialVersionUID = 7823194383018833997L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -36,6 +36,9 @@ public class HibernatePbSet implements Bean {
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePbNode.class, mappedBy = "set")
     private Set<HibernatePbNode> nodes = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePbItem.class, mappedBy = "set")
+    private Set<HibernatePbItem> items = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePopb.class, mappedBy = "pbSet")
     private Set<HibernatePopb> popbs = new HashSet<>();
@@ -91,6 +94,14 @@ public class HibernatePbSet implements Bean {
 
     public void setNodes(Set<HibernatePbNode> nodes) {
         this.nodes = nodes;
+    }
+
+    public Set<HibernatePbItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<HibernatePbItem> items) {
+        this.items = items;
     }
 
     public Set<HibernatePopb> getPopbs() {

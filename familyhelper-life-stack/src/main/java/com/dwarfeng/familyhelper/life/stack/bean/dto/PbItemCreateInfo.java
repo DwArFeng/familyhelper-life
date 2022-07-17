@@ -11,8 +11,9 @@ import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
  */
 public class PbItemCreateInfo implements Dto {
 
-    private static final long serialVersionUID = -3160210159166547203L;
+    private static final long serialVersionUID = 7199800898079276045L;
 
+    private LongIdKey setKey;
     private LongIdKey nodeKey;
     private String name;
     private String unit;
@@ -22,12 +23,23 @@ public class PbItemCreateInfo implements Dto {
     public PbItemCreateInfo() {
     }
 
-    public PbItemCreateInfo(LongIdKey nodeKey, String name, String unit, Integer comparator, String remark) {
+    public PbItemCreateInfo(
+            LongIdKey setKey, LongIdKey nodeKey, String name, String unit, Integer comparator, String remark
+    ) {
+        this.setKey = setKey;
         this.nodeKey = nodeKey;
         this.name = name;
         this.unit = unit;
         this.comparator = comparator;
         this.remark = remark;
+    }
+
+    public LongIdKey getSetKey() {
+        return setKey;
+    }
+
+    public void setSetKey(LongIdKey setKey) {
+        this.setKey = setKey;
     }
 
     public LongIdKey getNodeKey() {
@@ -73,8 +85,9 @@ public class PbItemCreateInfo implements Dto {
     @Override
     public String toString() {
         return "PbItemCreateInfo{" +
-                "nodeKey=" + nodeKey +
-                ", name=" + name +
+                "setKey=" + setKey +
+                ", nodeKey=" + nodeKey +
+                ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +
                 ", remark='" + remark + '\'' +

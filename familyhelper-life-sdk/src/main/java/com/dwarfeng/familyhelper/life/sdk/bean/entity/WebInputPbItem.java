@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class WebInputPbItem implements Bean {
 
-    private static final long serialVersionUID = 2125620687388776359L;
+    private static final long serialVersionUID = -3495250418114502207L;
 
     public static PbItem toStackBean(WebInputPbItem webInputPbItem) {
         if (Objects.isNull(webInputPbItem)) {
@@ -30,6 +30,7 @@ public class WebInputPbItem implements Bean {
             return new PbItem(
                     WebInputLongIdKey.toStackBean(webInputPbItem.getKey()),
                     WebInputLongIdKey.toStackBean(webInputPbItem.getNodeKey()),
+                    WebInputLongIdKey.toStackBean(webInputPbItem.getSetKey()),
                     webInputPbItem.getName(), webInputPbItem.getUnit(), webInputPbItem.getComparator(),
                     webInputPbItem.getRemark()
             );
@@ -43,6 +44,10 @@ public class WebInputPbItem implements Bean {
     @JSONField(name = "node_key")
     @Valid
     private WebInputLongIdKey nodeKey;
+
+    @JSONField(name = "setKey")
+    @Valid
+    private WebInputLongIdKey setKey;
 
     @JSONField(name = "name")
     @NotNull
@@ -79,6 +84,14 @@ public class WebInputPbItem implements Bean {
 
     public void setNodeKey(WebInputLongIdKey nodeKey) {
         this.nodeKey = nodeKey;
+    }
+
+    public WebInputLongIdKey getSetKey() {
+        return setKey;
+    }
+
+    public void setSetKey(WebInputLongIdKey setKey) {
+        this.setKey = setKey;
     }
 
     public String getName() {
@@ -118,6 +131,7 @@ public class WebInputPbItem implements Bean {
         return "WebInputPbItem{" +
                 "key=" + key +
                 ", nodeKey=" + nodeKey +
+                ", setKey=" + setKey +
                 ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +

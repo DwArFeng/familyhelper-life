@@ -20,6 +20,9 @@ public class PbItemPresetCriteriaMaker implements PresetCriteriaMaker {
             case PbItemMaintainService.CHILD_FOR_NODE:
                 childForNode(detachedCriteria, objects);
                 break;
+            case PbItemMaintainService.CHILD_FOR_SET:
+                childForSet(detachedCriteria, objects);
+                break;
             case PbItemMaintainService.NAME_LIKE:
                 nameLike(detachedCriteria, objects);
                 break;
@@ -36,6 +39,22 @@ public class PbItemPresetCriteriaMaker implements PresetCriteriaMaker {
                 LongIdKey longIdKey = (LongIdKey) objects[0];
                 detachedCriteria.add(
                         Restrictions.eqOrIsNull("nodeLongId", longIdKey.getLongId())
+                );
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void childForSet(DetachedCriteria detachedCriteria, Object[] objects) {
+        try {
+            if (Objects.isNull(objects[0])) {
+                detachedCriteria.add(Restrictions.isNull("setLongId"));
+            } else {
+                LongIdKey longIdKey = (LongIdKey) objects[0];
+                detachedCriteria.add(
+                        Restrictions.eqOrIsNull("setLongId", longIdKey.getLongId())
                 );
             }
         } catch (Exception e) {

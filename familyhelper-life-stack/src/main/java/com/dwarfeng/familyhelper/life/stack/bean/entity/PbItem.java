@@ -11,10 +11,11 @@ import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
  */
 public class PbItem implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = -786066569989310525L;
+    private static final long serialVersionUID = 4456369472769860825L;
 
     private LongIdKey key;
     private LongIdKey nodeKey;
+    private LongIdKey setKey;
     private String name;
     private String unit;
     private Integer comparator;
@@ -24,11 +25,12 @@ public class PbItem implements Entity<LongIdKey> {
     }
 
     public PbItem(
-            LongIdKey key, LongIdKey nodeKey, String name, String unit, Integer comparator,
-            String remark
+            LongIdKey key, LongIdKey nodeKey, LongIdKey setKey, String name, String unit,
+            Integer comparator, String remark
     ) {
         this.key = key;
         this.nodeKey = nodeKey;
+        this.setKey = setKey;
         this.name = name;
         this.unit = unit;
         this.comparator = comparator;
@@ -51,6 +53,14 @@ public class PbItem implements Entity<LongIdKey> {
 
     public void setNodeKey(LongIdKey nodeKey) {
         this.nodeKey = nodeKey;
+    }
+
+    public LongIdKey getSetKey() {
+        return setKey;
+    }
+
+    public void setSetKey(LongIdKey setKey) {
+        this.setKey = setKey;
     }
 
     public String getName() {
@@ -90,6 +100,7 @@ public class PbItem implements Entity<LongIdKey> {
         return "PbItem{" +
                 "key=" + key +
                 ", nodeKey=" + nodeKey +
+                ", setKey=" + setKey +
                 ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +

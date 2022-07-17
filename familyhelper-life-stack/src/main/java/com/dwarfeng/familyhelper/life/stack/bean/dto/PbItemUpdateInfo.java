@@ -11,9 +11,10 @@ import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
  */
 public class PbItemUpdateInfo implements Dto {
 
-    private static final long serialVersionUID = 7729560843721461109L;
+    private static final long serialVersionUID = 2286528321842693039L;
 
     private LongIdKey key;
+    private LongIdKey nodeKey;
     private String name;
     private String unit;
     private Integer comparator;
@@ -23,9 +24,10 @@ public class PbItemUpdateInfo implements Dto {
     }
 
     public PbItemUpdateInfo(
-            LongIdKey key, String name, String unit, Integer comparator, String remark
+            LongIdKey key, LongIdKey nodeKey, String name, String unit, Integer comparator, String remark
     ) {
         this.key = key;
+        this.nodeKey = nodeKey;
         this.name = name;
         this.unit = unit;
         this.comparator = comparator;
@@ -38,6 +40,14 @@ public class PbItemUpdateInfo implements Dto {
 
     public void setKey(LongIdKey key) {
         this.key = key;
+    }
+
+    public LongIdKey getNodeKey() {
+        return nodeKey;
+    }
+
+    public void setNodeKey(LongIdKey nodeKey) {
+        this.nodeKey = nodeKey;
     }
 
     public String getName() {
@@ -76,6 +86,7 @@ public class PbItemUpdateInfo implements Dto {
     public String toString() {
         return "PbItemUpdateInfo{" +
                 "key=" + key +
+                ", nodeKey=" + nodeKey +
                 ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +

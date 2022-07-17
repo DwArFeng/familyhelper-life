@@ -38,7 +38,7 @@ public class PbRecordMaintainServiceImplTest {
             PbRecord pbRecord = new PbRecord(null, null, 12.45, new Date(), "remark");
             pbRecords.add(pbRecord);
         }
-        pbItem = new PbItem(null, null, "name", "unit", 1, "remark");
+        pbItem = new PbItem(null, null, null, "name", "unit", 1, "remark");
     }
 
     @After

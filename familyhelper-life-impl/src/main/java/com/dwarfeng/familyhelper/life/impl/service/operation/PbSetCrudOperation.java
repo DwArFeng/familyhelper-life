@@ -1,14 +1,17 @@
 package com.dwarfeng.familyhelper.life.impl.service.operation;
 
+import com.dwarfeng.familyhelper.life.stack.bean.entity.PbItem;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbNode;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbSet;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.Popb;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
 import com.dwarfeng.familyhelper.life.stack.cache.PbSetCache;
 import com.dwarfeng.familyhelper.life.stack.cache.PopbCache;
+import com.dwarfeng.familyhelper.life.stack.dao.PbItemDao;
 import com.dwarfeng.familyhelper.life.stack.dao.PbNodeDao;
 import com.dwarfeng.familyhelper.life.stack.dao.PbSetDao;
 import com.dwarfeng.familyhelper.life.stack.dao.PopbDao;
+import com.dwarfeng.familyhelper.life.stack.service.PbItemMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PbNodeMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PopbMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
@@ -30,6 +33,9 @@ public class PbSetCrudOperation implements BatchCrudOperation<LongIdKey, PbSet> 
     private final PopbDao popbDao;
     private final PopbCache popbCache;
 
+    private final PbItemDao pbItemDao;
+    private final PbItemCrudOperation pbItemCrudOperation;
+
     private final PbNodeDao pbNodeDao;
     private final PbNodeCrudOperation pbNodeCrudOperation;
 
@@ -39,12 +45,15 @@ public class PbSetCrudOperation implements BatchCrudOperation<LongIdKey, PbSet> 
     public PbSetCrudOperation(
             PbSetDao pbSetDao, PbSetCache pbSetCache,
             PopbDao popbDao, PopbCache popbCache,
+            PbItemDao pbItemDao, PbItemCrudOperation pbItemCrudOperation,
             PbNodeDao pbNodeDao, PbNodeCrudOperation pbNodeCrudOperation
     ) {
         this.pbSetDao = pbSetDao;
         this.pbSetCache = pbSetCache;
         this.popbDao = popbDao;
         this.popbCache = popbCache;
+        this.pbItemDao = pbItemDao;
+        this.pbItemCrudOperation = pbItemCrudOperation;
         this.pbNodeDao = pbNodeDao;
         this.pbNodeCrudOperation = pbNodeCrudOperation;
     }
@@ -82,7 +91,13 @@ public class PbSetCrudOperation implements BatchCrudOperation<LongIdKey, PbSet> 
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 找到与个人最佳集合相关的银行卡。
+        // 删除与个人最佳集合相关的个人最佳集合项目。
+        List<LongIdKey> pbItemKeys = pbItemDao.lookup(
+                PbItemMaintainService.CHILD_FOR_SET, new Object[]{key}
+        ).stream().map(PbItem::getKey).collect(Collectors.toList());
+        pbItemCrudOperation.batchDelete(pbItemKeys);
+
+        // 删除与个人最佳集合相关的个人最佳集合节点。
         List<LongIdKey> pbNodeKeys = pbNodeDao.lookup(
                 PbNodeMaintainService.CHILD_FOR_SET, new Object[]{key}
         ).stream().map(PbNode::getKey).collect(Collectors.toList());

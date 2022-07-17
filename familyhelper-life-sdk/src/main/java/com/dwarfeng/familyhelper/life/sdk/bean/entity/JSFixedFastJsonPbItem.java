@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonPbItem implements Bean {
 
-    private static final long serialVersionUID = -621587976940770653L;
+    private static final long serialVersionUID = 8856560118450382484L;
 
     public static JSFixedFastJsonPbItem of(PbItem pbItem) {
         if (Objects.isNull(pbItem)) {
@@ -24,6 +24,7 @@ public class JSFixedFastJsonPbItem implements Bean {
             return new JSFixedFastJsonPbItem(
                     JSFixedFastJsonLongIdKey.of(pbItem.getKey()),
                     JSFixedFastJsonLongIdKey.of(pbItem.getNodeKey()),
+                    JSFixedFastJsonLongIdKey.of(pbItem.getSetKey()),
                     pbItem.getName(), pbItem.getUnit(), pbItem.getComparator(), pbItem.getRemark()
             );
         }
@@ -35,27 +36,31 @@ public class JSFixedFastJsonPbItem implements Bean {
     @JSONField(name = "node_key", ordinal = 2)
     private JSFixedFastJsonLongIdKey nodeKey;
 
-    @JSONField(name = "name", ordinal = 3)
+    @JSONField(name = "set_key", ordinal = 3)
+    private JSFixedFastJsonLongIdKey setKey;
+
+    @JSONField(name = "name", ordinal = 4)
     private String name;
 
-    @JSONField(name = "unit", ordinal = 4)
+    @JSONField(name = "unit", ordinal = 5)
     private String unit;
 
-    @JSONField(name = "comparator", ordinal = 5)
+    @JSONField(name = "comparator", ordinal = 6)
     private Integer comparator;
 
-    @JSONField(name = "remark", ordinal = 6)
+    @JSONField(name = "remark", ordinal = 7)
     private String remark;
 
     public JSFixedFastJsonPbItem() {
     }
 
     public JSFixedFastJsonPbItem(
-            JSFixedFastJsonLongIdKey key, JSFixedFastJsonLongIdKey nodeKey, String name, String unit,
-            Integer comparator, String remark
+            JSFixedFastJsonLongIdKey key, JSFixedFastJsonLongIdKey nodeKey, JSFixedFastJsonLongIdKey setKey,
+            String name, String unit, Integer comparator, String remark
     ) {
         this.key = key;
         this.nodeKey = nodeKey;
+        this.setKey = setKey;
         this.name = name;
         this.unit = unit;
         this.comparator = comparator;
@@ -76,6 +81,14 @@ public class JSFixedFastJsonPbItem implements Bean {
 
     public void setNodeKey(JSFixedFastJsonLongIdKey nodeKey) {
         this.nodeKey = nodeKey;
+    }
+
+    public JSFixedFastJsonLongIdKey getSetKey() {
+        return setKey;
+    }
+
+    public void setSetKey(JSFixedFastJsonLongIdKey setKey) {
+        this.setKey = setKey;
     }
 
     public String getName() {
@@ -115,6 +128,7 @@ public class JSFixedFastJsonPbItem implements Bean {
         return "JSFixedFastJsonPbItem{" +
                 "key=" + key +
                 ", nodeKey=" + nodeKey +
+                ", setKey=" + setKey +
                 ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +

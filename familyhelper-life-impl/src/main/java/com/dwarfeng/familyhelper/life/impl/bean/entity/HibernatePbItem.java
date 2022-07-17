@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "tbl_pb_item")
 public class HibernatePbItem implements Bean {
 
-    private static final long serialVersionUID = 7947602803424589713L;
+    private static final long serialVersionUID = -2620681344168458858L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -24,6 +24,9 @@ public class HibernatePbItem implements Bean {
     // -----------------------------------------------------------外键-----------------------------------------------------------
     @Column(name = "node_id")
     private Long nodeLongId;
+
+    @Column(name = "set_id")
+    private Long setLongId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
     @Column(name = "name", length = Constraints.LENGTH_NAME, nullable = false)
@@ -44,6 +47,12 @@ public class HibernatePbItem implements Bean {
             @JoinColumn(name = "node_id", referencedColumnName = "id", insertable = false, updatable = false), //
     })
     private HibernatePbNode node;
+
+    @ManyToOne(targetEntity = HibernatePbSet.class)
+    @JoinColumns({ //
+            @JoinColumn(name = "set_id", referencedColumnName = "id", insertable = false, updatable = false), //
+    })
+    private HibernatePbSet set;
 
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePbRecord.class, mappedBy = "item")
@@ -69,6 +78,14 @@ public class HibernatePbItem implements Bean {
         this.nodeLongId = Optional.ofNullable(idKey).map(HibernateLongIdKey::getLongId).orElse(null);
     }
 
+    public HibernateLongIdKey getSetKey() {
+        return Optional.ofNullable(setLongId).map(HibernateLongIdKey::new).orElse(null);
+    }
+
+    public void setSetKey(HibernateLongIdKey idKey) {
+        this.setLongId = Optional.ofNullable(idKey).map(HibernateLongIdKey::getLongId).orElse(null);
+    }
+
     // -----------------------------------------------------------常规属性区-----------------------------------------------------------
     public Long getLongId() {
         return longId;
@@ -84,6 +101,14 @@ public class HibernatePbItem implements Bean {
 
     public void setNodeLongId(Long nodeLongId) {
         this.nodeLongId = nodeLongId;
+    }
+
+    public Long getSetLongId() {
+        return setLongId;
+    }
+
+    public void setSetLongId(Long setLongId) {
+        this.setLongId = setLongId;
     }
 
     public String getName() {
@@ -126,6 +151,14 @@ public class HibernatePbItem implements Bean {
         this.node = node;
     }
 
+    public HibernatePbSet getSet() {
+        return set;
+    }
+
+    public void setSet(HibernatePbSet set) {
+        this.set = set;
+    }
+
     public Set<HibernatePbRecord> getRecords() {
         return records;
     }
@@ -139,10 +172,12 @@ public class HibernatePbItem implements Bean {
         return getClass().getSimpleName() + "(" +
                 "longId = " + longId + ", " +
                 "nodeLongId = " + nodeLongId + ", " +
+                "setLongId = " + setLongId + ", " +
                 "name = " + name + ", " +
                 "unit = " + unit + ", " +
                 "comparator = " + comparator + ", " +
                 "remark = " + remark + ", " +
-                "node = " + node + ")";
+                "node = " + node + ", " +
+                "set = " + set + ")";
     }
 }

@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 public class WebInputPbItemUpdateInfo implements Dto {
 
-    private static final long serialVersionUID = 3508931909692418803L;
+    private static final long serialVersionUID = -7277100894730807087L;
 
     public static PbItemUpdateInfo toStackBean(WebInputPbItemUpdateInfo webInputPbItemUpdateInfo) {
         if (Objects.isNull(webInputPbItemUpdateInfo)) {
@@ -29,6 +29,7 @@ public class WebInputPbItemUpdateInfo implements Dto {
         } else {
             return new PbItemUpdateInfo(
                     WebInputLongIdKey.toStackBean(webInputPbItemUpdateInfo.getKey()),
+                    WebInputLongIdKey.toStackBean(webInputPbItemUpdateInfo.getNodeKey()),
                     webInputPbItemUpdateInfo.getName(), webInputPbItemUpdateInfo.getUnit(),
                     webInputPbItemUpdateInfo.getComparator(), webInputPbItemUpdateInfo.getRemark()
             );
@@ -38,6 +39,10 @@ public class WebInputPbItemUpdateInfo implements Dto {
     @JSONField(name = "key")
     @Valid
     private WebInputLongIdKey key;
+
+    @JSONField(name = "node_key")
+    @Valid
+    private WebInputLongIdKey nodeKey;
 
     @JSONField(name = "name")
     @NotNull
@@ -66,6 +71,14 @@ public class WebInputPbItemUpdateInfo implements Dto {
 
     public void setKey(WebInputLongIdKey key) {
         this.key = key;
+    }
+
+    public WebInputLongIdKey getNodeKey() {
+        return nodeKey;
+    }
+
+    public void setNodeKey(WebInputLongIdKey nodeKey) {
+        this.nodeKey = nodeKey;
     }
 
     public String getName() {
@@ -104,6 +117,7 @@ public class WebInputPbItemUpdateInfo implements Dto {
     public String toString() {
         return "WebInputPbItemUpdateInfo{" +
                 "key=" + key +
+                ", nodeKey=" + nodeKey +
                 ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +

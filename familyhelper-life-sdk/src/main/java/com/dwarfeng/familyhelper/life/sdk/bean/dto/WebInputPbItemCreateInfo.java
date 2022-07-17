@@ -21,19 +21,24 @@ import java.util.Objects;
  */
 public class WebInputPbItemCreateInfo implements Dto {
 
-    private static final long serialVersionUID = 4972751159380467737L;
+    private static final long serialVersionUID = -6542119065189962590L;
 
     public static PbItemCreateInfo toStackBean(WebInputPbItemCreateInfo webInputPbItemCreateInfo) {
         if (Objects.isNull(webInputPbItemCreateInfo)) {
             return null;
         } else {
             return new PbItemCreateInfo(
+                    WebInputLongIdKey.toStackBean(webInputPbItemCreateInfo.getSetKey()),
                     WebInputLongIdKey.toStackBean(webInputPbItemCreateInfo.getNodeKey()),
                     webInputPbItemCreateInfo.getName(), webInputPbItemCreateInfo.getUnit(),
                     webInputPbItemCreateInfo.getComparator(), webInputPbItemCreateInfo.getRemark()
             );
         }
     }
+
+    @JSONField(name = "set_key")
+    @Valid
+    private WebInputLongIdKey setKey;
 
     @JSONField(name = "node_key")
     @Valid
@@ -58,6 +63,14 @@ public class WebInputPbItemCreateInfo implements Dto {
     private String remark;
 
     public WebInputPbItemCreateInfo() {
+    }
+
+    public WebInputLongIdKey getSetKey() {
+        return setKey;
+    }
+
+    public void setSetKey(WebInputLongIdKey setKey) {
+        this.setKey = setKey;
     }
 
     public WebInputLongIdKey getNodeKey() {
@@ -103,7 +116,8 @@ public class WebInputPbItemCreateInfo implements Dto {
     @Override
     public String toString() {
         return "WebInputPbItemCreateInfo{" +
-                "nodeKey=" + nodeKey +
+                "setKey=" + setKey +
+                ", nodeKey=" + nodeKey +
                 ", name='" + name + '\'' +
                 ", unit='" + unit + '\'' +
                 ", comparator=" + comparator +

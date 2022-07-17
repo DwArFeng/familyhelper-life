@@ -171,21 +171,21 @@ public class OperateHandlerValidator {
         }
     }
 
-    public void makeSurePbSetIdenticalForPbSet(LongIdKey parentNodeKey, LongIdKey childSetKey)
+    public void makeSurePbSetIdenticalForPbSet(LongIdKey nodeKey, LongIdKey setKey)
             throws HandlerException {
         try {
-            // 如果 parentNodeKey 为 null，则表示该项目是根项目，不需要进行任何判断。
-            if (Objects.isNull(parentNodeKey)) {
+            // 如果 leftNodeKey 为 null，则表示该项目是根项目，不需要进行任何判断。
+            if (Objects.isNull(nodeKey)) {
                 return;
             }
 
-            PbNode parentNode = pbNodeMaintainService.get(parentNodeKey);
+            PbNode parentNode = pbNodeMaintainService.get(nodeKey);
             LongIdKey parentSetKey = parentNode.getSetKey();
             if (Objects.isNull(parentSetKey)) {
-                throw new IllegalPbNodeStateException(parentNodeKey);
+                throw new IllegalPbNodeStateException(nodeKey);
             }
-            if (!Objects.equals(parentSetKey, childSetKey)) {
-                throw new PbSetNotIdenticalException(parentSetKey, childSetKey);
+            if (!Objects.equals(parentSetKey, setKey)) {
+                throw new PbSetNotIdenticalException(parentSetKey, setKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -282,15 +282,15 @@ public class OperateHandlerValidator {
         }
     }
 
-    public void makeSurePbSetIdenticalForPbNode(LongIdKey parentNodeKey, LongIdKey childNodeKey)
+    public void makeSurePbSetIdenticalForPbNode(LongIdKey leftNodeKey, LongIdKey rightNodeKey)
             throws HandlerException {
         try {
-            PbNode childNode = pbNodeMaintainService.get(childNodeKey);
+            PbNode childNode = pbNodeMaintainService.get(rightNodeKey);
             LongIdKey childSetKey = childNode.getSetKey();
             if (Objects.isNull(childSetKey)) {
-                throw new IllegalPbNodeStateException(parentNodeKey);
+                throw new IllegalPbNodeStateException(leftNodeKey);
             }
-            makeSurePbSetIdenticalForPbSet(parentNodeKey, childSetKey);
+            makeSurePbSetIdenticalForPbSet(leftNodeKey, childSetKey);
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
