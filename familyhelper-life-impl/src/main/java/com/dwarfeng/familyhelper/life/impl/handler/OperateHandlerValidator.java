@@ -225,9 +225,9 @@ public class OperateHandlerValidator {
     public void makeSureUserInspectPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey)
             throws HandlerException {
         try {
-            // 1. 查找指定的个人最佳项目是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳项目状态异常。
+            // 1. 查找指定的个人最佳项目是否绑定个人最佳集合，如果不绑定个人最佳集合，则抛出个人最佳项目状态异常。
             PbItem pbItem = pbItemMaintainService.get(pbItemKey);
-            if (Objects.isNull(pbItem.getNodeKey())) {
+            if (Objects.isNull(pbItem.getSetKey())) {
                 throw new IllegalPbItemStateException(pbItemKey);
             }
 
@@ -241,9 +241,9 @@ public class OperateHandlerValidator {
     public void makeSureUserModifyPermittedForPbItem(StringIdKey userKey, LongIdKey pbItemKey)
             throws HandlerException {
         try {
-            // 1. 查找指定的个人最佳项目是否绑定个人最佳节点，如果不绑定个人最佳节点，则抛出个人最佳项目状态异常。
+            // 1. 查找指定的个人最佳项目是否绑定个人最佳集合，如果不绑定个人最佳集合，则抛出个人最佳项目状态异常。
             PbItem pbItem = pbItemMaintainService.get(pbItemKey);
-            if (Objects.isNull(pbItem.getNodeKey())) {
+            if (Objects.isNull(pbItem.getSetKey())) {
                 throw new IllegalPbItemStateException(pbItemKey);
             }
 
