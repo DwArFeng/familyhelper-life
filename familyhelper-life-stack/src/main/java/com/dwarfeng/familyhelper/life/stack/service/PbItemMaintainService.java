@@ -17,5 +17,6 @@ public interface PbItemMaintainService extends BatchCrudService<LongIdKey, PbIte
 
     String CHILD_FOR_NODE = "child_for_node";
     String CHILD_FOR_SET = "child_for_set";
+    String CHILD_FOR_SET_ROOT = "child_for_set_root";
     String NAME_LIKE = "name_like";
 }
