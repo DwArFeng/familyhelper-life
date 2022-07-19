@@ -11,9 +11,9 @@ import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
  */
 public class PbNodeUpdateInfo implements Dto {
 
-    private static final long serialVersionUID = 2839708966123002627L;
+    private static final long serialVersionUID = -534321299615879354L;
 
-    private LongIdKey nodeKey;
+    private LongIdKey key;
     private LongIdKey parentKey;
     private String name;
     private String remark;
@@ -21,19 +21,19 @@ public class PbNodeUpdateInfo implements Dto {
     public PbNodeUpdateInfo() {
     }
 
-    public PbNodeUpdateInfo(LongIdKey nodeKey, LongIdKey parentKey, String name, String remark) {
-        this.nodeKey = nodeKey;
+    public PbNodeUpdateInfo(LongIdKey key, LongIdKey parentKey, String name, String remark) {
+        this.key = key;
         this.parentKey = parentKey;
         this.name = name;
         this.remark = remark;
     }
 
-    public LongIdKey getNodeKey() {
-        return nodeKey;
+    public LongIdKey getKey() {
+        return key;
     }
 
-    public void setNodeKey(LongIdKey nodeKey) {
-        this.nodeKey = nodeKey;
+    public void setKey(LongIdKey key) {
+        this.key = key;
     }
 
     public LongIdKey getParentKey() {
@@ -63,7 +63,7 @@ public class PbNodeUpdateInfo implements Dto {
     @Override
     public String toString() {
         return "PbNodeUpdateInfo{" +
-                "nodeKey=" + nodeKey +
+                "key=" + key +
                 ", parentKey=" + parentKey +
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +

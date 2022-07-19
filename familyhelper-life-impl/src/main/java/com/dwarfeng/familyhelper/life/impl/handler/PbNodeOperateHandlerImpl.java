@@ -67,7 +67,7 @@ public class PbNodeOperateHandlerImpl implements PbNodeOperateHandler {
     @Override
     public void updatePbNode(StringIdKey userKey, PbNodeUpdateInfo pbNodeUpdateInfo) throws HandlerException {
         try {
-            LongIdKey pbNodeKey = pbNodeUpdateInfo.getNodeKey();
+            LongIdKey pbNodeKey = pbNodeUpdateInfo.getKey();
             LongIdKey parentKey = pbNodeUpdateInfo.getParentKey();
 
             // 1. 确认用户存在。
