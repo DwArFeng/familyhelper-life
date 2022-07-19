@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Date;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ import java.util.Objects;
  */
 public class WebInputPbSet implements Bean {
 
-    private static final long serialVersionUID = -913255916504456944L;
+    private static final long serialVersionUID = 6889879806535541812L;
 
     public static PbSet toStackBean(WebInputPbSet webInputPbSet) {
         if (Objects.isNull(webInputPbSet)) {
@@ -29,7 +30,8 @@ public class WebInputPbSet implements Bean {
         } else {
             return new PbSet(
                     WebInputLongIdKey.toStackBean(webInputPbSet.getKey()),
-                    webInputPbSet.getName(), webInputPbSet.getRemark(), webInputPbSet.getCreatedDate()
+                    webInputPbSet.getName(), webInputPbSet.getRemark(), webInputPbSet.getCreatedDate(),
+                    webInputPbSet.getItemCount(), webInputPbSet.getLastRecordedDate()
             );
         }
     }
@@ -50,6 +52,13 @@ public class WebInputPbSet implements Bean {
 
     @JSONField(name = "created_date")
     private Date createdDate;
+
+    @JSONField(name = "item_count")
+    @PositiveOrZero
+    private int itemCount;
+
+    @JSONField(name = "last_recorded_date")
+    private Date lastRecordedDate;
 
     public WebInputPbSet() {
     }
@@ -86,6 +95,22 @@ public class WebInputPbSet implements Bean {
         this.createdDate = createdDate;
     }
 
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public Date getLastRecordedDate() {
+        return lastRecordedDate;
+    }
+
+    public void setLastRecordedDate(Date lastRecordedDate) {
+        this.lastRecordedDate = lastRecordedDate;
+    }
+
     @Override
     public String toString() {
         return "WebInputPbSet{" +
@@ -93,6 +118,8 @@ public class WebInputPbSet implements Bean {
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 ", createdDate=" + createdDate +
+                ", itemCount=" + itemCount +
+                ", lastRecordedDate=" + lastRecordedDate +
                 '}';
     }
 }

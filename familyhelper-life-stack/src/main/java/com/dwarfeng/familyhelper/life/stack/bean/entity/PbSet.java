@@ -13,21 +13,25 @@ import java.util.Date;
  */
 public class PbSet implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = 4135852001285148078L;
+    private static final long serialVersionUID = -8745355062200617985L;
 
     private LongIdKey key;
     private String name;
     private String remark;
     private Date createdDate;
+    private int itemCount;
+    private Date lastRecordedDate;
 
     public PbSet() {
     }
 
-    public PbSet(LongIdKey key, String name, String remark, Date createdDate) {
+    public PbSet(LongIdKey key, String name, String remark, Date createdDate, int itemCount, Date lastRecordedDate) {
         this.key = key;
         this.name = name;
         this.remark = remark;
         this.createdDate = createdDate;
+        this.itemCount = itemCount;
+        this.lastRecordedDate = lastRecordedDate;
     }
 
     @Override
@@ -64,6 +68,22 @@ public class PbSet implements Entity<LongIdKey> {
         this.createdDate = createdDate;
     }
 
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public Date getLastRecordedDate() {
+        return lastRecordedDate;
+    }
+
+    public void setLastRecordedDate(Date lastRecordedDate) {
+        this.lastRecordedDate = lastRecordedDate;
+    }
+
     @Override
     public String toString() {
         return "PbSet{" +
@@ -71,6 +91,8 @@ public class PbSet implements Entity<LongIdKey> {
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 ", createdDate=" + createdDate +
+                ", itemCount=" + itemCount +
+                ", lastRecordedDate=" + lastRecordedDate +
                 '}';
     }
 }

@@ -43,7 +43,7 @@ public class PopbMaintainServiceImplTest {
 
     @Before
     public void setUp() {
-        pbSet = new PbSet(new LongIdKey(ASSET_CATALOG_ID), "name", "remark", new Date());
+        pbSet = new PbSet(new LongIdKey(ASSET_CATALOG_ID), "name", "remark", new Date(), 0, new Date());
         user = new User(new StringIdKey(USER_ID), "remark");
         popb = new Popb(new PopbKey(ASSET_CATALOG_ID, USER_ID), 233, "remark");
     }

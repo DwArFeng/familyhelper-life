@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class FastJsonPbSet implements Bean {
 
-    private static final long serialVersionUID = -7165540093000574329L;
+    private static final long serialVersionUID = 920536527634143083L;
 
     public static FastJsonPbSet of(PbSet pbSet) {
         if (Objects.isNull(pbSet)) {
@@ -24,7 +24,8 @@ public class FastJsonPbSet implements Bean {
         } else {
             return new FastJsonPbSet(
                     FastJsonLongIdKey.of(pbSet.getKey()),
-                    pbSet.getName(), pbSet.getRemark(), pbSet.getCreatedDate()
+                    pbSet.getName(), pbSet.getRemark(), pbSet.getCreatedDate(),
+                    pbSet.getItemCount(), pbSet.getLastRecordedDate()
             );
         }
     }
@@ -41,14 +42,24 @@ public class FastJsonPbSet implements Bean {
     @JSONField(name = "created_date", ordinal = 4)
     private Date createdDate;
 
+    @JSONField(name = "item_count", ordinal = 5)
+    private int itemCount;
+
+    @JSONField(name = "last_recorded_date", ordinal = 6)
+    private Date lastRecordedDate;
+
     public FastJsonPbSet() {
     }
 
-    public FastJsonPbSet(FastJsonLongIdKey key, String name, String remark, Date createdDate) {
+    public FastJsonPbSet(
+            FastJsonLongIdKey key, String name, String remark, Date createdDate, int itemCount, Date lastRecordedDate
+    ) {
         this.key = key;
         this.name = name;
         this.remark = remark;
         this.createdDate = createdDate;
+        this.itemCount = itemCount;
+        this.lastRecordedDate = lastRecordedDate;
     }
 
     public FastJsonLongIdKey getKey() {
@@ -83,6 +94,22 @@ public class FastJsonPbSet implements Bean {
         this.createdDate = createdDate;
     }
 
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public Date getLastRecordedDate() {
+        return lastRecordedDate;
+    }
+
+    public void setLastRecordedDate(Date lastRecordedDate) {
+        this.lastRecordedDate = lastRecordedDate;
+    }
+
     @Override
     public String toString() {
         return "FastJsonPbSet{" +
@@ -90,6 +117,8 @@ public class FastJsonPbSet implements Bean {
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 ", createdDate=" + createdDate +
+                ", itemCount=" + itemCount +
+                ", lastRecordedDate=" + lastRecordedDate +
                 '}';
     }
 }

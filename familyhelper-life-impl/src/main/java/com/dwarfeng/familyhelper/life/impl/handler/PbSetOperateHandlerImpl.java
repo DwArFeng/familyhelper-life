@@ -45,7 +45,10 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             operateHandlerValidator.makeSureUserExists(userKey);
 
             // 2. 根据 pbSetCreateInfo 以及创建的规则组合 个人最佳集合 实体。
-            PbSet pbSet = new PbSet(null, pbSetCreateInfo.getName(), pbSetCreateInfo.getRemark(), new Date());
+            Date currentDate = new Date();
+            PbSet pbSet = new PbSet(
+                    null, pbSetCreateInfo.getName(), pbSetCreateInfo.getRemark(), currentDate, 0, currentDate
+            );
 
             // 3. 插入个人最佳集合实体，并获取生成的主键。
             LongIdKey pbSetKey = pbSetMaintainService.insert(pbSet);

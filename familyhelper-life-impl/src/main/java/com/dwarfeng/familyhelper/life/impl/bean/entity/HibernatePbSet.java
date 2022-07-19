@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tbl_pb_set")
 public class HibernatePbSet implements Bean {
 
-    private static final long serialVersionUID = 7823194383018833997L;
+    private static final long serialVersionUID = 699517254559783795L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -32,6 +32,13 @@ public class HibernatePbSet implements Bean {
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+
+    @Column(name = "item_count")
+    private int itemCount;
+
+    @Column(name = "last_recorded_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastRecordedDate;
 
     // -----------------------------------------------------------一对多-----------------------------------------------------------
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePbNode.class, mappedBy = "set")
@@ -88,6 +95,22 @@ public class HibernatePbSet implements Bean {
         this.createdDate = createdDate;
     }
 
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public Date getLastRecordedDate() {
+        return lastRecordedDate;
+    }
+
+    public void setLastRecordedDate(Date lastRecordedDate) {
+        this.lastRecordedDate = lastRecordedDate;
+    }
+
     public Set<HibernatePbNode> getNodes() {
         return nodes;
     }
@@ -118,6 +141,8 @@ public class HibernatePbSet implements Bean {
                 "longId = " + longId + ", " +
                 "name = " + name + ", " +
                 "remark = " + remark + ", " +
-                "createdDate = " + createdDate + ")";
+                "createdDate = " + createdDate + ", " +
+                "itemCount = " + itemCount + ", " +
+                "lastRecordedDate = " + lastRecordedDate + ")";
     }
 }

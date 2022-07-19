@@ -30,7 +30,7 @@ public class PbSetMaintainServiceImplTest {
     public void setUp() {
         pbSets = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            PbSet pbSet = new PbSet(null, "name", "remark", new Date());
+            PbSet pbSet = new PbSet(null, "name", "remark", new Date(), 0, new Date());
             pbSets.add(pbSet);
         }
     }

@@ -44,7 +44,7 @@ public class PbItemMaintainServiceImplTest {
             pbItems.add(pbItem);
         }
         pbNode = new PbNode(null, null, null, "name", "remark");
-        pbSet = new PbSet(null, "name", "remark", new Date());
+        pbSet = new PbSet(null, "name", "remark", new Date(), 0, new Date());
     }
 
     @After
