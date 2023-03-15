@@ -26,7 +26,7 @@
     </properties>
 
     <dependencies>
-        <!-- Subgrade组件 -->
+        <!-- Subgrade 组件 -->
         <dependency>
             <groupId>com.dwarfeng</groupId>
             <artifactId>subgrade-stack</artifactId>

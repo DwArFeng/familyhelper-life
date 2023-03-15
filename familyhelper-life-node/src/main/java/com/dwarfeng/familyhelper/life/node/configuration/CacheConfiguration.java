@@ -1,16 +1,16 @@
 package com.dwarfeng.familyhelper.life.node.configuration;
 
+import com.dwarfeng.familyhelper.life.sdk.bean.FastJsonMapper;
 import com.dwarfeng.familyhelper.life.sdk.bean.entity.*;
 import com.dwarfeng.familyhelper.life.sdk.bean.key.formatter.PopbStringKeyFormatter;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
-import com.dwarfeng.subgrade.impl.bean.DozerBeanTransformer;
+import com.dwarfeng.subgrade.impl.bean.MapStructBeanTransformer;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.redis.formatter.LongIdStringKeyFormatter;
 import com.dwarfeng.subgrade.sdk.redis.formatter.StringIdStringKeyFormatter;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
-import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class CacheConfiguration {
 
     private final RedisTemplate<String, ?> template;
-    private final Mapper mapper;
 
     @Value("${cache.prefix.entity.user}")
     private String userPrefix;
@@ -37,9 +36,8 @@ public class CacheConfiguration {
     @Value("${cache.prefix.entity.pb_file_info}")
     private String pbFileInfoPrefix;
 
-    public CacheConfiguration(RedisTemplate<String, ?> template, Mapper mapper) {
+    public CacheConfiguration(RedisTemplate<String, ?> template) {
         this.template = template;
-        this.mapper = mapper;
     }
 
     @Bean
@@ -48,7 +46,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonUser>) template,
                 new StringIdStringKeyFormatter(userPrefix),
-                new DozerBeanTransformer<>(User.class, FastJsonUser.class, mapper)
+                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, FastJsonMapper.class)
         );
     }
 
@@ -58,7 +56,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPopb>) template,
                 new PopbStringKeyFormatter(popbPrefix),
-                new DozerBeanTransformer<>(Popb.class, FastJsonPopb.class, mapper)
+                new MapStructBeanTransformer<>(Popb.class, FastJsonPopb.class, FastJsonMapper.class)
         );
     }
 
@@ -68,7 +66,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbSet>) template,
                 new LongIdStringKeyFormatter(pbSetPrefix),
-                new DozerBeanTransformer<>(PbSet.class, FastJsonPbSet.class, mapper)
+                new MapStructBeanTransformer<>(PbSet.class, FastJsonPbSet.class, FastJsonMapper.class)
         );
     }
 
@@ -78,7 +76,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbNode>) template,
                 new LongIdStringKeyFormatter(pbNodePrefix),
-                new DozerBeanTransformer<>(PbNode.class, FastJsonPbNode.class, mapper)
+                new MapStructBeanTransformer<>(PbNode.class, FastJsonPbNode.class, FastJsonMapper.class)
         );
     }
 
@@ -88,7 +86,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbItem>) template,
                 new LongIdStringKeyFormatter(pbItemPrefix),
-                new DozerBeanTransformer<>(PbItem.class, FastJsonPbItem.class, mapper)
+                new MapStructBeanTransformer<>(PbItem.class, FastJsonPbItem.class, FastJsonMapper.class)
         );
     }
 
@@ -98,7 +96,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbRecord>) template,
                 new LongIdStringKeyFormatter(pbRecordPrefix),
-                new DozerBeanTransformer<>(PbRecord.class, FastJsonPbRecord.class, mapper)
+                new MapStructBeanTransformer<>(PbRecord.class, FastJsonPbRecord.class, FastJsonMapper.class)
         );
     }
 
@@ -108,7 +106,7 @@ public class CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbFileInfo>) template,
                 new LongIdStringKeyFormatter(pbFileInfoPrefix),
-                new DozerBeanTransformer<>(PbFileInfo.class, FastJsonPbFileInfo.class, mapper)
+                new MapStructBeanTransformer<>(PbFileInfo.class, FastJsonPbFileInfo.class, FastJsonMapper.class)
         );
     }
 }
