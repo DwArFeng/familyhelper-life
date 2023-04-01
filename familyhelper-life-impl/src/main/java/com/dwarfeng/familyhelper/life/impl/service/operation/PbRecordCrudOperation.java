@@ -1,11 +1,13 @@
 package com.dwarfeng.familyhelper.life.impl.service.operation;
 
+import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbFileInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbRecord;
 import com.dwarfeng.familyhelper.life.stack.cache.PbRecordCache;
 import com.dwarfeng.familyhelper.life.stack.dao.PbFileInfoDao;
 import com.dwarfeng.familyhelper.life.stack.dao.PbRecordDao;
 import com.dwarfeng.familyhelper.life.stack.service.PbFileInfoMaintainService;
+import com.dwarfeng.ftp.handler.FtpHandler;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -25,17 +27,21 @@ public class PbRecordCrudOperation implements BatchCrudOperation<LongIdKey, PbRe
     private final PbFileInfoCrudOperation pbFileInfoCrudOperation;
     private final PbFileInfoDao pbFileInfoDao;
 
+    private final FtpHandler ftpHandler;
+
     @Value("${cache.timeout.entity.pb_record}")
     private long pbRecordTimeout;
 
     public PbRecordCrudOperation(
             PbRecordDao pbRecordDao, PbRecordCache pbRecordCache,
-            PbFileInfoCrudOperation pbFileInfoCrudOperation, PbFileInfoDao pbFileInfoDao
+            PbFileInfoCrudOperation pbFileInfoCrudOperation, PbFileInfoDao pbFileInfoDao,
+            FtpHandler ftpHandler
     ) {
         this.pbRecordDao = pbRecordDao;
         this.pbRecordCache = pbRecordCache;
         this.pbFileInfoCrudOperation = pbFileInfoCrudOperation;
         this.pbFileInfoDao = pbFileInfoDao;
+        this.ftpHandler = ftpHandler;
     }
 
     @Override
@@ -71,6 +77,11 @@ public class PbRecordCrudOperation implements BatchCrudOperation<LongIdKey, PbRe
 
     @Override
     public void delete(LongIdKey key) throws Exception {
+        // 如果存在个人最佳文件，则删除个人最佳文件。
+        if (ftpHandler.existsFile(new String[]{FtpConstants.PATH_PB_FILE}, getFileName(key))) {
+            ftpHandler.deleteFile(new String[]{FtpConstants.PATH_PB_FILE}, getFileName(key));
+        }
+
         // 查找删除除所有相关的个人最佳文件信息。
         List<LongIdKey> pbFileInfoKeys = pbFileInfoDao.lookup(
                 PbFileInfoMaintainService.CHILD_FOR_RECORD, new Object[]{key}
@@ -80,6 +91,10 @@ public class PbRecordCrudOperation implements BatchCrudOperation<LongIdKey, PbRe
         // 删除个人最佳记录自身。
         pbRecordCache.delete(key);
         pbRecordDao.delete(key);
+    }
+
+    private String getFileName(LongIdKey noteFileKey) {
+        return Long.toString(noteFileKey.getLongId());
     }
 
     @Override

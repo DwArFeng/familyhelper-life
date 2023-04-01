@@ -60,7 +60,9 @@
 
 #### Bug修复
 
-- 修复 `PbNodeCrudOperation` 删除实体方法的逻辑错误。
+- 修复删除逻辑错误。
+  - 修复 `PbNodeCrudOperation` 删除实体方法的逻辑错误。
+  - 修复 `PbRecordCrudOperation` 删除实体方法的逻辑错误。
 
 #### 功能移除
 
