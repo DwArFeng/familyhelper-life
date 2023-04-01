@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 @Component
@@ -73,32 +75,49 @@ public class PbNodeCrudOperation implements BatchCrudOperation<LongIdKey, PbNode
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 递归寻找并删除个人最佳节点自身的子孙节点。
-        List<PbNode> descendantPbNodes = new ArrayList<>();
-        findDescendant(descendantPbNodes, pbNodeDao.get(key));
-        descendantPbNodes.forEach((pbNode -> pbNode.setParentKey(null)));
-        pbNodeDao.batchUpdate(descendantPbNodes);
-        List<LongIdKey> descendantPbNodeKeys = descendantPbNodes.stream().map(PbNode::getKey).collect(Collectors.toList());
-        pbNodeCache.batchDelete(descendantPbNodeKeys);
-        pbNodeDao.batchDelete(descendantPbNodeKeys);
+        // 寻找自身的子孙节点和子孙条目。
+        DescendantStruct descendantStruct = findDescendant(key);
 
-        // 查找删除除所有相关的个人最佳项目。
-        List<LongIdKey> pbItemKeys = pbItemDao.lookup(
-                PbItemMaintainService.CHILD_FOR_NODE, new Object[]{key}
-        ).stream().map(PbItem::getKey).collect(Collectors.toList());
+        // 依次删除子孙条目和子孙节点。
+        List<LongIdKey> pbItemKeys = descendantStruct.getPbItemKeys();
         pbItemCrudOperation.batchDelete(pbItemKeys);
-
-        // 删除个人最佳节点自身。
-        pbNodeCache.delete(key);
-        pbNodeDao.delete(key);
+        List<LongIdKey> pbNodeKeys = descendantStruct.getPbNodeKeys();
+        pbNodeCache.batchDelete(pbNodeKeys);
+        pbNodeDao.batchDelete(pbNodeKeys);
     }
 
-    private void findDescendant(List<PbNode> descendantPbNodeKeys, PbNode pbNode) throws Exception {
-        List<PbNode> childPbNodes = pbNodeDao.lookup(PbNodeMaintainService.CHILD_FOR_PARENT, new Object[]{pbNode.getKey()});
-        for (PbNode childPbNode : childPbNodes) {
-            descendantPbNodeKeys.add(childPbNode);
-            findDescendant(descendantPbNodeKeys, childPbNode);
+    private DescendantStruct findDescendant(LongIdKey key) throws Exception {
+        // 本方法使用递归形式，并转化为迭代。
+
+        // 定义结果变量。
+        List<LongIdKey> pbNodeKeys = new LinkedList<>();
+        List<LongIdKey> pbItemKeys = new ArrayList<>();
+
+        // 定义一个栈，并初始化。
+        Stack<LongIdKey> pbNodeStack = new Stack<>();
+        pbNodeStack.push(key);
+
+        // 在栈清空之前，一直执行循环。
+        while (!pbNodeStack.isEmpty()) {
+            // 从栈中取出当前的节点。
+            LongIdKey pbNodeKey = pbNodeStack.pop();
+            // 查询节点的子节点。
+            List<LongIdKey> childPbNodeKeys = pbNodeDao.lookup(
+                    PbNodeMaintainService.CHILD_FOR_PARENT, new Object[]{pbNodeKey}
+            ).stream().map(PbNode::getKey).collect(Collectors.toList());
+            // 查询节点的子条目。
+            List<LongIdKey> childPbItemKeys = pbItemDao.lookup(
+                    PbItemMaintainService.CHILD_FOR_NODE, new Object[]{pbNodeKey}
+            ).stream().map(PbItem::getKey).collect(Collectors.toList());
+            // 将结果添加到结果变量中（插入到最前面）。
+            pbNodeKeys.add(0, pbNodeKey);
+            pbItemKeys.addAll(childPbItemKeys);
+            // 向栈中推送节点的子节点。
+            childPbNodeKeys.forEach(pbNodeStack::push);
         }
+
+        // 返回结果。
+        return new DescendantStruct(pbNodeKeys, pbItemKeys);
     }
 
     @Override
@@ -141,6 +160,33 @@ public class PbNodeCrudOperation implements BatchCrudOperation<LongIdKey, PbNode
     public void batchDelete(List<LongIdKey> keys) throws Exception {
         for (LongIdKey key : keys) {
             delete(key);
+        }
+    }
+
+    private static final class DescendantStruct {
+
+        private final List<LongIdKey> pbNodeKeys;
+        private final List<LongIdKey> pbItemKeys;
+
+        private DescendantStruct(List<LongIdKey> pbNodeKeys, List<LongIdKey> pbItemKeys) {
+            this.pbNodeKeys = pbNodeKeys;
+            this.pbItemKeys = pbItemKeys;
+        }
+
+        public List<LongIdKey> getPbNodeKeys() {
+            return pbNodeKeys;
+        }
+
+        public List<LongIdKey> getPbItemKeys() {
+            return pbItemKeys;
+        }
+
+        @Override
+        public String toString() {
+            return "DescendantStruct{" +
+                    "pbNodeKeys=" + pbNodeKeys +
+                    ", pbItemKeys=" + pbItemKeys +
+                    '}';
         }
     }
 }
