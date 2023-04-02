@@ -29,6 +29,10 @@
 
 - Dubbo 微服务增加分组配置。
 
+- 启停脚本优化。
+  - 优化 Windows 系统的启动脚本。
+  - 优化 Linux 系统的启停脚本。
+
 - 使用 `MapStruct` 重构 `BeanTransformer`。
 
 - 增加依赖。
