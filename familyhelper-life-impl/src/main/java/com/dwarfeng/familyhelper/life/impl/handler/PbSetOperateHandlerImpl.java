@@ -25,16 +25,16 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
     private final PbSetMaintainService pbSetMaintainService;
     private final PopbMaintainService popbMaintainService;
 
-    private final OperateHandlerValidator operateHandlerValidator;
+    private final HandlerValidator handlerValidator;
 
     public PbSetOperateHandlerImpl(
             PbSetMaintainService pbSetMaintainService,
             PopbMaintainService popbMaintainService,
-            OperateHandlerValidator operateHandlerValidator
+            HandlerValidator handlerValidator
     ) {
         this.pbSetMaintainService = pbSetMaintainService;
         this.popbMaintainService = popbMaintainService;
-        this.operateHandlerValidator = operateHandlerValidator;
+        this.handlerValidator = handlerValidator;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             throws HandlerException {
         try {
             // 1. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 2. 根据 pbSetCreateInfo 以及创建的规则组合 个人最佳集合 实体。
             Date currentDate = new Date();
@@ -77,13 +77,13 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             LongIdKey pbSetKey = pbSetUpdateInfo.getPbSetKey();
 
             // 1. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 2. 确认个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetExists(pbSetKey);
+            handlerValidator.makeSurePbSetExists(pbSetKey);
 
             // 3. 确认用户有权限操作指定的个人最佳集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbSet(userKey, pbSetKey);
+            handlerValidator.makeSureUserModifyPermittedForPbSet(userKey, pbSetKey);
 
             // 4. 根据 pbSetUpdateInfo 以及更新的规则设置 个人最佳集合 实体。
             PbSet pbSet = pbSetMaintainService.get(pbSetKey);
@@ -103,13 +103,13 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
     public void removePbSet(StringIdKey userKey, LongIdKey pbSetKey) throws HandlerException {
         try {
             // 1. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 2. 确认个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetExists(pbSetKey);
+            handlerValidator.makeSurePbSetExists(pbSetKey);
 
             // 3. 确认用户有权限操作指定的个人最佳集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbSet(userKey, pbSetKey);
+            handlerValidator.makeSureUserModifyPermittedForPbSet(userKey, pbSetKey);
 
             // 4. 删除指定主键的个人最佳集合。
             pbSetMaintainService.delete(pbSetKey);
@@ -136,17 +136,17 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             }
 
             // 2. 确认 permissionLevel 有效。
-            operateHandlerValidator.makeSurePermissionLevelValid(permissionLevel);
+            handlerValidator.makeSurePermissionLevelValid(permissionLevel);
 
             // 3. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(ownerUserKey);
-            operateHandlerValidator.makeSureUserExists(targetUserKey);
+            handlerValidator.makeSureUserExists(ownerUserKey);
+            handlerValidator.makeSureUserExists(targetUserKey);
 
             // 4. 确认个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetExists(pbSetKey);
+            handlerValidator.makeSurePbSetExists(pbSetKey);
 
             // 5. 确认用户有权限操作指定的个人最佳集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbSet(ownerUserKey, pbSetKey);
+            handlerValidator.makeSureUserModifyPermittedForPbSet(ownerUserKey, pbSetKey);
 
             // 6. 通过入口信息组合权限实体，并进行插入或更新操作。
             String permissionLabel;
@@ -187,14 +187,14 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             }
 
             // 2. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(ownerUserKey);
-            operateHandlerValidator.makeSureUserExists(targetUserKey);
+            handlerValidator.makeSureUserExists(ownerUserKey);
+            handlerValidator.makeSureUserExists(targetUserKey);
 
             // 3. 确认个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetExists(pbSetKey);
+            handlerValidator.makeSurePbSetExists(pbSetKey);
 
             // 4. 确认用户有权限操作指定的个人最佳集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbSet(ownerUserKey, pbSetKey);
+            handlerValidator.makeSureUserModifyPermittedForPbSet(ownerUserKey, pbSetKey);
 
             // 5. 通过入口信息组合权限实体主键，并进行存在删除操作。
             PopbKey popbKey = new PopbKey(pbSetKey.getLongId(), targetUserKey.getStringId());

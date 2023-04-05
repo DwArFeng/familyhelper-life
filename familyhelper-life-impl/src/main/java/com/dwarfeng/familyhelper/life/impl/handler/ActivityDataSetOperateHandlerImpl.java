@@ -25,16 +25,16 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
     private final ActivityDataSetMaintainService activityDataSetMaintainService;
     private final PoadMaintainService poadMaintainService;
 
-    private final OperateHandlerValidator operateHandlerValidator;
+    private final HandlerValidator handlerValidator;
 
     public ActivityDataSetOperateHandlerImpl(
             ActivityDataSetMaintainService activityDataSetMaintainService,
             PoadMaintainService poadMaintainService,
-            OperateHandlerValidator operateHandlerValidator
+            HandlerValidator handlerValidator
     ) {
         this.activityDataSetMaintainService = activityDataSetMaintainService;
         this.poadMaintainService = poadMaintainService;
-        this.operateHandlerValidator = operateHandlerValidator;
+        this.handlerValidator = handlerValidator;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
             throws HandlerException {
         try {
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 根据 activityDataSetCreateInfo 以及创建的规则组合 活动数据集合 实体。
             Date currentDate = new Date();
@@ -77,13 +77,13 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
             LongIdKey activityDataSetKey = activityDataSetUpdateInfo.getActivityDataSetKey();
 
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认活动数据集合存在。
-            operateHandlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
+            handlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
 
             // 确认用户有权限操作指定的活动数据集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
+            handlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
 
             // 根据 activityDataSetUpdateInfo 以及更新的规则设置 活动数据集合 实体。
             ActivityDataSet activityDataSet = activityDataSetMaintainService.get(activityDataSetKey);
@@ -103,13 +103,13 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
     public void removeActivityDataSet(StringIdKey userKey, LongIdKey activityDataSetKey) throws HandlerException {
         try {
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认活动数据集合存在。
-            operateHandlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
+            handlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
 
             // 确认用户有权限操作指定的活动数据集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
+            handlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
 
             // 删除指定主键的活动数据集合。
             activityDataSetMaintainService.delete(activityDataSetKey);
@@ -131,17 +131,17 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
             int permissionLevel = activityDataSetPermissionUpsertInfo.getPermissionLevel();
 
             // 确认 permissionLevel 有效。
-            operateHandlerValidator.makeSurePermissionLevelValid(permissionLevel);
+            handlerValidator.makeSurePermissionLevelValid(permissionLevel);
 
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
-            operateHandlerValidator.makeSureUserExists(targetUserKey);
+            handlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(targetUserKey);
 
             // 确认活动数据集合存在。
-            operateHandlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
+            handlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
 
             // 确认用户有权限操作指定的活动数据集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
+            handlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
 
             // 如果用户主键与目标主键一致，则什么也不做。
             if (Objects.equals(userKey, targetUserKey)) {
@@ -182,14 +182,14 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
             StringIdKey targetUserKey = activityDataSetPermissionRemoveInfo.getUserKey();
 
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
-            operateHandlerValidator.makeSureUserExists(targetUserKey);
+            handlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(targetUserKey);
 
             // 确认活动数据集合存在。
-            operateHandlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
+            handlerValidator.makeSureActivityDataSetExists(activityDataSetKey);
 
             // 确认用户有权限操作指定的活动数据集合。
-            operateHandlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
+            handlerValidator.makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataSetKey);
 
             // 如果用户主键与目标主键一致，则什么也不做。
             if (Objects.equals(userKey, targetUserKey)) {

@@ -23,18 +23,18 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
     private final PbItemMaintainService pbItemMaintainService;
     private final PbSetMaintainService pbSetMaintainService;
 
-    private final OperateHandlerValidator operateHandlerValidator;
+    private final HandlerValidator handlerValidator;
 
     public PbRecordOperateHandlerImpl(
             PbRecordMaintainService pbRecordMaintainService,
             PbItemMaintainService pbItemMaintainService,
             PbSetMaintainService pbSetMaintainService,
-            OperateHandlerValidator operateHandlerValidator
+            HandlerValidator handlerValidator
     ) {
         this.pbRecordMaintainService = pbRecordMaintainService;
         this.pbItemMaintainService = pbItemMaintainService;
         this.pbSetMaintainService = pbSetMaintainService;
-        this.operateHandlerValidator = operateHandlerValidator;
+        this.handlerValidator = handlerValidator;
     }
 
     @Override
@@ -44,18 +44,18 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
             LongIdKey itemKey = pbRecordCreateInfo.getItemKey();
 
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认个人最佳项目存在。
-            operateHandlerValidator.makeSurePbItemExists(itemKey);
+            handlerValidator.makeSurePbItemExists(itemKey);
             PbItem pbItem = pbItemMaintainService.get(itemKey);
             LongIdKey setKey = pbItem.getSetKey();
 
             // 确认个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetExists(setKey);
+            handlerValidator.makeSurePbSetExists(setKey);
 
             // 确认用户有权限操作指定的个人最佳项目。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbItem(userKey, itemKey);
+            handlerValidator.makeSureUserModifyPermittedForPbItem(userKey, itemKey);
 
             // 根据 pbRecordCreateInfo 以及创建的规则组合 个人最佳项目 实体。
             Date currentDate = new Date();
@@ -86,19 +86,19 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
             LongIdKey pbRecordKey = pbRecordUpdateInfo.getKey();
 
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认个人最佳项目存在。
-            operateHandlerValidator.makeSurePbRecordExists(pbRecordKey);
+            handlerValidator.makeSurePbRecordExists(pbRecordKey);
             PbRecord record = pbRecordMaintainService.get(pbRecordKey);
             LongIdKey itemKey = record.getItemKey();
 
             // 确认个人最佳项目存在。
-            operateHandlerValidator.makeSurePbItemExists(itemKey);
+            handlerValidator.makeSurePbItemExists(itemKey);
 
 
             // 确认用户有权限操作指定的个人最佳项目。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbRecordKey);
+            handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbRecordKey);
 
             // 根据 pbRecordUpdateInfo 以及更新的规则设置 个人最佳项目 实体。
             PbRecord pbRecord = pbRecordMaintainService.get(pbRecordKey);
@@ -118,13 +118,13 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
     public void removePbRecord(StringIdKey userKey, LongIdKey pbRecordKey) throws HandlerException {
         try {
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认个人最佳项目存在。
-            operateHandlerValidator.makeSurePbRecordExists(pbRecordKey);
+            handlerValidator.makeSurePbRecordExists(pbRecordKey);
 
             // 确认用户有权限操作指定的银行卡。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbRecordKey);
+            handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbRecordKey);
 
             // 存在删除指定的个人最佳项目。
             pbRecordMaintainService.deleteIfExists(pbRecordKey);

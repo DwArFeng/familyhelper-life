@@ -23,32 +23,32 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
 
     private final KeyFetcher<LongIdKey> keyFetcher;
 
-    private final OperateHandlerValidator operateHandlerValidator;
+    private final HandlerValidator handlerValidator;
 
     public PbFileOperateHandlerImpl(
             PbFileInfoMaintainService pbFileInfoMaintainService,
             FtpHandler ftpHandler,
             KeyFetcher<LongIdKey> keyFetcher,
-            OperateHandlerValidator operateHandlerValidator
+            HandlerValidator handlerValidator
     ) {
         this.pbFileInfoMaintainService = pbFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
         this.keyFetcher = keyFetcher;
-        this.operateHandlerValidator = operateHandlerValidator;
+        this.handlerValidator = handlerValidator;
     }
 
     @Override
     public PbFile downloadPbFile(StringIdKey userKey, LongIdKey pbFileKey) throws HandlerException {
         try {
             // 1. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 2. 确认个人最佳文件存在。
-            operateHandlerValidator.makeSurePbFileExists(pbFileKey);
+            handlerValidator.makeSurePbFileExists(pbFileKey);
 
             // 3. 获取个人最佳文件对应的项目，并确认用户有权限操作项目。
             PbFileInfo pbFileInfo = pbFileInfoMaintainService.get(pbFileKey);
-            operateHandlerValidator.makeSureUserInspectPermittedForPbRecord(userKey, pbFileInfo.getRecordKey());
+            handlerValidator.makeSureUserInspectPermittedForPbRecord(userKey, pbFileInfo.getRecordKey());
 
             // 4. 下载个人最佳文件。
             byte[] content = ftpHandler.getFileContent(
@@ -72,14 +72,14 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
     public void uploadPbFile(StringIdKey userKey, PbFileUploadInfo pbFileUploadInfo) throws HandlerException {
         try {
             // 1. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 2. 确认个人最佳文件所属的项目存在。
             LongIdKey recordKey = pbFileUploadInfo.getRecordKey();
-            operateHandlerValidator.makeSurePbRecordExists(recordKey);
+            handlerValidator.makeSurePbRecordExists(recordKey);
 
             // 3. 确认用户有权限操作项目。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, recordKey);
+            handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, recordKey);
 
             // 4. 分配主键。
             LongIdKey pbFileKey = keyFetcher.fetchKey();
@@ -109,14 +109,14 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
     public void removePbFile(StringIdKey userKey, LongIdKey pbFileKey) throws HandlerException {
         try {
             // 1. 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 2. 确认个人最佳文件存在。
-            operateHandlerValidator.makeSurePbFileExists(pbFileKey);
+            handlerValidator.makeSurePbFileExists(pbFileKey);
 
             // 3. 获取个人最佳文件对应的项目，并确认用户有权限操作项目。
             PbFileInfo pbFileInfo = pbFileInfoMaintainService.get(pbFileKey);
-            operateHandlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbFileInfo.getRecordKey());
+            handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbFileInfo.getRecordKey());
 
             // 4. 如果存在 PbFile 文件，则删除。
             if (ftpHandler.existsFile(new String[]{FtpConstants.PATH_PB_FILE}, getFileName(pbFileKey))) {

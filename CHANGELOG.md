@@ -30,6 +30,9 @@
   - com.dwarfeng.familyhelper.life.stack.bean.entity.Poat。
   - com.dwarfeng.familyhelper.life.stack.bean.entity.Poatac。
 
+- 处理器名称优化。
+  - OperateHandlerValidator -> HandlerValidator。
+
 - Dubbo 微服务增加分组配置。
 
 - 启停脚本优化。

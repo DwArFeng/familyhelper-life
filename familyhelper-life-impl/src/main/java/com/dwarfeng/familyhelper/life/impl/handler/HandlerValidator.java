@@ -24,7 +24,7 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @Component
-public class OperateHandlerValidator {
+public class HandlerValidator {
 
     private final UserMaintainService userMaintainService;
     private final PopbMaintainService popbMaintainService;
@@ -36,7 +36,7 @@ public class OperateHandlerValidator {
     private final PoadMaintainService poadMaintainService;
     private final ActivityDataSetMaintainService activityDataSetMaintainService;
 
-    public OperateHandlerValidator(
+    public HandlerValidator(
             UserMaintainService userMaintainService,
             PopbMaintainService popbMaintainService,
             PbSetMaintainService pbSetMaintainService,

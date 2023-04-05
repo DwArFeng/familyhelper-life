@@ -20,16 +20,16 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
     private final PbItemMaintainService pbItemMaintainService;
     private final PbSetMaintainService pbSetMaintainService;
 
-    private final OperateHandlerValidator operateHandlerValidator;
+    private final HandlerValidator handlerValidator;
 
     public PbItemOperateHandlerImpl(
             PbItemMaintainService pbItemMaintainService,
             PbSetMaintainService pbSetMaintainService,
-            OperateHandlerValidator operateHandlerValidator
+            HandlerValidator handlerValidator
     ) {
         this.pbItemMaintainService = pbItemMaintainService;
         this.pbSetMaintainService = pbSetMaintainService;
-        this.operateHandlerValidator = operateHandlerValidator;
+        this.handlerValidator = handlerValidator;
     }
 
     @Override
@@ -39,21 +39,21 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
             LongIdKey nodeKey = pbItemCreateInfo.getNodeKey();
 
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetExists(setKey);
+            handlerValidator.makeSurePbSetExists(setKey);
 
             // 确认个人最佳节点存在。
             if (Objects.nonNull(nodeKey)) {
-                operateHandlerValidator.makeSurePbNodeExists(nodeKey);
+                handlerValidator.makeSurePbNodeExists(nodeKey);
             }
 
             // 确认用户有权限操作指定的个人最佳节点。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbSet(userKey, setKey);
+            handlerValidator.makeSureUserModifyPermittedForPbSet(userKey, setKey);
 
             // 确认个人最佳节点与父个人最佳节点的个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetIdenticalForPbSet(nodeKey, setKey);
+            handlerValidator.makeSurePbSetIdenticalForPbSet(nodeKey, setKey);
 
             // 根据 pbItemCreateInfo 以及创建的规则组合 个人最佳项目 实体。
             PbItem pbItem = new PbItem(
@@ -85,22 +85,22 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
             LongIdKey pbNodeKey = pbItemUpdateInfo.getNodeKey();
 
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认个人最佳节点存在。
-            operateHandlerValidator.makeSurePbNodeExists(pbNodeKey);
+            handlerValidator.makeSurePbNodeExists(pbNodeKey);
 
             // 确认个人最佳项目存在。
-            operateHandlerValidator.makeSurePbItemExists(pbItemKey);
+            handlerValidator.makeSurePbItemExists(pbItemKey);
             PbItem item = pbItemMaintainService.get(pbItemKey);
             LongIdKey oldPbNodeKey = item.getNodeKey();
 
             // 确认用户有权限操作指定的个人最佳项目。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbItem(userKey, pbItemKey);
+            handlerValidator.makeSureUserModifyPermittedForPbItem(userKey, pbItemKey);
 
             // 确认个人最佳节点与父个人最佳节点的个人最佳集合存在。
             if (!Objects.equals(pbNodeKey, oldPbNodeKey)) {
-                operateHandlerValidator.makeSurePbSetIdenticalForPbNode(oldPbNodeKey, pbNodeKey);
+                handlerValidator.makeSurePbSetIdenticalForPbNode(oldPbNodeKey, pbNodeKey);
             }
 
             // 根据 pbItemUpdateInfo 以及更新的规则设置 个人最佳项目 实体。
@@ -126,18 +126,18 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
     public void removePbItem(StringIdKey userKey, LongIdKey pbItemKey) throws HandlerException {
         try {
             // 确认用户存在。
-            operateHandlerValidator.makeSureUserExists(userKey);
+            handlerValidator.makeSureUserExists(userKey);
 
             // 确认个人最佳项目存在。
-            operateHandlerValidator.makeSurePbItemExists(pbItemKey);
+            handlerValidator.makeSurePbItemExists(pbItemKey);
             PbItem pbItem = pbItemMaintainService.get(pbItemKey);
             LongIdKey setKey = pbItem.getSetKey();
 
             // 确认个人最佳集合存在。
-            operateHandlerValidator.makeSurePbSetExists(setKey);
+            handlerValidator.makeSurePbSetExists(setKey);
 
             // 确认用户有权限操作指定的银行卡。
-            operateHandlerValidator.makeSureUserModifyPermittedForPbItem(userKey, pbItemKey);
+            handlerValidator.makeSureUserModifyPermittedForPbItem(userKey, pbItemKey);
 
             // 存在删除指定的个人最佳项目。
             pbItemMaintainService.delete(pbItemKey);
