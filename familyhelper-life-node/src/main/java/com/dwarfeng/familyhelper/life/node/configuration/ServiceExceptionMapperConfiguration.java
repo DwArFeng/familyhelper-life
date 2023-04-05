@@ -29,6 +29,8 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(PbRecordNotExistsException.class, ServiceExceptionCodes.PB_RECORD_NOT_EXISTS);
         destination.put(IllegalPbRecordStateException.class, ServiceExceptionCodes.ILLEGAL_PB_RECORD_STATE);
         destination.put(PbFileNotExistsException.class, ServiceExceptionCodes.PB_FILE_NOT_EXISTS);
+        destination.put(UserNotPermittedForActivityDataSetException.class, ServiceExceptionCodes.USER_NOT_PERMITTED_FOR_ACTIVITY_DATA_SET);
+        destination.put(ActivityDataSetNotExistsException.class, ServiceExceptionCodes.ACTIVITY_DATA_SET_NOT_EXISTS);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
     }
 }

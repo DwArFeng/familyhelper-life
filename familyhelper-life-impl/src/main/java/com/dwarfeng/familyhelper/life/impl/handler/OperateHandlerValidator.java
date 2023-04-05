@@ -1,10 +1,8 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.PbItem;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.PbNode;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.PbRecord;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.Popb;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
+import com.dwarfeng.familyhelper.life.stack.bean.key.PoadKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
 import com.dwarfeng.familyhelper.life.stack.exception.*;
 import com.dwarfeng.familyhelper.life.stack.service.*;
@@ -35,6 +33,8 @@ public class OperateHandlerValidator {
     private final PbItemMaintainService pbItemMaintainService;
     private final PbRecordMaintainService pbRecordMaintainService;
     private final PbFileInfoMaintainService pbFileInfoMaintainService;
+    private final PoadMaintainService poadMaintainService;
+    private final ActivityDataSetMaintainService activityDataSetMaintainService;
 
     public OperateHandlerValidator(
             UserMaintainService userMaintainService,
@@ -43,7 +43,9 @@ public class OperateHandlerValidator {
             PbNodeMaintainService pbNodeMaintainService,
             PbItemMaintainService pbItemMaintainService,
             PbRecordMaintainService pbRecordMaintainService,
-            PbFileInfoMaintainService pbFileInfoMaintainService
+            PbFileInfoMaintainService pbFileInfoMaintainService,
+            PoadMaintainService poadMaintainService,
+            ActivityDataSetMaintainService activityDataSetMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -52,6 +54,8 @@ public class OperateHandlerValidator {
         this.pbItemMaintainService = pbItemMaintainService;
         this.pbRecordMaintainService = pbRecordMaintainService;
         this.pbFileInfoMaintainService = pbFileInfoMaintainService;
+        this.poadMaintainService = poadMaintainService;
+        this.activityDataSetMaintainService = activityDataSetMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -108,6 +112,16 @@ public class OperateHandlerValidator {
         try {
             if (Objects.isNull(pbFileKey) || !pbFileInfoMaintainService.exists(pbFileKey)) {
                 throw new PbFileNotExistsException(pbFileKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityDataSetExists(LongIdKey activityDataSetKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityDataSetKey) || !activityDataSetMaintainService.exists(activityDataSetKey)) {
+                throw new ActivityDataSetNotExistsException(activityDataSetKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -295,6 +309,56 @@ public class OperateHandlerValidator {
                 throw new IllegalPbNodeStateException(leftNodeKey);
             }
             makeSurePbSetIdenticalForPbSet(leftNodeKey, childSetKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    public void makeSureUserInspectPermittedForActivityDataSet(StringIdKey userKey, LongIdKey activityDataSetKey)
+            throws HandlerException {
+        try {
+            // 1. 构造 Poad 主键。
+            PoadKey poadKey = new PoadKey(activityDataSetKey.getLongId(), userKey.getStringId());
+
+            // 2. 查看 Poad 实体是否存在，如果不存在，则没有权限。
+            if (!poadMaintainService.exists(poadKey)) {
+                throw new UserNotPermittedForActivityDataSetException(userKey, activityDataSetKey);
+            }
+
+            // 3. 查看 Poad.permissionLevel 是否为 Poad.PERMISSION_LEVEL_OWNER 或 Poad.PERMISSION_LEVEL_GUEST，
+            // 如果不是，则没有权限。
+            Poad poad = poadMaintainService.get(poadKey);
+            if (Objects.equals(poad.getPermissionLevel(), Constants.PERMISSION_LEVEL_OWNER)) {
+                return;
+            }
+            if (Objects.equals(poad.getPermissionLevel(), Constants.PERMISSION_LEVEL_GUEST)) {
+                return;
+            }
+            throw new UserNotPermittedForActivityDataSetException(userKey, activityDataSetKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    public void makeSureUserModifyPermittedForActivityDataSet(StringIdKey userKey, LongIdKey activityDataSetKey)
+            throws HandlerException {
+        try {
+            // 1. 构造 Poad 主键。
+            PoadKey poadKey = new PoadKey(activityDataSetKey.getLongId(), userKey.getStringId());
+
+            // 2. 查看 Poad 实体是否存在，如果不存在，则没有权限。
+            if (!poadMaintainService.exists(poadKey)) {
+                throw new UserNotPermittedForActivityDataSetException(userKey, activityDataSetKey);
+            }
+
+            // 3. 查看 Poad.permissionLevel 是否为 Poad.PERMISSION_LEVEL_OWNER，如果不是，则没有权限。
+            Poad poad = poadMaintainService.get(poadKey);
+            if (Objects.equals(poad.getPermissionLevel(), Constants.PERMISSION_LEVEL_OWNER)) {
+                return;
+            }
+            throw new UserNotPermittedForActivityDataSetException(userKey, activityDataSetKey);
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }

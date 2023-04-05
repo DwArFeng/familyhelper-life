@@ -36,6 +36,10 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(100), "illegal pb record state");
     public static final ServiceException.Code PB_FILE_NOT_EXISTS =
             new ServiceException.Code(offset(110), "pb file not exists");
+    public static final ServiceException.Code USER_NOT_PERMITTED_FOR_ACTIVITY_DATA_SET =
+            new ServiceException.Code(offset(120), "user not permitted for activity data set");
+    public static final ServiceException.Code ACTIVITY_DATA_SET_NOT_EXISTS =
+            new ServiceException.Code(offset(130), "activity data set not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -72,6 +76,8 @@ public final class ServiceExceptionCodes {
         PB_RECORD_NOT_EXISTS.setCode(offset(90));
         ILLEGAL_PB_RECORD_STATE.setCode(offset(100));
         PB_FILE_NOT_EXISTS.setCode(offset(110));
+        USER_NOT_PERMITTED_FOR_ACTIVITY_DATA_SET.setCode(offset(120));
+        ACTIVITY_DATA_SET_NOT_EXISTS.setCode(offset(130));
     }
 
     private ServiceExceptionCodes() {

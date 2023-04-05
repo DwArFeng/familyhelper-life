@@ -120,6 +120,7 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public void upsertPermission(
             StringIdKey ownerUserKey, PbSetPermissionUpsertInfo pbSetPermissionUpsertInfo
