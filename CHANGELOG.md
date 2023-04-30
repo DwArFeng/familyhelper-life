@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 增加预设查询。
+  - PbItemMaintainService.CHILD_FOR_SET_NAME_LIKE。
+  - PbNodeMaintainService.CHILD_FOR_SET_NAME_LIKE。
+
 - 完成实体的操作服务。
   - com.dwarfeng.familyhelper.life.stack.service.ActivityDataSetOperateService。
 
