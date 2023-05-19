@@ -35,6 +35,8 @@ public class HandlerValidator {
     private final PbFileInfoMaintainService pbFileInfoMaintainService;
     private final PoadMaintainService poadMaintainService;
     private final ActivityDataSetMaintainService activityDataSetMaintainService;
+    private final ActivityDataNodeMaintainService activityDataNodeMaintainService;
+    private final ActivityDataItemMaintainService activityDataItemMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -45,7 +47,9 @@ public class HandlerValidator {
             PbRecordMaintainService pbRecordMaintainService,
             PbFileInfoMaintainService pbFileInfoMaintainService,
             PoadMaintainService poadMaintainService,
-            ActivityDataSetMaintainService activityDataSetMaintainService
+            ActivityDataSetMaintainService activityDataSetMaintainService,
+            ActivityDataNodeMaintainService activityDataNodeMaintainService,
+            ActivityDataItemMaintainService activityDataItemMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -56,6 +60,8 @@ public class HandlerValidator {
         this.pbFileInfoMaintainService = pbFileInfoMaintainService;
         this.poadMaintainService = poadMaintainService;
         this.activityDataSetMaintainService = activityDataSetMaintainService;
+        this.activityDataNodeMaintainService = activityDataNodeMaintainService;
+        this.activityDataItemMaintainService = activityDataItemMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -122,6 +128,26 @@ public class HandlerValidator {
         try {
             if (Objects.isNull(activityDataSetKey) || !activityDataSetMaintainService.exists(activityDataSetKey)) {
                 throw new ActivityDataSetNotExistsException(activityDataSetKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityDataNodeExists(LongIdKey activityDataNodeKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityDataNodeKey) || !activityDataNodeMaintainService.exists(activityDataNodeKey)) {
+                throw new ActivityDataNodeNotExistsException(activityDataNodeKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityDataItemExists(LongIdKey activityDataItemKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityDataItemKey) || !activityDataItemMaintainService.exists(activityDataItemKey)) {
+                throw new ActivityDataItemNotExistsException(activityDataItemKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -206,7 +232,40 @@ public class HandlerValidator {
         }
     }
 
-    public void makeSureUserInspectPermittedForPbNode(StringIdKey userKey, LongIdKey pbNodeKey) throws HandlerException {
+    public void makeSurePbSetIdenticalForPbItem(LongIdKey nodeKey, LongIdKey itemKey)
+            throws HandlerException {
+        try {
+            // 如果 nodeKey 为 null，则表示该项目是根项目，不需要进行任何判断。
+            if (Objects.isNull(nodeKey)) {
+                return;
+            }
+
+            // 否则，取出父节点的 setKey，以及个人最佳项目的 setKey，判断是否相等。
+            PbNode pbNode = pbNodeMaintainService.get(nodeKey);
+            LongIdKey nodeSetKey = pbNode.getSetKey();
+            PbItem pbItem = pbItemMaintainService.get(itemKey);
+            LongIdKey itemSetKey = pbItem.getSetKey();
+
+            // 保证个人最最佳节点的 setKey 不为 null。
+            if (Objects.isNull(nodeSetKey)) {
+                throw new IllegalPbNodeStateException(nodeKey);
+            }
+            // 保证个人最佳项目的 setKey 不为 null。
+            if (Objects.isNull(itemSetKey)) {
+                throw new IllegalPbItemStateException(itemKey);
+            }
+
+            // 保证两者的 setKey 相等。
+            if (!Objects.equals(nodeSetKey, itemSetKey)) {
+                throw new PbSetNotIdenticalException(nodeSetKey, itemSetKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserInspectPermittedForPbNode(StringIdKey userKey, LongIdKey pbNodeKey) throws
+            HandlerException {
         try {
             // 1. 查找指定的个人最佳节点是否绑定个人最佳集合，如果不绑定个人最佳集合，则抛出个人最佳节点状态异常。
             PbNode pbNode = pbNodeMaintainService.get(pbNodeKey);
@@ -359,6 +418,106 @@ public class HandlerValidator {
                 return;
             }
             throw new UserNotPermittedForActivityDataSetException(userKey, activityDataSetKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityDataSetIdenticalForActivityDataSet(LongIdKey nodeKey, LongIdKey setKey)
+            throws HandlerException {
+        try {
+            // 如果 nodeKey 为 null，则代表该节点为根节点，不需要进行校验。
+            if (Objects.isNull(nodeKey)) {
+                return;
+            }
+
+            // 否则，取出父节点的 setKey，判断是否与 setKey 相同。
+            ActivityDataNode parentNode = activityDataNodeMaintainService.get(nodeKey);
+            LongIdKey parentSetKey = parentNode.getSetKey();
+            if (Objects.isNull(parentSetKey)) {
+                throw new IllegalActivityDataNodeStateException(nodeKey);
+            }
+            if (!Objects.equals(parentSetKey, setKey)) {
+                throw new ActivityDataSetNotIdenticalException(parentSetKey, setKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForActivityDataNode(StringIdKey userKey, LongIdKey activityDataNodeKey)
+            throws HandlerException {
+        try {
+            // 1. 查找指定的活动数据节点是否绑定活动数据集合，如果不绑定活动数据集合，则抛出活动数据节点状态异常。
+            ActivityDataNode activityDataNode = activityDataNodeMaintainService.get(activityDataNodeKey);
+            if (Objects.isNull(activityDataNode.getSetKey())) {
+                throw new IllegalActivityDataNodeStateException(activityDataNodeKey);
+            }
+
+            // 2. 取出活动数据节点的活动数据集合外键，判断用户是否拥有该活动数据集合的权限。
+            makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataNode.getSetKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityDataSetIdenticalForActivityDataNode(LongIdKey leftNodeKey, LongIdKey rightNodeKey)
+            throws HandlerException {
+        try {
+            ActivityDataNode childNode = activityDataNodeMaintainService.get(rightNodeKey);
+            LongIdKey childSetKey = childNode.getSetKey();
+            if (Objects.isNull(childSetKey)) {
+                throw new IllegalActivityDataNodeStateException(leftNodeKey);
+            }
+            makeSureActivityDataSetIdenticalForActivityDataSet(leftNodeKey, childSetKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForActivityDataItem(StringIdKey userKey, LongIdKey activityDataItemKey)
+            throws HandlerException {
+        try {
+            // 1. 查找指定的活动数据项目是否绑定活动数据集合，如果不绑定活动数据集合，则抛出活动数据项目状态异常。
+            ActivityDataItem activityDataItem = activityDataItemMaintainService.get(activityDataItemKey);
+            if (Objects.isNull(activityDataItem.getSetKey())) {
+                throw new IllegalActivityDataItemStateException(activityDataItemKey);
+            }
+
+            // 2. 取出活动数据项目的活动数据集合外键，判断用户是否拥有该活动数据节点的权限。
+            makeSureUserModifyPermittedForActivityDataSet(userKey, activityDataItem.getSetKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityDataSetIdenticalForActivityDataItem(LongIdKey nodeKey, LongIdKey itemKey)
+            throws HandlerException {
+        try {
+            // 如果 nodeKey 为 null，则表示该项目是根项目，不需要进行任何判断。
+            if (Objects.isNull(nodeKey)) {
+                return;
+            }
+
+            // 否则，取出父节点的 setKey，以及活动数据项目的 setKey，判断是否相等。
+            ActivityDataNode activityDataNode = activityDataNodeMaintainService.get(nodeKey);
+            LongIdKey nodeSetKey = activityDataNode.getSetKey();
+            ActivityDataItem activityDataItem = activityDataItemMaintainService.get(itemKey);
+            LongIdKey itemSetKey = activityDataItem.getSetKey();
+
+            // 保证个人最最佳节点的 setKey 不为 null。
+            if (Objects.isNull(nodeSetKey)) {
+                throw new IllegalActivityDataNodeStateException(nodeKey);
+            }
+            // 保证活动数据项目的 setKey 不为 null。
+            if (Objects.isNull(itemSetKey)) {
+                throw new IllegalActivityDataItemStateException(itemKey);
+            }
+
+            // 保证两者的 setKey 相等。
+            if (!Objects.equals(nodeSetKey, itemSetKey)) {
+                throw new ActivityDataSetNotIdenticalException(nodeSetKey, itemSetKey);
+            }
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }

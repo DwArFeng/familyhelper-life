@@ -19,4 +19,5 @@ public interface ActivityDataNodeMaintainService extends BatchCrudService<LongId
     String CHILD_FOR_SET = "child_for_set";
     String CHILD_FOR_SET_ROOT = "child_for_set_root";
     String NAME_LIKE = "name_like";
+    String CHILD_FOR_SET_NAME_LIKE = "child_for_set_name_like";
 }

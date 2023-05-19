@@ -40,6 +40,16 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(120), "user not permitted for activity data set");
     public static final ServiceException.Code ACTIVITY_DATA_SET_NOT_EXISTS =
             new ServiceException.Code(offset(130), "activity data set not exists");
+    public static final ServiceException.Code ACTIVITY_DATA_NODE_NOT_EXISTS =
+            new ServiceException.Code(offset(140), "activity data node not exists");
+    public static final ServiceException.Code ILLEGAL_ACTIVITY_DATA_NODE_STATE =
+            new ServiceException.Code(offset(150), "illegal activity data node state");
+    public static final ServiceException.Code ACTIVITY_DATA_SET_NOT_IDENTICAL =
+            new ServiceException.Code(offset(160), "activity data set not identical");
+    public static final ServiceException.Code ACTIVITY_DATA_ITEM_NOT_EXISTS =
+            new ServiceException.Code(offset(170), "activity data item not exists");
+    public static final ServiceException.Code ILLEGAL_ACTIVITY_DATA_ITEM_STATE =
+            new ServiceException.Code(offset(180), "illegal activity data item state");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -78,6 +88,11 @@ public final class ServiceExceptionCodes {
         PB_FILE_NOT_EXISTS.setCode(offset(110));
         USER_NOT_PERMITTED_FOR_ACTIVITY_DATA_SET.setCode(offset(120));
         ACTIVITY_DATA_SET_NOT_EXISTS.setCode(offset(130));
+        ACTIVITY_DATA_NODE_NOT_EXISTS.setCode(offset(140));
+        ILLEGAL_ACTIVITY_DATA_NODE_STATE.setCode(offset(150));
+        ACTIVITY_DATA_SET_NOT_IDENTICAL.setCode(offset(160));
+        ACTIVITY_DATA_ITEM_NOT_EXISTS.setCode(offset(170));
+        ILLEGAL_ACTIVITY_DATA_ITEM_STATE.setCode(offset(180));
     }
 
     private ServiceExceptionCodes() {

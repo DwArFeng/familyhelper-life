@@ -107,8 +107,18 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityDataItemOperateService"
+            ref="activityDataItemOperateServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityDataNodeMaintainService"
             ref="activityDataNodeMaintainServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityDataNodeOperateService"
+            ref="activityDataNodeOperateServiceImpl"
             group="${dubbo.provider.group}"
     />
     <dubbo:service
