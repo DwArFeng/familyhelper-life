@@ -30,6 +30,7 @@ public class PbNodePresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForParent(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {
@@ -61,6 +62,7 @@ public class PbNodePresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForSetRoot(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {

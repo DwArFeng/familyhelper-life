@@ -1,13 +1,10 @@
 package com.dwarfeng.familyhelper.life.impl.service.operation;
 
-import com.dwarfeng.familyhelper.life.stack.bean.entity.Popb;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.User;
-import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
-import com.dwarfeng.familyhelper.life.stack.cache.PopbCache;
-import com.dwarfeng.familyhelper.life.stack.cache.UserCache;
-import com.dwarfeng.familyhelper.life.stack.dao.PopbDao;
-import com.dwarfeng.familyhelper.life.stack.dao.UserDao;
-import com.dwarfeng.familyhelper.life.stack.service.PopbMaintainService;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
+import com.dwarfeng.familyhelper.life.stack.bean.key.*;
+import com.dwarfeng.familyhelper.life.stack.cache.*;
+import com.dwarfeng.familyhelper.life.stack.dao.*;
+import com.dwarfeng.familyhelper.life.stack.service.*;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
@@ -27,17 +24,54 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
     private final PopbDao popbDao;
     private final PopbCache popbCache;
 
+    private final ActivityParticipantDao activityParticipantDao;
+    private final ActivityParticipantCache activityParticipantCache;
+
+    private final ActivityTemplateParticipantDao activityTemplateParticipantDao;
+    private final ActivityTemplateParticipantCache activityTemplateParticipantCache;
+
+    private final PoadDao poadDao;
+    private final PoadCache poadCache;
+
+    private final PoacDao poacDao;
+    private final PoacCache poacCache;
+
+    private final PoatDao poatDao;
+    private final PoatCache poatCache;
+
+    private final PoatacDao poatacDao;
+    private final PoatacCache poatacCache;
+
     @Value("${cache.timeout.entity.user}")
     private long userTimeout;
 
     public UserCrudOperation(
             UserDao userDao, UserCache userCache,
-            PopbDao popbDao, PopbCache popbCache
+            PopbDao popbDao, PopbCache popbCache,
+            ActivityParticipantDao activityParticipantDao, ActivityParticipantCache activityParticipantCache,
+            ActivityTemplateParticipantDao activityTemplateParticipantDao,
+            ActivityTemplateParticipantCache activityTemplateParticipantCache,
+            PoadDao poadDao, PoadCache poadCache,
+            PoacDao poacDao, PoacCache poacCache,
+            PoatDao poatDao, PoatCache poatCache,
+            PoatacDao poatacDao, PoatacCache poatacCache
     ) {
         this.userDao = userDao;
         this.userCache = userCache;
         this.popbDao = popbDao;
         this.popbCache = popbCache;
+        this.activityParticipantDao = activityParticipantDao;
+        this.activityParticipantCache = activityParticipantCache;
+        this.activityTemplateParticipantDao = activityTemplateParticipantDao;
+        this.activityTemplateParticipantCache = activityTemplateParticipantCache;
+        this.poadDao = poadDao;
+        this.poadCache = poadCache;
+        this.poacDao = poacDao;
+        this.poacCache = poacCache;
+        this.poatDao = poatDao;
+        this.poatCache = poatCache;
+        this.poatacDao = poatacDao;
+        this.poatacCache = poatacCache;
     }
 
     @Override
@@ -78,6 +112,47 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
                 .stream().map(Popb::getKey).collect(Collectors.toList());
         popbCache.batchDelete(popbKeys);
         popbDao.batchDelete(popbKeys);
+
+        // 查找删除除所有相关的活动参与者。
+        List<ActivityParticipantKey> activityParticipantKeys = activityParticipantDao.lookup(
+                ActivityParticipantMaintainService.CHILD_FOR_USER, new Object[]{key}
+        ).stream().map(ActivityParticipant::getKey).collect(Collectors.toList());
+        activityParticipantCache.batchDelete(activityParticipantKeys);
+        activityParticipantDao.batchDelete(activityParticipantKeys);
+
+        // 查找删除除所有相关的活动模板参与者。
+        List<ActivityTemplateParticipantKey> activityTemplateParticipantKeys = activityTemplateParticipantDao.lookup(
+                ActivityTemplateParticipantMaintainService.CHILD_FOR_USER, new Object[]{key}
+        ).stream().map(ActivityTemplateParticipant::getKey).collect(Collectors.toList());
+        activityTemplateParticipantCache.batchDelete(activityTemplateParticipantKeys);
+        activityTemplateParticipantDao.batchDelete(activityTemplateParticipantKeys);
+
+        // 查找删除除所有相关的活动数据集合权限。
+        List<PoadKey> poadKeys = poadDao.lookup(PoadMaintainService.CHILD_FOR_USER, new Object[]{key})
+                .stream().map(Poad::getKey).collect(Collectors.toList());
+        poadCache.batchDelete(poadKeys);
+        poadDao.batchDelete(poadKeys);
+
+        // 查找删除除所有相关的活动权限。
+        List<PoacKey> poacKeys = poacDao.lookup(
+                PoacMaintainService.CHILD_FOR_USER, new Object[]{key}
+        ).stream().map(Poac::getKey).collect(Collectors.toList());
+        poacCache.batchDelete(poacKeys);
+        poacDao.batchDelete(poacKeys);
+
+        // 查找删除除所有相关的活动模板权限。
+        List<PoatKey> poatKeys = poatDao.lookup(
+                PoatMaintainService.CHILD_FOR_USER, new Object[]{key}
+        ).stream().map(Poat::getKey).collect(Collectors.toList());
+        poatCache.batchDelete(poatKeys);
+        poatDao.batchDelete(poatKeys);
+
+        // 查找删除除所有相关的活动模板活动权限。
+        List<PoatacKey> poatacKeys = poatacDao.lookup(
+                PoatacMaintainService.CHILD_FOR_USER, new Object[]{key}
+        ).stream().map(Poatac::getKey).collect(Collectors.toList());
+        poatacCache.batchDelete(poatacKeys);
+        poatacDao.batchDelete(poatacKeys);
 
         // 删除用户实体自身。
         userCache.delete(key);

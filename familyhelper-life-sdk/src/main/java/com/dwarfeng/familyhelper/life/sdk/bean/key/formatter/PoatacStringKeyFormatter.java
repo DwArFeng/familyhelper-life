@@ -1,0 +1,48 @@
+package com.dwarfeng.familyhelper.life.sdk.bean.key.formatter;
+
+import com.dwarfeng.familyhelper.life.stack.bean.key.PoatacKey;
+import com.dwarfeng.subgrade.sdk.common.Constants;
+import com.dwarfeng.subgrade.sdk.redis.formatter.StringKeyFormatter;
+
+import java.util.Objects;
+
+/**
+ * PoatacKey 的文本格式化转换器。
+ *
+ * @author DwArFeng
+ * @since 1.1.0
+ */
+public class PoatacStringKeyFormatter implements StringKeyFormatter<PoatacKey> {
+
+    private String prefix;
+
+    public PoatacStringKeyFormatter(String prefix) {
+        this.prefix = prefix;
+    }
+
+    @Override
+    public String format(PoatacKey key) {
+        Objects.requireNonNull(key);
+        return prefix + key.getActivityTemplateLongId() + "_" + key.getUserStringId();
+    }
+
+    @Override
+    public String generalFormat() {
+        return prefix + Constants.REDIS_KEY_WILDCARD_CHARACTER;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    @Override
+    public String toString() {
+        return "PoatacStringKeyFormatter{" +
+                "prefix='" + prefix + '\'' +
+                '}';
+    }
+}

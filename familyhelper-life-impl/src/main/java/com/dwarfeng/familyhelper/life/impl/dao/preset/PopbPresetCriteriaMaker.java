@@ -49,6 +49,7 @@ public class PopbPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForUser(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {
@@ -81,6 +82,7 @@ public class PopbPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForUserPermissionLevelEquals(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {

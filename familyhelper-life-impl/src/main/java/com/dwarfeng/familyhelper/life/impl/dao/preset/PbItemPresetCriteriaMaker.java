@@ -34,6 +34,7 @@ public class PbItemPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForNode(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {
@@ -65,6 +66,7 @@ public class PbItemPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForSetRoot(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {

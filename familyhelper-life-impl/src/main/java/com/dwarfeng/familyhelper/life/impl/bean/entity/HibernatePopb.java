@@ -33,13 +33,13 @@ public class HibernatePopb implements Bean {
     // -----------------------------------------------------------多对一-----------------------------------------------------------
     @ManyToOne(targetEntity = HibernatePbSet.class)
     @JoinColumns({ //
-            @JoinColumn(name = "long_id", referencedColumnName = "id", insertable = false, updatable = false), //
+            @JoinColumn(name = "pb_id", referencedColumnName = "id", insertable = false, updatable = false), //
     })
     private HibernatePbSet pbSet;
 
     @ManyToOne(targetEntity = HibernateUser.class)
     @JoinColumns({ //
-            @JoinColumn(name = "string_id", referencedColumnName = "id", insertable = false, updatable = false), //
+            @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false), //
     })
     private HibernateUser user;
 

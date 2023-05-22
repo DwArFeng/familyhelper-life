@@ -31,6 +31,7 @@ public class PbRecordPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForItem(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {
@@ -46,6 +47,7 @@ public class PbRecordPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForItemRecordedDateAsc(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {
@@ -62,6 +64,7 @@ public class PbRecordPresetCriteriaMaker implements PresetCriteriaMaker {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private void childForItemRecordedDateDesc(DetachedCriteria detachedCriteria, Object[] objects) {
         try {
             if (Objects.isNull(objects[0])) {

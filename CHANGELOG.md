@@ -4,6 +4,29 @@
 
 #### 功能构建
 
+- 新增实体及其维护服务，单元测试通过。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.Activity。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityActivityDataRecordRelation。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityCoverInfo。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataItem。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataNode。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataRecord。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataSet。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityFileInfo。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityParticipant。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplate。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateActivityDataItemRelation。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateCoverInfo。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDriverInfo。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDriverSupport。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateFileInfo。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateParticipant。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTypeIndicator。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.Poac。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.Poad。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.Poat。
+  - com.dwarfeng.familyhelper.life.stack.bean.entity.Poatac。
+
 - Dubbo 微服务增加分组配置。
 
 - 使用 `MapStruct` 重构 `BeanTransformer`。
