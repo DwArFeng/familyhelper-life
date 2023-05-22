@@ -1,8 +1,10 @@
 package com.dwarfeng.familyhelper.life.sdk.bean.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dwarfeng.familyhelper.life.sdk.util.Constraints;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityDataSetCreateInfo;
 import com.dwarfeng.subgrade.stack.bean.dto.Dto;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,6 +37,7 @@ public class WebInputActivityDataSetCreateInfo implements Dto {
     private String name;
 
     @JSONField(name = "remark")
+    @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
 
     public WebInputActivityDataSetCreateInfo() {

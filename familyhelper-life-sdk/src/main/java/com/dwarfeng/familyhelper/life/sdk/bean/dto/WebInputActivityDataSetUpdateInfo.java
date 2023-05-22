@@ -1,6 +1,7 @@
 package com.dwarfeng.familyhelper.life.sdk.bean.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.dwarfeng.familyhelper.life.sdk.util.ValidPermissionLevel;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityDataSetUpdateInfo;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputLongIdKey;
 import com.dwarfeng.subgrade.stack.bean.dto.Dto;
@@ -43,6 +44,7 @@ public class WebInputActivityDataSetUpdateInfo implements Dto {
     private String name;
 
     @JSONField(name = "remark")
+    @ValidPermissionLevel
     private String remark;
 
     public WebInputActivityDataSetUpdateInfo() {

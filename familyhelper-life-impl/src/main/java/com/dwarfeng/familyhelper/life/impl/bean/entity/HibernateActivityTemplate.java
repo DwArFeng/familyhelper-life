@@ -16,7 +16,7 @@ import java.util.Set;
 public class HibernateActivityTemplate implements Bean {
 
     private static final long serialVersionUID = -2315133263879254785L;
-    
+
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
     @Column(name = "id", nullable = false, unique = true)

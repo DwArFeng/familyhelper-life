@@ -36,6 +36,8 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(ActivityDataSetNotIdenticalException.class, ServiceExceptionCodes.ACTIVITY_DATA_SET_NOT_IDENTICAL);
         destination.put(ActivityDataItemNotExistsException.class, ServiceExceptionCodes.ACTIVITY_DATA_ITEM_NOT_EXISTS);
         destination.put(IllegalActivityDataItemStateException.class, ServiceExceptionCodes.ILLEGAL_ACTIVITY_DATA_ITEM_STATE);
+        destination.put(ActivityTemplateNotExistsException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_NOT_EXISTS);
+        destination.put(UserNotPermittedForActivityTemplateException.class, ServiceExceptionCodes.USER_NOT_PERMITTED_FOR_ACTIVITY_TEMPLATE);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
     }
 }

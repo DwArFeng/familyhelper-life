@@ -3,6 +3,7 @@ package com.dwarfeng.familyhelper.life.impl.handler;
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PoadKey;
+import com.dwarfeng.familyhelper.life.stack.bean.key.PoatKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
 import com.dwarfeng.familyhelper.life.stack.exception.*;
 import com.dwarfeng.familyhelper.life.stack.service.*;
@@ -37,6 +38,8 @@ public class HandlerValidator {
     private final ActivityDataSetMaintainService activityDataSetMaintainService;
     private final ActivityDataNodeMaintainService activityDataNodeMaintainService;
     private final ActivityDataItemMaintainService activityDataItemMaintainService;
+    private final ActivityTemplateMaintainService activityTemplateMaintainService;
+    private final PoatMaintainService poatMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -49,7 +52,9 @@ public class HandlerValidator {
             PoadMaintainService poadMaintainService,
             ActivityDataSetMaintainService activityDataSetMaintainService,
             ActivityDataNodeMaintainService activityDataNodeMaintainService,
-            ActivityDataItemMaintainService activityDataItemMaintainService
+            ActivityDataItemMaintainService activityDataItemMaintainService,
+            ActivityTemplateMaintainService activityTemplateMaintainService,
+            PoatMaintainService poatMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -62,6 +67,8 @@ public class HandlerValidator {
         this.activityDataSetMaintainService = activityDataSetMaintainService;
         this.activityDataNodeMaintainService = activityDataNodeMaintainService;
         this.activityDataItemMaintainService = activityDataItemMaintainService;
+        this.activityTemplateMaintainService = activityTemplateMaintainService;
+        this.poatMaintainService = poatMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -148,6 +155,16 @@ public class HandlerValidator {
         try {
             if (Objects.isNull(activityDataItemKey) || !activityDataItemMaintainService.exists(activityDataItemKey)) {
                 throw new ActivityDataItemNotExistsException(activityDataItemKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateExists(LongIdKey activityTemplateKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityTemplateKey) || !activityTemplateMaintainService.exists(activityTemplateKey)) {
+                throw new ActivityTemplateNotExistsException(activityTemplateKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -418,6 +435,28 @@ public class HandlerValidator {
                 return;
             }
             throw new UserNotPermittedForActivityDataSetException(userKey, activityDataSetKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForActivityTemplate(StringIdKey userKey, LongIdKey activityTemplateKey)
+            throws HandlerException {
+        try {
+            // 1. 构造 Poat 主键。
+            PoatKey poatKey = new PoatKey(activityTemplateKey.getLongId(), userKey.getStringId());
+
+            // 2. 查看 Poat 实体是否存在，如果不存在，则没有权限。
+            if (!poatMaintainService.exists(poatKey)) {
+                throw new UserNotPermittedForActivityTemplateException(userKey, activityTemplateKey);
+            }
+
+            // 3. 查看 Poat.permissionLevel 是否为 Poat.PERMISSION_LEVEL_OWNER，如果不是，则没有权限。
+            Poat poat = poatMaintainService.get(poatKey);
+            if (Objects.equals(poat.getPermissionLevel(), Constants.PERMISSION_LEVEL_OWNER)) {
+                return;
+            }
+            throw new UserNotPermittedForActivityTemplateException(userKey, activityTemplateKey);
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
