@@ -54,6 +54,10 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(190), "activity template not exists");
     public static final ServiceException.Code USER_NOT_PERMITTED_FOR_ACTIVITY_TEMPLATE =
             new ServiceException.Code(offset(200), "user not permitted for activity template");
+    public static final ServiceException.Code ACTIVITY_TEMPLATE_COVER_NOT_EXISTS =
+            new ServiceException.Code(offset(210), "activity template cover not exists");
+    public static final ServiceException.Code ILLEGAL_ACTIVITY_TEMPLATE_COVER_STATE =
+            new ServiceException.Code(offset(220), "illegal activity template cover state");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -99,6 +103,8 @@ public final class ServiceExceptionCodes {
         ILLEGAL_ACTIVITY_DATA_ITEM_STATE.setCode(offset(180));
         ACTIVITY_TEMPLATE_NOT_EXISTS.setCode(offset(190));
         USER_NOT_PERMITTED_FOR_ACTIVITY_TEMPLATE.setCode(offset(200));
+        ACTIVITY_TEMPLATE_COVER_NOT_EXISTS.setCode(offset(210));
+        ILLEGAL_ACTIVITY_TEMPLATE_COVER_STATE.setCode(offset(220));
     }
 
     private ServiceExceptionCodes() {

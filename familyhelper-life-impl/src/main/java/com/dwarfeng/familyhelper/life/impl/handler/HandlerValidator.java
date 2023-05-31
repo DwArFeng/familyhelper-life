@@ -13,6 +13,7 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -40,6 +41,7 @@ public class HandlerValidator {
     private final ActivityDataItemMaintainService activityDataItemMaintainService;
     private final ActivityTemplateMaintainService activityTemplateMaintainService;
     private final PoatMaintainService poatMaintainService;
+    private final ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -54,7 +56,8 @@ public class HandlerValidator {
             ActivityDataNodeMaintainService activityDataNodeMaintainService,
             ActivityDataItemMaintainService activityDataItemMaintainService,
             ActivityTemplateMaintainService activityTemplateMaintainService,
-            PoatMaintainService poatMaintainService
+            PoatMaintainService poatMaintainService,
+            ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -69,6 +72,7 @@ public class HandlerValidator {
         this.activityDataItemMaintainService = activityDataItemMaintainService;
         this.activityTemplateMaintainService = activityTemplateMaintainService;
         this.poatMaintainService = poatMaintainService;
+        this.activityTemplateCoverInfoMaintainService = activityTemplateCoverInfoMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -165,6 +169,16 @@ public class HandlerValidator {
         try {
             if (Objects.isNull(activityTemplateKey) || !activityTemplateMaintainService.exists(activityTemplateKey)) {
                 throw new ActivityTemplateNotExistsException(activityTemplateKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateCoverExists(LongIdKey activityTemplateCoverKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityTemplateCoverKey) || !activityTemplateCoverInfoMaintainService.exists(activityTemplateCoverKey)) {
+                throw new ActivityTemplateCoverNotExistsException(activityTemplateCoverKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -440,6 +454,34 @@ public class HandlerValidator {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
+    public void makeSureUserInspectPermittedForActivityTemplate(StringIdKey userKey, LongIdKey activityTemplateKey)
+            throws HandlerException {
+        try {
+            // 1. 构造 Poat 主键。
+            PoatKey poatKey = new PoatKey(activityTemplateKey.getLongId(), userKey.getStringId());
+
+            // 2. 查看 Poat 实体是否存在，如果不存在，则没有权限。
+            if (!poatMaintainService.exists(poatKey)) {
+                throw new UserNotPermittedForActivityTemplateException(userKey, activityTemplateKey);
+            }
+
+            // 3. 查看 Poat.permissionLevel 是否为 Poat.PERMISSION_LEVEL_OWNER 或 Poat.PERMISSION_LEVEL_GUEST，
+            // 如果不是，则没有权限。
+            Poat poat = poatMaintainService.get(poatKey);
+            if (Objects.equals(poat.getPermissionLevel(), Constants.PERMISSION_LEVEL_OWNER)) {
+                return;
+            }
+            if (Objects.equals(poat.getPermissionLevel(), Constants.PERMISSION_LEVEL_GUEST)) {
+                return;
+            }
+            throw new UserNotPermittedForActivityTemplateException(userKey, activityTemplateKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
     public void makeSureUserModifyPermittedForActivityTemplate(StringIdKey userKey, LongIdKey activityTemplateKey)
             throws HandlerException {
         try {
@@ -556,6 +598,28 @@ public class HandlerValidator {
             // 保证两者的 setKey 相等。
             if (!Objects.equals(nodeSetKey, itemSetKey)) {
                 throw new ActivityDataSetNotIdenticalException(nodeSetKey, itemSetKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateCoverHasSameActivityTemplate(List<LongIdKey> activityTemplateCoverKeys)
+            throws HandlerException {
+        try {
+            LongIdKey activityTemplateKey = activityTemplateCoverInfoMaintainService.get(
+                    activityTemplateCoverKeys.get(0)
+            ).getActivityTemplateKey();
+            if (Objects.isNull(activityTemplateKey)) {
+                throw new IllegalActivityTemplateCoverStateException(activityTemplateCoverKeys.get(0));
+            }
+            for (LongIdKey activityTemplateCoverKey : activityTemplateCoverKeys) {
+                LongIdKey anchorActivityTemplateKey = activityTemplateCoverInfoMaintainService.get(
+                        activityTemplateCoverKey
+                ).getActivityTemplateKey();
+                if (!Objects.equals(activityTemplateKey, anchorActivityTemplateKey)) {
+                    throw new IllegalActivityTemplateCoverStateException(activityTemplateCoverKey);
+                }
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);

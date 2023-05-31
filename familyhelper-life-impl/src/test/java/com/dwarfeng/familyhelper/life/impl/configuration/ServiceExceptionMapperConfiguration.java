@@ -38,6 +38,8 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(IllegalActivityDataItemStateException.class, ServiceExceptionCodes.ILLEGAL_ACTIVITY_DATA_ITEM_STATE);
         destination.put(ActivityTemplateNotExistsException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_NOT_EXISTS);
         destination.put(UserNotPermittedForActivityTemplateException.class, ServiceExceptionCodes.USER_NOT_PERMITTED_FOR_ACTIVITY_TEMPLATE);
+        destination.put(ActivityTemplateCoverNotExistsException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_COVER_NOT_EXISTS);
+        destination.put(IllegalActivityTemplateCoverStateException.class, ServiceExceptionCodes.ILLEGAL_ACTIVITY_TEMPLATE_COVER_STATE);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
     }
 }
