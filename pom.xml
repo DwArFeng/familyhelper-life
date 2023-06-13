@@ -33,7 +33,7 @@
         <commons-net.version>3.3</commons-net.version>
         <jedis.version>2.9.0</jedis.version>
         <hessian.version>4.0.38</hessian.version>
-        <jetty.version>9.4.12.v20180830</jetty.version>
+        <jetty.version>9.4.51.v20230217</jetty.version>
         <dubbo.version>2.7.15</dubbo.version>
         <netty.version>4.1.77.Final</netty.version>
         <curator.version>4.2.0</curator.version>
