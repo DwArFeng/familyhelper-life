@@ -14,6 +14,7 @@
   - com.dwarfeng.familyhelper.life.stack.service.ActivityDataItemOperateService。
   - com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateOperateService。
   - com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateCoverOperateService。
+  - com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateParticipantOperateService。
 
 - 新增实体及其维护服务，单元测试通过。
   - com.dwarfeng.familyhelper.life.stack.bean.entity.Activity。

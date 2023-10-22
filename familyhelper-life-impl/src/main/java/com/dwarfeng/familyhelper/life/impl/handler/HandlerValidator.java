@@ -2,6 +2,7 @@ package com.dwarfeng.familyhelper.life.impl.handler;
 
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
+import com.dwarfeng.familyhelper.life.stack.bean.key.ActivityTemplateParticipantKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PoadKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PoatKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
@@ -42,6 +43,7 @@ public class HandlerValidator {
     private final ActivityTemplateMaintainService activityTemplateMaintainService;
     private final PoatMaintainService poatMaintainService;
     private final ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService;
+    private final ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -57,7 +59,8 @@ public class HandlerValidator {
             ActivityDataItemMaintainService activityDataItemMaintainService,
             ActivityTemplateMaintainService activityTemplateMaintainService,
             PoatMaintainService poatMaintainService,
-            ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService
+            ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService,
+            ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -73,6 +76,7 @@ public class HandlerValidator {
         this.activityTemplateMaintainService = activityTemplateMaintainService;
         this.poatMaintainService = poatMaintainService;
         this.activityTemplateCoverInfoMaintainService = activityTemplateCoverInfoMaintainService;
+        this.activityTemplateParticipantMaintainService = activityTemplateParticipantMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -179,6 +183,32 @@ public class HandlerValidator {
         try {
             if (Objects.isNull(activityTemplateCoverKey) || !activityTemplateCoverInfoMaintainService.exists(activityTemplateCoverKey)) {
                 throw new ActivityTemplateCoverNotExistsException(activityTemplateCoverKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateParticipantNotExists(
+            ActivityTemplateParticipantKey activityTemplateParticipantKey
+    ) throws HandlerException {
+        try {
+            if (Objects.nonNull(activityTemplateParticipantKey) &&
+                    activityTemplateParticipantMaintainService.exists(activityTemplateParticipantKey)) {
+                throw new ActivityTemplateParticipantExistsException(activityTemplateParticipantKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateParticipantExists(
+            ActivityTemplateParticipantKey activityTemplateParticipantKey
+    ) throws HandlerException {
+        try {
+            if (Objects.isNull(activityTemplateParticipantKey) ||
+                    !activityTemplateParticipantMaintainService.exists(activityTemplateParticipantKey)) {
+                throw new ActivityTemplateParticipantNotExistsException(activityTemplateParticipantKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);

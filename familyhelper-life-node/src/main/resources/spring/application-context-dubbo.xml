@@ -193,6 +193,11 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateParticipantOperateService"
+            ref="activityTemplateParticipantOperateServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTypeIndicatorMaintainService"
             ref="activityTypeIndicatorMaintainServiceImpl"
             group="${dubbo.provider.group}"
