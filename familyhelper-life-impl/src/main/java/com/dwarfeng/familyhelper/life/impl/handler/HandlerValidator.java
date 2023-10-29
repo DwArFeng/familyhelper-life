@@ -44,6 +44,7 @@ public class HandlerValidator {
     private final PoatMaintainService poatMaintainService;
     private final ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService;
     private final ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService;
+    private final ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -60,7 +61,8 @@ public class HandlerValidator {
             ActivityTemplateMaintainService activityTemplateMaintainService,
             PoatMaintainService poatMaintainService,
             ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService,
-            ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService
+            ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService,
+            ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -77,6 +79,7 @@ public class HandlerValidator {
         this.poatMaintainService = poatMaintainService;
         this.activityTemplateCoverInfoMaintainService = activityTemplateCoverInfoMaintainService;
         this.activityTemplateParticipantMaintainService = activityTemplateParticipantMaintainService;
+        this.activityTemplateFileInfoMaintainService = activityTemplateFileInfoMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -209,6 +212,17 @@ public class HandlerValidator {
             if (Objects.isNull(activityTemplateParticipantKey) ||
                     !activityTemplateParticipantMaintainService.exists(activityTemplateParticipantKey)) {
                 throw new ActivityTemplateParticipantNotExistsException(activityTemplateParticipantKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateFileExists(LongIdKey activityTemplateFileKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityTemplateFileKey) ||
+                    !activityTemplateFileInfoMaintainService.exists(activityTemplateFileKey)) {
+                throw new ActivityTemplateFileNotExistsException(activityTemplateFileKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -529,6 +543,28 @@ public class HandlerValidator {
                 return;
             }
             throw new UserNotPermittedForActivityTemplateException(userKey, activityTemplateKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForActivityTemplateFileInfo(
+            StringIdKey userKey, LongIdKey activityTemplateFileInfoKey
+    ) throws HandlerException {
+        try {
+            // 确认 activityTemplateFileKey 对应的文件存在。
+            makeSureActivityTemplateFileExists(activityTemplateFileInfoKey);
+
+            // 查找指定的活动模板文件是否绑定活动模板，如果不绑定活动模板，则抛出活动模板文件状态异常。
+            ActivityTemplateFileInfo activityTemplateFileInfo = activityTemplateFileInfoMaintainService.get(
+                    activityTemplateFileInfoKey
+            );
+            if (Objects.isNull(activityTemplateFileInfo.getActivityTemplateKey())) {
+                throw new IllegalActivityTemplateFileStateException(activityTemplateFileInfoKey);
+            }
+
+            // 取出活动模板文件的活动模板外键，判断用户是否拥有该活动模板的权限。
+            makeSureUserModifyPermittedForActivityTemplate(userKey, activityTemplateFileInfo.getActivityTemplateKey());
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
