@@ -4,6 +4,8 @@
 
 #### 功能构建
 
+- 优化 Ftp 常量类以及 FtpHandler 调用方式。
+
 - 增加预设查询。
   - PbItemMaintainService.CHILD_FOR_SET_NAME_LIKE。
   - PbNodeMaintainService.CHILD_FOR_SET_NAME_LIKE。

@@ -60,7 +60,7 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
             // 下载活动模板封面。
             byte[] content = ftpHandler.retrieveFile(
-                    new String[]{FtpConstants.PATH_ACTIVITY_TEMPLATE_COVER}, getFileName(coverKey)
+                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(coverKey)
             );
 
             // 构造返回值并返回。
@@ -91,7 +91,7 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
             // 获取活动模板封面内容并存储（覆盖）。
             byte[] content = coverUploadInfo.getContent();
             ftpHandler.storeFile(
-                    new String[]{FtpConstants.PATH_ACTIVITY_TEMPLATE_COVER}, getFileName(activityTemplateCoverKey),
+                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(activityTemplateCoverKey),
                     content
             );
 
@@ -139,10 +139,10 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
             // 如果存在 ActivityTemplateCover 文件，则删除。
             if (ftpHandler.existsFile(
-                    new String[]{FtpConstants.PATH_ACTIVITY_TEMPLATE_COVER}, getFileName(coverKey)
+                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(coverKey)
             )) {
                 ftpHandler.deleteFile(
-                        new String[]{FtpConstants.PATH_ACTIVITY_TEMPLATE_COVER}, getFileName(coverKey)
+                        FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(coverKey)
                 );
             }
 

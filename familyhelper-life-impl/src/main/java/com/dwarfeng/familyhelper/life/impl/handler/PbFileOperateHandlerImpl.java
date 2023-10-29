@@ -51,8 +51,8 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
             handlerValidator.makeSureUserInspectPermittedForPbRecord(userKey, pbFileInfo.getRecordKey());
 
             // 4. 下载个人最佳文件。
-            byte[] content = ftpHandler.getFileContent(
-                    new String[]{FtpConstants.PATH_PB_FILE}, getFileName(pbFileKey)
+            byte[] content = ftpHandler.retrieveFile(
+                    FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey)
             );
 
             // 5. 更新文件的查看时间。
@@ -86,7 +86,7 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
 
             // 5. 个人最佳文件内容并存储（覆盖）。
             byte[] content = pbFileUploadInfo.getContent();
-            ftpHandler.storeFile(new String[]{FtpConstants.PATH_PB_FILE}, getFileName(pbFileKey), content);
+            ftpHandler.storeFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey), content);
 
             // 6. 根据 pbFileUploadInfo 构造 PbFileInfo，插入或更新。
             // 映射属性。
@@ -119,8 +119,8 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
             handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbFileInfo.getRecordKey());
 
             // 4. 如果存在 PbFile 文件，则删除。
-            if (ftpHandler.existsFile(new String[]{FtpConstants.PATH_PB_FILE}, getFileName(pbFileKey))) {
-                ftpHandler.deleteFile(new String[]{FtpConstants.PATH_PB_FILE}, getFileName(pbFileKey));
+            if (ftpHandler.existsFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey))) {
+                ftpHandler.deleteFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey));
             }
 
             // 5. 如果存在 PbFileInfo 实体，则删除。
