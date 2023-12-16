@@ -162,6 +162,11 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateDataInfoOperateService"
+            ref="activityTemplateDataInfoOperateServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateCoverOperateService"
             ref="activityTemplateCoverOperateServiceImpl"
             protocol="hessian"

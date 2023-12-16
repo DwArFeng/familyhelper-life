@@ -42,6 +42,7 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(IllegalActivityTemplateCoverStateException.class, ServiceExceptionCodes.ILLEGAL_ACTIVITY_TEMPLATE_COVER_STATE);
         destination.put(ActivityTemplateParticipantExistsException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_PARTICIPANT_EXISTS);
         destination.put(ActivityTemplateParticipantNotExistsException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_PARTICIPANT_NOT_EXISTS);
+        destination.put(ActivityTemplateDataInfoNotExistsException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_DATA_INFO_NOT_EXISTS);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINE);
     }
 }

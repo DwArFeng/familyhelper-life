@@ -45,6 +45,7 @@ public class HandlerValidator {
     private final ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService;
     private final ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService;
     private final ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService;
+    private final ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -62,7 +63,8 @@ public class HandlerValidator {
             PoatMaintainService poatMaintainService,
             ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService,
             ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService,
-            ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService
+            ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService,
+            ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -80,6 +82,7 @@ public class HandlerValidator {
         this.activityTemplateCoverInfoMaintainService = activityTemplateCoverInfoMaintainService;
         this.activityTemplateParticipantMaintainService = activityTemplateParticipantMaintainService;
         this.activityTemplateFileInfoMaintainService = activityTemplateFileInfoMaintainService;
+        this.activityTemplateDataInfoMaintainService = activityTemplateDataInfoMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -686,6 +689,17 @@ public class HandlerValidator {
                 if (!Objects.equals(activityTemplateKey, anchorActivityTemplateKey)) {
                     throw new IllegalActivityTemplateCoverStateException(activityTemplateCoverKey);
                 }
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateDataInfoExists(LongIdKey activityTemplateDataInfoKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityTemplateDataInfoKey) ||
+                    !activityTemplateDataInfoMaintainService.exists(activityTemplateDataInfoKey)) {
+                throw new ActivityTemplateDataInfoNotExistsException(activityTemplateDataInfoKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
