@@ -2,7 +2,6 @@ package com.dwarfeng.familyhelper.life.impl.service.operation;
 
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
 import com.dwarfeng.familyhelper.life.stack.bean.key.ActivityParticipantKey;
-import com.dwarfeng.familyhelper.life.stack.bean.key.LongLongRelationKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PoacKey;
 import com.dwarfeng.familyhelper.life.stack.cache.*;
 import com.dwarfeng.familyhelper.life.stack.dao.*;
@@ -32,8 +31,8 @@ public class ActivityCrudOperation implements BatchCrudOperation<LongIdKey, Acti
     private final ActivityFileInfoDao activityFileInfoDao;
     private final ActivityFileInfoCache activityFileInfoCache;
 
-    private final ActivityActivityDataRecordRelationDao activityActivityDataRecordRelationDao;
-    private final ActivityActivityDataRecordRelationCache activityActivityDataRecordRelationCache;
+    private final ActivityDataRecordDao activityDataRecordDao;
+    private final ActivityDataRecordCache activityDataRecordCache;
 
     private final PoacDao poacDao;
     private final PoacCache poacCache;
@@ -42,13 +41,18 @@ public class ActivityCrudOperation implements BatchCrudOperation<LongIdKey, Acti
     private long activityTimeout;
 
     public ActivityCrudOperation(
-            ActivityDao ActivityDao, ActivityCache ActivityCache,
-            ActivityParticipantDao activityParticipantDao, ActivityParticipantCache activityParticipantCache,
-            ActivityCoverInfoDao activityCoverInfoDao, ActivityCoverInfoCache activityCoverInfoCache,
-            ActivityFileInfoDao activityFileInfoDao, ActivityFileInfoCache activityFileInfoCache,
-            ActivityActivityDataRecordRelationDao activityActivityDataRecordRelationDao,
-            ActivityActivityDataRecordRelationCache activityActivityDataRecordRelationCache,
-            PoacDao poacDao, PoacCache poacCache
+            ActivityDao ActivityDao,
+            ActivityCache ActivityCache,
+            ActivityParticipantDao activityParticipantDao,
+            ActivityParticipantCache activityParticipantCache,
+            ActivityCoverInfoDao activityCoverInfoDao,
+            ActivityCoverInfoCache activityCoverInfoCache,
+            ActivityFileInfoDao activityFileInfoDao,
+            ActivityFileInfoCache activityFileInfoCache,
+            ActivityDataRecordDao activityDataRecordDao,
+            ActivityDataRecordCache activityDataRecordCache,
+            PoacDao poacDao,
+            PoacCache poacCache
     ) {
         this.activityDao = ActivityDao;
         this.activityCache = ActivityCache;
@@ -58,8 +62,8 @@ public class ActivityCrudOperation implements BatchCrudOperation<LongIdKey, Acti
         this.activityCoverInfoCache = activityCoverInfoCache;
         this.activityFileInfoDao = activityFileInfoDao;
         this.activityFileInfoCache = activityFileInfoCache;
-        this.activityActivityDataRecordRelationDao = activityActivityDataRecordRelationDao;
-        this.activityActivityDataRecordRelationCache = activityActivityDataRecordRelationCache;
+        this.activityDataRecordDao = activityDataRecordDao;
+        this.activityDataRecordCache = activityDataRecordCache;
         this.poacDao = poacDao;
         this.poacCache = poacCache;
     }
@@ -97,14 +101,14 @@ public class ActivityCrudOperation implements BatchCrudOperation<LongIdKey, Acti
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 查找删除除所有相关的活动参与者。
+        // 查找删除所有相关的活动参与者。
         List<ActivityParticipantKey> activityParticipantKeys = activityParticipantDao.lookup(
                 ActivityParticipantMaintainService.CHILD_FOR_ACTIVITY, new Object[]{key}
         ).stream().map(ActivityParticipant::getKey).collect(Collectors.toList());
         activityParticipantCache.batchDelete(activityParticipantKeys);
         activityParticipantDao.batchDelete(activityParticipantKeys);
 
-        // 查找删除除所有相关的活动封面信息。
+        // 查找删除所有相关的活动封面信息。
         List<LongIdKey> activityCoverInfoKeys = activityCoverInfoDao.lookup(
                 ActivityCoverInfoMaintainService.CHILD_FOR_ACTIVITY, new Object[]{key}
         ).stream().map(ActivityCoverInfo::getKey).collect(Collectors.toList());
@@ -112,7 +116,7 @@ public class ActivityCrudOperation implements BatchCrudOperation<LongIdKey, Acti
         activityCoverInfoDao.batchDelete(activityCoverInfoKeys);
         // TODO 文件删除。
 
-        // 查找删除除所有相关的活动文件信息。
+        // 查找删除所有相关的活动文件信息。
         List<LongIdKey> activityFileInfoKeys = activityFileInfoDao.lookup(
                 ActivityFileInfoMaintainService.CHILD_FOR_ACTIVITY, new Object[]{key}
         ).stream().map(ActivityFileInfo::getKey).collect(Collectors.toList());
@@ -120,14 +124,15 @@ public class ActivityCrudOperation implements BatchCrudOperation<LongIdKey, Acti
         activityFileInfoDao.batchDelete(activityFileInfoKeys);
         // TODO 文件删除。
 
-        // 查找删除除所有相关的活动活动数据记录关联。
-        List<LongLongRelationKey> activityActivityDataRecordRelationKeys = activityActivityDataRecordRelationDao.lookup(
-                ActivityActivityDataRecordRelationMaintainService.CHILD_FOR_ACTIVITY, new Object[]{key}
-        ).stream().map(ActivityActivityDataRecordRelation::getKey).collect(Collectors.toList());
-        activityActivityDataRecordRelationCache.batchDelete(activityActivityDataRecordRelationKeys);
-        activityActivityDataRecordRelationDao.batchDelete(activityActivityDataRecordRelationKeys);
+        // 查找删除所有相关的活动数据记录。
+        List<LongIdKey> activityDataRecordKeys = activityDataRecordDao.lookup(
+                ActivityDataRecordMaintainService.CHILD_FOR_ACTIVITY, new Object[]{key}
+        ).stream().map(ActivityDataRecord::getKey).collect(Collectors.toList());
+        activityDataRecordCache.batchDelete(activityDataRecordKeys);
+        activityDataRecordDao.batchDelete(activityDataRecordKeys);
+        // TODO 更新统计信息。
 
-        // 查找删除除所有相关的活动权限。
+        // 查找删除所有相关的活动权限。
         List<PoacKey> poacKeys = poacDao.lookup(
                 PoacMaintainService.CHILD_FOR_ACTIVITY, new Object[]{key}
         ).stream().map(Poac::getKey).collect(Collectors.toList());

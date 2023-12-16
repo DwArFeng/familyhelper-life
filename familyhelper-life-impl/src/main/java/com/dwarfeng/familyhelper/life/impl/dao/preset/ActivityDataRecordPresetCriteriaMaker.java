@@ -26,6 +26,15 @@ public class ActivityDataRecordPresetCriteriaMaker implements PresetCriteriaMake
             case ActivityDataRecordMaintainService.CHILD_FOR_ITEM_RECORDED_DATE_DESC:
                 childForItemRecordedDateDesc(detachedCriteria, objects);
                 break;
+            case ActivityDataRecordMaintainService.CHILD_FOR_ACTIVITY:
+                childForActivity(detachedCriteria, objects);
+                break;
+            case ActivityDataRecordMaintainService.CHILD_FOR_ACTIVITY_RECORDED_DATE_ASC:
+                childForActivityRecordedDateAsc(detachedCriteria, objects);
+                break;
+            case ActivityDataRecordMaintainService.CHILD_FOR_ACTIVITY_RECORDED_DATE_DESC:
+                childForActivityRecordedDateDesc(detachedCriteria, objects);
+                break;
             default:
                 throw new IllegalArgumentException("无法识别的预设: " + s);
         }
@@ -73,6 +82,54 @@ public class ActivityDataRecordPresetCriteriaMaker implements PresetCriteriaMake
                 LongIdKey longIdKey = (LongIdKey) objects[0];
                 detachedCriteria.add(
                         Restrictions.eqOrIsNull("itemLongId", longIdKey.getLongId())
+                );
+            }
+            detachedCriteria.addOrder(Order.desc("recordedDate"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    private void childForActivity(DetachedCriteria detachedCriteria, Object[] objects) {
+        try {
+            if (Objects.isNull(objects[0])) {
+                detachedCriteria.add(Restrictions.isNull("activityLongId"));
+            } else {
+                LongIdKey longIdKey = (LongIdKey) objects[0];
+                detachedCriteria.add(
+                        Restrictions.eqOrIsNull("activityLongId", longIdKey.getLongId())
+                );
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
+        }
+    }
+
+    private void childForActivityRecordedDateAsc(DetachedCriteria detachedCriteria, Object[] objects) {
+        try {
+            if (Objects.isNull(objects[0])) {
+                detachedCriteria.add(Restrictions.isNull("activityLongId"));
+            } else {
+                LongIdKey longIdKey = (LongIdKey) objects[0];
+                detachedCriteria.add(
+                        Restrictions.eqOrIsNull("activityLongId", longIdKey.getLongId())
+                );
+            }
+            detachedCriteria.addOrder(Order.asc("recordedDate"));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("非法的参数:" + Arrays.toString(objects));
+        }
+    }
+
+    private void childForActivityRecordedDateDesc(DetachedCriteria detachedCriteria, Object[] objects) {
+        try {
+            if (Objects.isNull(objects[0])) {
+                detachedCriteria.add(Restrictions.isNull("activityLongId"));
+            } else {
+                LongIdKey longIdKey = (LongIdKey) objects[0];
+                detachedCriteria.add(
+                        Restrictions.eqOrIsNull("activityLongId", longIdKey.getLongId())
                 );
             }
             detachedCriteria.addOrder(Order.desc("recordedDate"));

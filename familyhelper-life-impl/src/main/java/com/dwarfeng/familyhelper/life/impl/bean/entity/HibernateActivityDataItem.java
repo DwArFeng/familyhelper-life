@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "tbl_activity_data_item")
 public class HibernateActivityDataItem implements Bean {
 
-    private static final long serialVersionUID = -5375036358497735056L;
+    private static final long serialVersionUID = 129495613145125818L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -78,8 +78,8 @@ public class HibernateActivityDataItem implements Bean {
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityDataRecord.class, mappedBy = "activityDataItem")
     private Set<HibernateActivityDataRecord> records = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityTemplateActivityDataItemRelation.class, mappedBy = "activityDataItem")
-    private Set<HibernateActivityTemplateActivityDataItemRelation> activityTemplateActivityDataItemRelations = new HashSet<>();
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityTemplateDataInfo.class, mappedBy = "activityDataItem")
+    private Set<HibernateActivityTemplateDataInfo> activityTemplateDataInfos = new HashSet<>();
 
     public HibernateActivityDataItem() {
     }
@@ -236,6 +236,14 @@ public class HibernateActivityDataItem implements Bean {
 
     public void setRecords(Set<HibernateActivityDataRecord> records) {
         this.records = records;
+    }
+
+    public Set<HibernateActivityTemplateDataInfo> getActivityTemplateDataInfos() {
+        return activityTemplateDataInfos;
+    }
+
+    public void setActivityTemplateDataInfos(Set<HibernateActivityTemplateDataInfo> activityTemplateDataInfos) {
+        this.activityTemplateDataInfos = activityTemplateDataInfos;
     }
 
     @Override

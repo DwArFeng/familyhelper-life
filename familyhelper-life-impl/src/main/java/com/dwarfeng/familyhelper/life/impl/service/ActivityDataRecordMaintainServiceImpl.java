@@ -2,9 +2,9 @@ package com.dwarfeng.familyhelper.life.impl.service;
 
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataRecord;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataRecordMaintainService;
-import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
+import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
@@ -19,12 +19,12 @@ import java.util.List;
 @Service
 public class ActivityDataRecordMaintainServiceImpl implements ActivityDataRecordMaintainService {
 
-    private final CustomBatchCrudService<LongIdKey, ActivityDataRecord> crudService;
+    private final GeneralBatchCrudService<LongIdKey, ActivityDataRecord> crudService;
     private final DaoOnlyEntireLookupService<ActivityDataRecord> entireLookupService;
     private final DaoOnlyPresetLookupService<ActivityDataRecord> presetLookupService;
 
     public ActivityDataRecordMaintainServiceImpl(
-            CustomBatchCrudService<LongIdKey, ActivityDataRecord> crudService,
+            GeneralBatchCrudService<LongIdKey, ActivityDataRecord> crudService,
             DaoOnlyEntireLookupService<ActivityDataRecord> entireLookupService,
             DaoOnlyPresetLookupService<ActivityDataRecord> presetLookupService
     ) {

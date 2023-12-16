@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tbl_activity_template")
 public class HibernateActivityTemplate implements Bean {
 
-    private static final long serialVersionUID = -2315133263879254785L;
+    private static final long serialVersionUID = -1987093679535821065L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -73,9 +73,6 @@ public class HibernateActivityTemplate implements Bean {
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityTemplateFileInfo.class, mappedBy = "activityTemplate")
     private Set<HibernateActivityTemplateFileInfo> activityTemplateFileInfos = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityTemplateActivityDataItemRelation.class, mappedBy = "activityTemplate")
-    private Set<HibernateActivityTemplateActivityDataItemRelation> activityTemplateActivityDataItemRelations = new HashSet<>();
-
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePoat.class, mappedBy = "activityTemplate")
     private Set<HibernatePoat> poats = new HashSet<>();
 
@@ -84,6 +81,9 @@ public class HibernateActivityTemplate implements Bean {
 
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityTemplateDriverInfo.class, mappedBy = "activityTemplate")
     private Set<HibernateActivityTemplateDriverInfo> activityTemplateDriverInfos = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityTemplateDataInfo.class, mappedBy = "activityTemplate")
+    private Set<HibernateActivityTemplateDataInfo> activityTemplateDataInfos = new HashSet<>();
 
     public HibernateActivityTemplate() {
     }
@@ -226,14 +226,6 @@ public class HibernateActivityTemplate implements Bean {
         this.activityTemplateFileInfos = activityTemplateFileInfos;
     }
 
-    public Set<HibernateActivityTemplateActivityDataItemRelation> getActivityTemplateActivityDataItemRelations() {
-        return activityTemplateActivityDataItemRelations;
-    }
-
-    public void setActivityTemplateActivityDataItemRelations(Set<HibernateActivityTemplateActivityDataItemRelation> activityTemplateActivityDataItemRelations) {
-        this.activityTemplateActivityDataItemRelations = activityTemplateActivityDataItemRelations;
-    }
-
     public Set<HibernatePoat> getPoats() {
         return poats;
     }
@@ -256,6 +248,14 @@ public class HibernateActivityTemplate implements Bean {
 
     public void setActivityTemplateDriverInfos(Set<HibernateActivityTemplateDriverInfo> activityTemplateDriverInfos) {
         this.activityTemplateDriverInfos = activityTemplateDriverInfos;
+    }
+
+    public Set<HibernateActivityTemplateDataInfo> getActivityTemplateDataInfos() {
+        return activityTemplateDataInfos;
+    }
+
+    public void setActivityTemplateDataInfos(Set<HibernateActivityTemplateDataInfo> activityTemplateDataInfos) {
+        this.activityTemplateDataInfos = activityTemplateDataInfos;
     }
 
     @Override

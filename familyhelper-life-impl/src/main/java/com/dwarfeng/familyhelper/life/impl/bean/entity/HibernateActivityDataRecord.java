@@ -7,16 +7,14 @@ import com.dwarfeng.subgrade.stack.bean.Bean;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @Entity
 @IdClass(HibernateLongIdKey.class)
 @Table(name = "tbl_activity_data_record")
 public class HibernateActivityDataRecord implements Bean {
 
-    private static final long serialVersionUID = 9158782741297857199L;
+    private static final long serialVersionUID = -8776684050676943478L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -26,6 +24,9 @@ public class HibernateActivityDataRecord implements Bean {
     // -----------------------------------------------------------外键-----------------------------------------------------------
     @Column(name = "item_id")
     private Long itemLongId;
+
+    @Column(name = "activity_id")
+    private Long activityLongId;
 
     // -----------------------------------------------------------主属性字段-----------------------------------------------------------
     @Column(name = "value")
@@ -45,9 +46,11 @@ public class HibernateActivityDataRecord implements Bean {
     })
     private HibernateActivityDataItem activityDataItem;
 
-    // -----------------------------------------------------------一对多-----------------------------------------------------------
-    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityActivityDataRecordRelation.class, mappedBy = "activityDataRecord")
-    private Set<HibernateActivityActivityDataRecordRelation> activityActivityDataRecordRelations = new HashSet<>();
+    @ManyToOne(targetEntity = HibernateActivity.class)
+    @JoinColumns({ //
+            @JoinColumn(name = "activity_id", referencedColumnName = "id", insertable = false, updatable = false), //
+    })
+    private HibernateActivity activity;
 
     public HibernateActivityDataRecord() {
     }
@@ -69,6 +72,14 @@ public class HibernateActivityDataRecord implements Bean {
         this.itemLongId = Optional.ofNullable(idKey).map(HibernateLongIdKey::getLongId).orElse(null);
     }
 
+    public HibernateLongIdKey getActivityKey() {
+        return Optional.ofNullable(activityLongId).map(HibernateLongIdKey::new).orElse(null);
+    }
+
+    public void setActivityKey(HibernateLongIdKey idKey) {
+        this.activityLongId = Optional.ofNullable(idKey).map(HibernateLongIdKey::getLongId).orElse(null);
+    }
+
     // -----------------------------------------------------------常规属性区-----------------------------------------------------------
     public Long getLongId() {
         return longId;
@@ -84,6 +95,14 @@ public class HibernateActivityDataRecord implements Bean {
 
     public void setItemLongId(Long itemLongId) {
         this.itemLongId = itemLongId;
+    }
+
+    public Long getActivityLongId() {
+        return activityLongId;
+    }
+
+    public void setActivityLongId(Long activityLongId) {
+        this.activityLongId = activityLongId;
     }
 
     public BigDecimal getValue() {
@@ -118,12 +137,12 @@ public class HibernateActivityDataRecord implements Bean {
         this.activityDataItem = activityDataItem;
     }
 
-    public Set<HibernateActivityActivityDataRecordRelation> getActivityActivityDataRecordRelations() {
-        return activityActivityDataRecordRelations;
+    public HibernateActivity getActivity() {
+        return activity;
     }
 
-    public void setActivityActivityDataRecordRelations(Set<HibernateActivityActivityDataRecordRelation> activityActivityDataRecordRelations) {
-        this.activityActivityDataRecordRelations = activityActivityDataRecordRelations;
+    public void setActivity(HibernateActivity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -131,9 +150,11 @@ public class HibernateActivityDataRecord implements Bean {
         return getClass().getSimpleName() + "(" +
                 "longId = " + longId + ", " +
                 "itemLongId = " + itemLongId + ", " +
+                "activityLongId = " + activityLongId + ", " +
                 "value = " + value + ", " +
                 "recordedDate = " + recordedDate + ", " +
                 "remark = " + remark + ", " +
-                "activityDataItem = " + activityDataItem + ")";
+                "activityDataItem = " + activityDataItem + ", " +
+                "activity = " + activity + ")";
     }
 }

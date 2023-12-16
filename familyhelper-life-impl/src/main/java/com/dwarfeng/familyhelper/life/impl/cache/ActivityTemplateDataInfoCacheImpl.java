@@ -1,12 +1,12 @@
 package com.dwarfeng.familyhelper.life.impl.cache;
 
-import com.dwarfeng.familyhelper.life.sdk.bean.entity.FastJsonActivityTemplateActivityDataItemRelation;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateActivityDataItemRelation;
-import com.dwarfeng.familyhelper.life.stack.bean.key.LongLongRelationKey;
-import com.dwarfeng.familyhelper.life.stack.cache.ActivityTemplateActivityDataItemRelationCache;
+import com.dwarfeng.familyhelper.life.sdk.bean.entity.FastJsonActivityTemplateDataInfo;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDataInfo;
+import com.dwarfeng.familyhelper.life.stack.cache.ActivityTemplateDataInfoCache;
 import com.dwarfeng.subgrade.impl.cache.RedisBatchBaseCache;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
+import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.CacheException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class ActivityTemplateActivityDataItemRelationCacheImpl implements
-        ActivityTemplateActivityDataItemRelationCache {
+public class ActivityTemplateDataInfoCacheImpl implements ActivityTemplateDataInfoCache {
 
-    private final RedisBatchBaseCache<LongLongRelationKey, ActivityTemplateActivityDataItemRelation,
-            FastJsonActivityTemplateActivityDataItemRelation> batchBaseCache;
+    private final RedisBatchBaseCache<LongIdKey, ActivityTemplateDataInfo, FastJsonActivityTemplateDataInfo>
+            batchBaseCache;
 
-    public ActivityTemplateActivityDataItemRelationCacheImpl(
-            RedisBatchBaseCache<LongLongRelationKey, ActivityTemplateActivityDataItemRelation,
-                    FastJsonActivityTemplateActivityDataItemRelation> batchBaseCache
+    public ActivityTemplateDataInfoCacheImpl(
+            RedisBatchBaseCache<LongIdKey, ActivityTemplateDataInfo, FastJsonActivityTemplateDataInfo> batchBaseCache
     ) {
         this.batchBaseCache = batchBaseCache;
     }
@@ -30,28 +28,28 @@ public class ActivityTemplateActivityDataItemRelationCacheImpl implements
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(LongLongRelationKey key) throws CacheException {
+    public boolean exists(LongIdKey key) throws CacheException {
         return batchBaseCache.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public ActivityTemplateActivityDataItemRelation get(LongLongRelationKey key) throws CacheException {
+    public ActivityTemplateDataInfo get(LongIdKey key) throws CacheException {
         return batchBaseCache.get(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void push(ActivityTemplateActivityDataItemRelation value, long timeout) throws CacheException {
+    public void push(ActivityTemplateDataInfo value, long timeout) throws CacheException {
         batchBaseCache.push(value, timeout);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(LongLongRelationKey key) throws CacheException {
+    public void delete(LongIdKey key) throws CacheException {
         batchBaseCache.delete(key);
     }
 
@@ -65,14 +63,14 @@ public class ActivityTemplateActivityDataItemRelationCacheImpl implements
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<LongLongRelationKey> keys) throws CacheException {
+    public boolean allExists(@SkipRecord List<LongIdKey> keys) throws CacheException {
         return batchBaseCache.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<LongLongRelationKey> keys) throws CacheException {
+    public boolean nonExists(@SkipRecord List<LongIdKey> keys) throws CacheException {
         return batchBaseCache.nonExists(keys);
     }
 
@@ -80,21 +78,21 @@ public class ActivityTemplateActivityDataItemRelationCacheImpl implements
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityTemplateActivityDataItemRelation> batchGet(@SkipRecord List<LongLongRelationKey> keys) throws CacheException {
+    public List<ActivityTemplateDataInfo> batchGet(@SkipRecord List<LongIdKey> keys) throws CacheException {
         return batchBaseCache.batchGet(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchPush(@SkipRecord List<ActivityTemplateActivityDataItemRelation> entities, long timeout) throws CacheException {
+    public void batchPush(@SkipRecord List<ActivityTemplateDataInfo> entities, long timeout) throws CacheException {
         batchBaseCache.batchPush(entities, timeout);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<LongLongRelationKey> keys) throws CacheException {
+    public void batchDelete(@SkipRecord List<LongIdKey> keys) throws CacheException {
         batchBaseCache.batchDelete(keys);
     }
 }

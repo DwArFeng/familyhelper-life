@@ -17,7 +17,7 @@ import java.util.Objects;
  */
 public class JSFixedFastJsonActivityDataRecord implements Bean {
 
-    private static final long serialVersionUID = -5896176138317602291L;
+    private static final long serialVersionUID = -1935324859042229110L;
 
     public static JSFixedFastJsonActivityDataRecord of(ActivityDataRecord activityDataRecord) {
         if (Objects.isNull(activityDataRecord)) {
@@ -25,8 +25,11 @@ public class JSFixedFastJsonActivityDataRecord implements Bean {
         } else {
             return new JSFixedFastJsonActivityDataRecord(
                     JSFixedFastJsonLongIdKey.of(activityDataRecord.getKey()),
-                    JSFixedFastJsonLongIdKey.of(activityDataRecord.getItemKey()),
-                    activityDataRecord.getValue(), activityDataRecord.getRecordedDate(), activityDataRecord.getRemark()
+                    JSFixedFastJsonLongIdKey.of(activityDataRecord.getActivityKey()),
+                    JSFixedFastJsonLongIdKey.of(activityDataRecord.getActivityKey()),
+                    activityDataRecord.getValue(),
+                    activityDataRecord.getRecordedDate(),
+                    activityDataRecord.getRemark()
             );
         }
     }
@@ -37,23 +40,28 @@ public class JSFixedFastJsonActivityDataRecord implements Bean {
     @JSONField(name = "item_key", ordinal = 2)
     private JSFixedFastJsonLongIdKey itemKey;
 
-    @JSONField(name = "value", ordinal = 3)
+    @JSONField(name = "activity_key", ordinal = 3)
+    private JSFixedFastJsonLongIdKey activityKey;
+
+    @JSONField(name = "value", ordinal = 4)
     private BigDecimal value;
 
-    @JSONField(name = "recorded_date", ordinal = 4)
+    @JSONField(name = "recorded_date", ordinal = 5)
     private Date recordedDate;
 
-    @JSONField(name = "remark", ordinal = 5)
+    @JSONField(name = "remark", ordinal = 6)
     private String remark;
 
     public JSFixedFastJsonActivityDataRecord() {
     }
 
     public JSFixedFastJsonActivityDataRecord(
-            JSFixedFastJsonLongIdKey key, JSFixedFastJsonLongIdKey itemKey, BigDecimal value, Date recordedDate, String remark
+            JSFixedFastJsonLongIdKey key, JSFixedFastJsonLongIdKey itemKey, JSFixedFastJsonLongIdKey activityKey,
+            BigDecimal value, Date recordedDate, String remark
     ) {
         this.key = key;
         this.itemKey = itemKey;
+        this.activityKey = activityKey;
         this.value = value;
         this.recordedDate = recordedDate;
         this.remark = remark;
@@ -73,6 +81,14 @@ public class JSFixedFastJsonActivityDataRecord implements Bean {
 
     public void setItemKey(JSFixedFastJsonLongIdKey itemKey) {
         this.itemKey = itemKey;
+    }
+
+    public JSFixedFastJsonLongIdKey getActivityKey() {
+        return activityKey;
+    }
+
+    public void setActivityKey(JSFixedFastJsonLongIdKey activityKey) {
+        this.activityKey = activityKey;
     }
 
     public BigDecimal getValue() {
@@ -104,6 +120,7 @@ public class JSFixedFastJsonActivityDataRecord implements Bean {
         return "JSFixedFastJsonActivityDataRecord{" +
                 "key=" + key +
                 ", itemKey=" + itemKey +
+                ", activityKey=" + activityKey +
                 ", value=" + value +
                 ", recordedDate=" + recordedDate +
                 ", remark='" + remark + '\'' +

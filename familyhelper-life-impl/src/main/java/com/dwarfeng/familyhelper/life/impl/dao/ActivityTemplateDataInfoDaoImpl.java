@@ -1,16 +1,16 @@
 package com.dwarfeng.familyhelper.life.impl.dao;
 
-import com.dwarfeng.familyhelper.life.impl.bean.entity.HibernateActivityActivityDataRecordRelation;
-import com.dwarfeng.familyhelper.life.impl.bean.key.HibernateLongLongRelationKey;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityActivityDataRecordRelation;
-import com.dwarfeng.familyhelper.life.stack.bean.key.LongLongRelationKey;
-import com.dwarfeng.familyhelper.life.stack.dao.ActivityActivityDataRecordRelationDao;
+import com.dwarfeng.familyhelper.life.impl.bean.entity.HibernateActivityTemplateDataInfo;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDataInfo;
+import com.dwarfeng.familyhelper.life.stack.dao.ActivityTemplateDataInfoDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateBatchBaseDao;
 import com.dwarfeng.subgrade.impl.dao.HibernateEntireLookupDao;
 import com.dwarfeng.subgrade.impl.dao.HibernatePresetLookupDao;
+import com.dwarfeng.subgrade.sdk.bean.key.HibernateLongIdKey;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
+import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.exception.DaoException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,23 +18,20 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivityDataRecordRelationDao {
+public class ActivityTemplateDataInfoDaoImpl implements ActivityTemplateDataInfoDao {
 
-    private final HibernateBatchBaseDao<LongLongRelationKey, HibernateLongLongRelationKey,
-            ActivityActivityDataRecordRelation, HibernateActivityActivityDataRecordRelation>
-            batchBaseDao;
-    private final HibernateEntireLookupDao<ActivityActivityDataRecordRelation,
-            HibernateActivityActivityDataRecordRelation> entireLookupDao;
-    private final HibernatePresetLookupDao<ActivityActivityDataRecordRelation,
-            HibernateActivityActivityDataRecordRelation> presetLookupDao;
+    private final HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, ActivityTemplateDataInfo,
+            HibernateActivityTemplateDataInfo> batchBaseDao;
+    private final HibernateEntireLookupDao<ActivityTemplateDataInfo, HibernateActivityTemplateDataInfo>
+            entireLookupDao;
+    private final HibernatePresetLookupDao<ActivityTemplateDataInfo, HibernateActivityTemplateDataInfo>
+            presetLookupDao;
 
-    public ActivityActivityDataRecordRelationDaoImpl(
-            HibernateBatchBaseDao<LongLongRelationKey, HibernateLongLongRelationKey, ActivityActivityDataRecordRelation,
-                    HibernateActivityActivityDataRecordRelation> batchBaseDao,
-            HibernateEntireLookupDao<ActivityActivityDataRecordRelation, HibernateActivityActivityDataRecordRelation>
-                    entireLookupDao,
-            HibernatePresetLookupDao<ActivityActivityDataRecordRelation, HibernateActivityActivityDataRecordRelation>
-                    presetLookupDao
+    public ActivityTemplateDataInfoDaoImpl(
+            HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, ActivityTemplateDataInfo,
+                    HibernateActivityTemplateDataInfo> batchBaseDao,
+            HibernateEntireLookupDao<ActivityTemplateDataInfo, HibernateActivityTemplateDataInfo> entireLookupDao,
+            HibernatePresetLookupDao<ActivityTemplateDataInfo, HibernateActivityTemplateDataInfo> presetLookupDao
     ) {
         this.batchBaseDao = batchBaseDao;
         this.entireLookupDao = entireLookupDao;
@@ -44,35 +41,35 @@ public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivi
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public LongLongRelationKey insert(ActivityActivityDataRecordRelation element) throws DaoException {
+    public LongIdKey insert(ActivityTemplateDataInfo element) throws DaoException {
         return batchBaseDao.insert(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void update(ActivityActivityDataRecordRelation element) throws DaoException {
+    public void update(ActivityTemplateDataInfo element) throws DaoException {
         batchBaseDao.update(element);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void delete(LongLongRelationKey key) throws DaoException {
+    public void delete(LongIdKey key) throws DaoException {
         batchBaseDao.delete(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean exists(LongLongRelationKey key) throws DaoException {
+    public boolean exists(LongIdKey key) throws DaoException {
         return batchBaseDao.exists(key);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public ActivityActivityDataRecordRelation get(LongLongRelationKey key) throws DaoException {
+    public ActivityTemplateDataInfo get(LongIdKey key) throws DaoException {
         return batchBaseDao.get(key);
     }
 
@@ -80,35 +77,35 @@ public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivi
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongLongRelationKey> batchInsert(@SkipRecord List<ActivityActivityDataRecordRelation> elements) throws DaoException {
+    public List<LongIdKey> batchInsert(@SkipRecord List<ActivityTemplateDataInfo> elements) throws DaoException {
         return batchBaseDao.batchInsert(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchUpdate(@SkipRecord List<ActivityActivityDataRecordRelation> elements) throws DaoException {
+    public void batchUpdate(@SkipRecord List<ActivityTemplateDataInfo> elements) throws DaoException {
         batchBaseDao.batchUpdate(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public void batchDelete(@SkipRecord List<LongLongRelationKey> keys) throws DaoException {
+    public void batchDelete(@SkipRecord List<LongIdKey> keys) throws DaoException {
         batchBaseDao.batchDelete(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean allExists(@SkipRecord List<LongLongRelationKey> keys) throws DaoException {
+    public boolean allExists(@SkipRecord List<LongIdKey> keys) throws DaoException {
         return batchBaseDao.allExists(keys);
     }
 
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public boolean nonExists(@SkipRecord List<LongLongRelationKey> keys) throws DaoException {
+    public boolean nonExists(@SkipRecord List<LongIdKey> keys) throws DaoException {
         return batchBaseDao.nonExists(keys);
     }
 
@@ -116,7 +113,7 @@ public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivi
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityActivityDataRecordRelation> batchGet(@SkipRecord List<LongLongRelationKey> keys) throws DaoException {
+    public List<ActivityTemplateDataInfo> batchGet(@SkipRecord List<LongIdKey> keys) throws DaoException {
         return batchBaseDao.batchGet(keys);
     }
 
@@ -124,7 +121,7 @@ public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivi
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityActivityDataRecordRelation> lookup() throws DaoException {
+    public List<ActivityTemplateDataInfo> lookup() throws DaoException {
         return entireLookupDao.lookup();
     }
 
@@ -132,7 +129,7 @@ public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivi
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityActivityDataRecordRelation> lookup(PagingInfo pagingInfo) throws DaoException {
+    public List<ActivityTemplateDataInfo> lookup(PagingInfo pagingInfo) throws DaoException {
         return entireLookupDao.lookup(pagingInfo);
     }
 
@@ -147,7 +144,7 @@ public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivi
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityActivityDataRecordRelation> lookup(String preset, Object[] objs) throws DaoException {
+    public List<ActivityTemplateDataInfo> lookup(String preset, Object[] objs) throws DaoException {
         return presetLookupDao.lookup(preset, objs);
     }
 
@@ -155,7 +152,7 @@ public class ActivityActivityDataRecordRelationDaoImpl implements ActivityActivi
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityActivityDataRecordRelation> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws DaoException {
+    public List<ActivityTemplateDataInfo> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws DaoException {
         return presetLookupDao.lookup(preset, objs, pagingInfo);
     }
 

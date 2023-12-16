@@ -25,16 +25,14 @@ public class P02ServiceConfiguration {
 
     private final ActivityCrudOperation activityCrudOperation;
     private final ActivityDao activityDao;
-    private final ActivityActivityDataRecordRelationDao activityActivityDataRecordRelationDao;
-    private final ActivityActivityDataRecordRelationCache activityActivityDataRecordRelationCache;
     private final ActivityCoverInfoDao activityCoverInfoDao;
     private final ActivityCoverInfoCache activityCoverInfoCache;
     private final ActivityDataItemCrudOperation activityDataItemCrudOperation;
     private final ActivityDataItemDao activityDataItemDao;
     private final ActivityDataNodeCrudOperation activityDataNodeCrudOperation;
     private final ActivityDataNodeDao activityDataNodeDao;
-    private final ActivityDataRecordCrudOperation activityDataRecordCrudOperation;
     private final ActivityDataRecordDao activityDataRecordDao;
+    private final ActivityDataRecordCache activityDataRecordCache;
     private final ActivityDataSetCrudOperation activityDataSetCrudOperation;
     private final ActivityDataSetDao activityDataSetDao;
     private final ActivityFileInfoDao activityFileInfoDao;
@@ -43,10 +41,10 @@ public class P02ServiceConfiguration {
     private final ActivityParticipantCache activityParticipantCache;
     private final ActivityTemplateCrudOperation activityTemplateCrudOperation;
     private final ActivityTemplateDao activityTemplateDao;
-    private final ActivityTemplateActivityDataItemRelationDao activityTemplateActivityDataItemRelationDao;
-    private final ActivityTemplateActivityDataItemRelationCache activityTemplateActivityDataItemRelationCache;
     private final ActivityTemplateCoverInfoDao activityTemplateCoverInfoDao;
     private final ActivityTemplateCoverInfoCache activityTemplateCoverInfoCache;
+    private final ActivityTemplateDataInfoDao activityTemplateDataInfoDao;
+    private final ActivityTemplateDataInfoCache activityTemplateDataInfoCache;
     private final ActivityTemplateDriverInfoDao activityTemplateDriverInfoDao;
     private final ActivityTemplateDriverInfoCache activityTemplateDriverInfoCache;
     private final ActivityTemplateDriverSupportDao activityTemplateDriverSupportDao;
@@ -66,18 +64,18 @@ public class P02ServiceConfiguration {
     private final PoatacDao poatacDao;
     private final PoatacCache poatacCache;
 
-    @Value("${cache.timeout.entity.activity_activity_data_record_relation}")
-    private long activityActivityDataRecordRelationTimeout;
     @Value("${cache.timeout.entity.activity_cover_info}")
     private long activityCoverInfoTimeout;
+    @Value("${cache.timeout.entity.activity_data_record}")
+    private long activityDataRecordTimeout;
     @Value("${cache.timeout.entity.activity_file_info}")
     private long activityFileInfoTimeout;
     @Value("${cache.timeout.entity.activity_participant}")
     private long activityParticipantTimeout;
-    @Value("${cache.timeout.entity.activity_template_activity_data_item_relation}")
-    private long activityTemplateActivityDataItemRelationTimeout;
     @Value("${cache.timeout.entity.activity_template_cover_info}")
     private long activityTemplateCoverInfoTimeout;
+    @Value("${cache.timeout.entity.activity_template_data_info}")
+    private long activityTemplateDataInfoTimeout;
     @Value("${cache.timeout.entity.activity_template_driver_info}")
     private long activityTemplateDriverInfoTimeout;
     @Value("${cache.timeout.entity.activity_template_driver_support}")
@@ -100,22 +98,28 @@ public class P02ServiceConfiguration {
     public P02ServiceConfiguration(
             KeyFetcherConfiguration keyFetcherConfiguration,
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
-            ActivityCrudOperation activityCrudOperation, ActivityDao activityDao,
-            ActivityActivityDataRecordRelationDao activityActivityDataRecordRelationDao,
-            ActivityActivityDataRecordRelationCache activityActivityDataRecordRelationCache,
-            ActivityCoverInfoDao activityCoverInfoDao, ActivityCoverInfoCache activityCoverInfoCache,
-            ActivityDataItemCrudOperation activityDataItemCrudOperation, ActivityDataItemDao activityDataItemDao,
-            ActivityDataNodeCrudOperation activityDataNodeCrudOperation, ActivityDataNodeDao activityDataNodeDao,
-            ActivityDataRecordCrudOperation activityDataRecordCrudOperation,
+            ActivityCrudOperation activityCrudOperation,
+            ActivityDao activityDao,
+            ActivityCoverInfoDao activityCoverInfoDao,
+            ActivityCoverInfoCache activityCoverInfoCache,
+            ActivityDataItemCrudOperation activityDataItemCrudOperation,
+            ActivityDataItemDao activityDataItemDao,
+            ActivityDataNodeCrudOperation activityDataNodeCrudOperation,
+            ActivityDataNodeDao activityDataNodeDao,
             ActivityDataRecordDao activityDataRecordDao,
-            ActivityDataSetCrudOperation activityDataSetCrudOperation, ActivityDataSetDao activityDataSetDao,
-            ActivityFileInfoDao activityFileInfoDao, ActivityFileInfoCache activityFileInfoCache,
-            ActivityParticipantDao activityParticipantDao, ActivityParticipantCache activityParticipantCache,
-            ActivityTemplateCrudOperation activityTemplateCrudOperation, ActivityTemplateDao activityTemplateDao,
-            ActivityTemplateActivityDataItemRelationDao activityTemplateActivityDataItemRelationDao,
-            ActivityTemplateActivityDataItemRelationCache activityTemplateActivityDataItemRelationCache,
+            ActivityDataRecordCache activityDataRecordCache,
+            ActivityDataSetCrudOperation activityDataSetCrudOperation,
+            ActivityDataSetDao activityDataSetDao,
+            ActivityFileInfoDao activityFileInfoDao,
+            ActivityFileInfoCache activityFileInfoCache,
+            ActivityParticipantDao activityParticipantDao,
+            ActivityParticipantCache activityParticipantCache,
+            ActivityTemplateCrudOperation activityTemplateCrudOperation,
+            ActivityTemplateDao activityTemplateDao,
             ActivityTemplateCoverInfoDao activityTemplateCoverInfoDao,
             ActivityTemplateCoverInfoCache activityTemplateCoverInfoCache,
+            ActivityTemplateDataInfoDao activityTemplateDataInfoDao,
+            ActivityTemplateDataInfoCache activityTemplateDataInfoCache,
             ActivityTemplateDriverInfoDao activityTemplateDriverInfoDao,
             ActivityTemplateDriverInfoCache activityTemplateDriverInfoCache,
             ActivityTemplateDriverSupportDao activityTemplateDriverSupportDao,
@@ -124,25 +128,28 @@ public class P02ServiceConfiguration {
             ActivityTemplateFileInfoCache activityTemplateFileInfoCache,
             ActivityTemplateParticipantDao activityTemplateParticipantDao,
             ActivityTemplateParticipantCache activityTemplateParticipantCache,
-            ActivityTypeIndicatorDao activityTypeIndicatorDao, ActivityTypeIndicatorCache activityTypeIndicatorCache,
-            PoacDao poacDao, PoacCache poacCache,
-            PoadDao poadDao, PoadCache poadCache,
-            PoatDao poatDao, PoatCache poatCache,
-            PoatacDao poatacDao, PoatacCache poatacCache
+            ActivityTypeIndicatorDao activityTypeIndicatorDao,
+            ActivityTypeIndicatorCache activityTypeIndicatorCache,
+            PoacDao poacDao,
+            PoacCache poacCache,
+            PoadDao poadDao,
+            PoadCache poadCache,
+            PoatDao poatDao,
+            PoatCache poatCache,
+            PoatacDao poatacDao,
+            PoatacCache poatacCache
     ) {
         this.keyFetcherConfiguration = keyFetcherConfiguration;
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.activityCrudOperation = activityCrudOperation;
         this.activityDao = activityDao;
-        this.activityActivityDataRecordRelationDao = activityActivityDataRecordRelationDao;
-        this.activityActivityDataRecordRelationCache = activityActivityDataRecordRelationCache;
         this.activityCoverInfoDao = activityCoverInfoDao;
         this.activityCoverInfoCache = activityCoverInfoCache;
         this.activityDataItemCrudOperation = activityDataItemCrudOperation;
         this.activityDataItemDao = activityDataItemDao;
         this.activityDataNodeCrudOperation = activityDataNodeCrudOperation;
         this.activityDataNodeDao = activityDataNodeDao;
-        this.activityDataRecordCrudOperation = activityDataRecordCrudOperation;
+        this.activityDataRecordCache = activityDataRecordCache;
         this.activityDataRecordDao = activityDataRecordDao;
         this.activityDataSetCrudOperation = activityDataSetCrudOperation;
         this.activityDataSetDao = activityDataSetDao;
@@ -152,10 +159,10 @@ public class P02ServiceConfiguration {
         this.activityParticipantCache = activityParticipantCache;
         this.activityTemplateCrudOperation = activityTemplateCrudOperation;
         this.activityTemplateDao = activityTemplateDao;
-        this.activityTemplateActivityDataItemRelationDao = activityTemplateActivityDataItemRelationDao;
-        this.activityTemplateActivityDataItemRelationCache = activityTemplateActivityDataItemRelationCache;
         this.activityTemplateCoverInfoDao = activityTemplateCoverInfoDao;
         this.activityTemplateCoverInfoCache = activityTemplateCoverInfoCache;
+        this.activityTemplateDataInfoDao = activityTemplateDataInfoDao;
+        this.activityTemplateDataInfoCache = activityTemplateDataInfoCache;
         this.activityTemplateDriverInfoDao = activityTemplateDriverInfoDao;
         this.activityTemplateDriverInfoCache = activityTemplateDriverInfoCache;
         this.activityTemplateDriverSupportDao = activityTemplateDriverSupportDao;
@@ -199,39 +206,6 @@ public class P02ServiceConfiguration {
     public DaoOnlyPresetLookupService<Activity> activityDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
                 activityDao,
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
-        );
-    }
-
-    @Bean
-    public GeneralBatchCrudService<LongLongRelationKey, ActivityActivityDataRecordRelation>
-    activityActivityDataRecordRelationBatchGeneralCrudService() {
-        return new GeneralBatchCrudService<>(
-                activityActivityDataRecordRelationDao,
-                activityActivityDataRecordRelationCache,
-                new ExceptionKeyFetcher<>(),
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN,
-                activityActivityDataRecordRelationTimeout
-        );
-    }
-
-    @Bean
-    public DaoOnlyEntireLookupService<ActivityActivityDataRecordRelation>
-    activityActivityDataRecordRelationDaoOnlyEntireLookupService() {
-        return new DaoOnlyEntireLookupService<>(
-                activityActivityDataRecordRelationDao,
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
-        );
-    }
-
-    @Bean
-    public DaoOnlyPresetLookupService<ActivityActivityDataRecordRelation>
-    activityActivityDataRecordRelationDaoOnlyPresetLookupService() {
-        return new DaoOnlyPresetLookupService<>(
-                activityActivityDataRecordRelationDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -324,12 +298,14 @@ public class P02ServiceConfiguration {
     }
 
     @Bean
-    public CustomBatchCrudService<LongIdKey, ActivityDataRecord> activityDataRecordBatchCustomCrudService() {
-        return new CustomBatchCrudService<>(
-                activityDataRecordCrudOperation,
+    public GeneralBatchCrudService<LongIdKey, ActivityDataRecord> activityDataRecordBatchGeneralCrudService() {
+        return new GeneralBatchCrudService<>(
+                activityDataRecordDao,
+                activityDataRecordCache,
                 keyFetcherConfiguration.longIdKeyKeyFetcher(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                activityDataRecordTimeout
         );
     }
 
@@ -469,39 +445,6 @@ public class P02ServiceConfiguration {
     }
 
     @Bean
-    public GeneralBatchCrudService<LongLongRelationKey, ActivityTemplateActivityDataItemRelation>
-    activityTemplateActivityDataItemRelationBatchGeneralCrudService() {
-        return new GeneralBatchCrudService<>(
-                activityTemplateActivityDataItemRelationDao,
-                activityTemplateActivityDataItemRelationCache,
-                new ExceptionKeyFetcher<>(),
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN,
-                activityTemplateActivityDataItemRelationTimeout
-        );
-    }
-
-    @Bean
-    public DaoOnlyEntireLookupService<ActivityTemplateActivityDataItemRelation>
-    activityTemplateActivityDataItemRelationDaoOnlyEntireLookupService() {
-        return new DaoOnlyEntireLookupService<>(
-                activityTemplateActivityDataItemRelationDao,
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
-        );
-    }
-
-    @Bean
-    public DaoOnlyPresetLookupService<ActivityTemplateActivityDataItemRelation>
-    activityTemplateActivityDataItemRelationDaoOnlyPresetLookupService() {
-        return new DaoOnlyPresetLookupService<>(
-                activityTemplateActivityDataItemRelationDao,
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
-        );
-    }
-
-    @Bean
     public GeneralBatchCrudService<LongIdKey, ActivityTemplateCoverInfo>
     activityTemplateCoverInfoBatchGeneralCrudService() {
         return new GeneralBatchCrudService<>(
@@ -527,6 +470,37 @@ public class P02ServiceConfiguration {
     public DaoOnlyPresetLookupService<ActivityTemplateCoverInfo> activityTemplateCoverInfoDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
                 activityTemplateCoverInfoDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public GeneralBatchCrudService<LongIdKey, ActivityTemplateDataInfo>
+    activityTemplateDataInfoBatchGeneralCrudService() {
+        return new GeneralBatchCrudService<>(
+                activityTemplateDataInfoDao,
+                activityTemplateDataInfoCache,
+                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
+                activityTemplateDataInfoTimeout
+        );
+    }
+
+    @Bean
+    public DaoOnlyEntireLookupService<ActivityTemplateDataInfo> activityTemplateDataInfoDaoOnlyEntireLookupService() {
+        return new DaoOnlyEntireLookupService<>(
+                activityTemplateDataInfoDao,
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN
+        );
+    }
+
+    @Bean
+    public DaoOnlyPresetLookupService<ActivityTemplateDataInfo> activityTemplateDataInfoDaoOnlyPresetLookupService() {
+        return new DaoOnlyPresetLookupService<>(
+                activityTemplateDataInfoDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );

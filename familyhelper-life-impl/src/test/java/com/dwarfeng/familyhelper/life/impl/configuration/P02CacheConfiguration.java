@@ -23,8 +23,6 @@ public class P02CacheConfiguration {
 
     @Value("${cache.prefix.entity.activity}")
     private String activityPrefix;
-    @Value("${cache.prefix.entity.activity_activity_data_record_relation}")
-    private String activityActivityDataRecordRelationPrefix;
     @Value("${cache.prefix.entity.activity_cover_info}")
     private String activityCoverInfoPrefix;
     @Value("${cache.prefix.entity.activity_data_item}")
@@ -41,10 +39,10 @@ public class P02CacheConfiguration {
     private String activityParticipantPrefix;
     @Value("${cache.prefix.entity.activity_template}")
     private String activityTemplatePrefix;
-    @Value("${cache.prefix.entity.activity_template_activity_data_item_relation}")
-    private String activityTemplateActivityDataItemRelationPrefix;
     @Value("${cache.prefix.entity.activity_template_cover_info}")
     private String activityTemplateCoverInfoPrefix;
+    @Value("${cache.prefix.entity.activity_template_data_info}")
+    private String activityTemplateDataInfoPrefix;
     @Value("${cache.prefix.entity.activity_template_driver_info}")
     private String activityTemplateDriverInfoPrefix;
     @Value("${cache.prefix.entity.activity_template_driver_support}")
@@ -75,20 +73,6 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivity>) template,
                 new LongIdStringKeyFormatter(activityPrefix),
                 new MapStructBeanTransformer<>(Activity.class, FastJsonActivity.class, P02FastJsonMapper.class)
-        );
-    }
-
-    @Bean
-    @SuppressWarnings("unchecked")
-    public RedisBatchBaseCache<LongLongRelationKey, ActivityActivityDataRecordRelation,
-            FastJsonActivityActivityDataRecordRelation> activityActivityDataRecordRelationRedisBatchBaseCache() {
-        return new RedisBatchBaseCache<>(
-                (RedisTemplate<String, FastJsonActivityActivityDataRecordRelation>) template,
-                new LongLongRelationStringKeyFormatter(activityActivityDataRecordRelationPrefix),
-                new MapStructBeanTransformer<>(
-                        ActivityActivityDataRecordRelation.class, FastJsonActivityActivityDataRecordRelation.class,
-                        P02FastJsonMapper.class
-                )
         );
     }
 
@@ -198,22 +182,6 @@ public class P02CacheConfiguration {
 
     @Bean
     @SuppressWarnings("unchecked")
-    public RedisBatchBaseCache<LongLongRelationKey, ActivityTemplateActivityDataItemRelation,
-            FastJsonActivityTemplateActivityDataItemRelation>
-    activityTemplateActivityDataItemRelationRedisBatchBaseCache() {
-        return new RedisBatchBaseCache<>(
-                (RedisTemplate<String, FastJsonActivityTemplateActivityDataItemRelation>) template,
-                new LongLongRelationStringKeyFormatter(activityTemplateActivityDataItemRelationPrefix),
-                new MapStructBeanTransformer<>(
-                        ActivityTemplateActivityDataItemRelation.class,
-                        FastJsonActivityTemplateActivityDataItemRelation.class,
-                        P02FastJsonMapper.class
-                )
-        );
-    }
-
-    @Bean
-    @SuppressWarnings("unchecked")
     public RedisBatchBaseCache<LongIdKey, ActivityTemplateCoverInfo, FastJsonActivityTemplateCoverInfo>
     activityTemplateCoverInfoRedisBatchBaseCache() {
         return new RedisBatchBaseCache<>(
@@ -221,6 +189,19 @@ public class P02CacheConfiguration {
                 new LongIdStringKeyFormatter(activityTemplateCoverInfoPrefix),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateCoverInfo.class, FastJsonActivityTemplateCoverInfo.class, P02FastJsonMapper.class
+                )
+        );
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public RedisBatchBaseCache<LongIdKey, ActivityTemplateDataInfo, FastJsonActivityTemplateDataInfo>
+    activityTemplateDataInfoRedisBatchBaseCache() {
+        return new RedisBatchBaseCache<>(
+                (RedisTemplate<String, FastJsonActivityTemplateDataInfo>) template,
+                new LongIdStringKeyFormatter(activityTemplateDataInfoPrefix),
+                new MapStructBeanTransformer<>(
+                        ActivityTemplateDataInfo.class, FastJsonActivityTemplateDataInfo.class, P02FastJsonMapper.class
                 )
         );
     }

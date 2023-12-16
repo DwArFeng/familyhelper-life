@@ -15,7 +15,6 @@ public class P02FastJsonConfiguration {
         LOGGER.info("正在配置 FastJson autotype 白名单");
         //实体对象。
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivity.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(FastJsonActivityActivityDataRecordRelation.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityCoverInfo.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityDataItem.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityDataNode.class.getCanonicalName());
@@ -24,10 +23,8 @@ public class P02FastJsonConfiguration {
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityFileInfo.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityParticipant.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityTemplate.class.getCanonicalName());
-        ParserConfig.getGlobalInstance().addAccept(
-                FastJsonActivityTemplateActivityDataItemRelation.class.getCanonicalName()
-        );
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityTemplateCoverInfo.class.getCanonicalName());
+        ParserConfig.getGlobalInstance().addAccept(FastJsonActivityTemplateDataInfo.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityTemplateDriverInfo.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityTemplateDriverSupport.class.getCanonicalName());
         ParserConfig.getGlobalInstance().addAccept(FastJsonActivityTemplateFileInfo.class.getCanonicalName());

@@ -26,7 +26,6 @@ public class P02DaoConfiguration {
     private final HibernateTemplate template;
 
     private final ActivityPresetCriteriaMaker activityPresetCriteriaMaker;
-    private final ActivityActivityDataRecordRelationPresetCriteriaMaker activityActivityDataRecordRelationPresetCriteriaMaker;
     private final ActivityCoverInfoPresetCriteriaMaker activityCoverInfoPresetCriteriaMaker;
     private final ActivityDataItemPresetCriteriaMaker activityDataItemPresetCriteriaMaker;
     private final ActivityDataNodePresetCriteriaMaker activityDataNodePresetCriteriaMaker;
@@ -35,8 +34,8 @@ public class P02DaoConfiguration {
     private final ActivityFileInfoPresetCriteriaMaker activityFileInfoPresetCriteriaMaker;
     private final ActivityParticipantPresetCriteriaMaker activityParticipantPresetCriteriaMaker;
     private final ActivityTemplatePresetCriteriaMaker activityTemplatePresetCriteriaMaker;
-    private final ActivityTemplateActivityDataItemRelationPresetCriteriaMaker activityTemplateActivityDataItemRelationPresetCriteriaMaker;
     private final ActivityTemplateCoverInfoPresetCriteriaMaker activityTemplateCoverInfoPresetCriteriaMaker;
+    private final ActivityTemplateDataInfoPresetCriteriaMaker activityTemplateDataInfoPresetCriteriaMaker;
     private final ActivityTemplateDriverInfoPresetCriteriaMaker activityTemplateDriverInfoPresetCriteriaMaker;
     private final ActivityTemplateDriverSupportPresetCriteriaMaker activityTemplateDriverSupportPresetCriteriaMaker;
     private final ActivityTemplateFileInfoPresetCriteriaMaker activityTemplateFileInfoPresetCriteriaMaker;
@@ -52,7 +51,6 @@ public class P02DaoConfiguration {
     public P02DaoConfiguration(
             HibernateTemplate template,
             ActivityPresetCriteriaMaker activityPresetCriteriaMaker,
-            ActivityActivityDataRecordRelationPresetCriteriaMaker activityActivityDataRecordRelationPresetCriteriaMaker,
             ActivityCoverInfoPresetCriteriaMaker activityCoverInfoPresetCriteriaMaker,
             ActivityDataItemPresetCriteriaMaker activityDataItemPresetCriteriaMaker,
             ActivityDataNodePresetCriteriaMaker activityDataNodePresetCriteriaMaker,
@@ -61,9 +59,8 @@ public class P02DaoConfiguration {
             ActivityFileInfoPresetCriteriaMaker activityFileInfoPresetCriteriaMaker,
             ActivityParticipantPresetCriteriaMaker activityParticipantPresetCriteriaMaker,
             ActivityTemplatePresetCriteriaMaker activityTemplatePresetCriteriaMaker,
-            ActivityTemplateActivityDataItemRelationPresetCriteriaMaker
-                    activityTemplateActivityDataItemRelationPresetCriteriaMaker,
             ActivityTemplateCoverInfoPresetCriteriaMaker activityTemplateCoverInfoPresetCriteriaMaker,
+            ActivityTemplateDataInfoPresetCriteriaMaker activityTemplateDataInfoPresetCriteriaMaker,
             ActivityTemplateDriverInfoPresetCriteriaMaker activityTemplateDriverInfoPresetCriteriaMaker,
             ActivityTemplateDriverSupportPresetCriteriaMaker activityTemplateDriverSupportPresetCriteriaMaker,
             ActivityTemplateFileInfoPresetCriteriaMaker activityTemplateFileInfoPresetCriteriaMaker,
@@ -75,8 +72,7 @@ public class P02DaoConfiguration {
     ) {
         this.template = template;
         this.activityPresetCriteriaMaker = activityPresetCriteriaMaker;
-        this.activityActivityDataRecordRelationPresetCriteriaMaker =
-                activityActivityDataRecordRelationPresetCriteriaMaker;
+        this.activityTemplateDataInfoPresetCriteriaMaker = activityTemplateDataInfoPresetCriteriaMaker;
         this.activityCoverInfoPresetCriteriaMaker = activityCoverInfoPresetCriteriaMaker;
         this.activityDataItemPresetCriteriaMaker = activityDataItemPresetCriteriaMaker;
         this.activityDataNodePresetCriteriaMaker = activityDataNodePresetCriteriaMaker;
@@ -85,8 +81,6 @@ public class P02DaoConfiguration {
         this.activityFileInfoPresetCriteriaMaker = activityFileInfoPresetCriteriaMaker;
         this.activityParticipantPresetCriteriaMaker = activityParticipantPresetCriteriaMaker;
         this.activityTemplatePresetCriteriaMaker = activityTemplatePresetCriteriaMaker;
-        this.activityTemplateActivityDataItemRelationPresetCriteriaMaker =
-                activityTemplateActivityDataItemRelationPresetCriteriaMaker;
         this.activityTemplateCoverInfoPresetCriteriaMaker = activityTemplateCoverInfoPresetCriteriaMaker;
         this.activityTemplateDriverInfoPresetCriteriaMaker = activityTemplateDriverInfoPresetCriteriaMaker;
         this.activityTemplateDriverSupportPresetCriteriaMaker = activityTemplateDriverSupportPresetCriteriaMaker;
@@ -127,51 +121,6 @@ public class P02DaoConfiguration {
                 new MapStructBeanTransformer<>(Activity.class, HibernateActivity.class, P02HibernateMapper.class),
                 HibernateActivity.class,
                 activityPresetCriteriaMaker
-        );
-    }
-
-    @Bean
-    public HibernateBatchBaseDao<LongLongRelationKey, HibernateLongLongRelationKey, ActivityActivityDataRecordRelation,
-            HibernateActivityActivityDataRecordRelation> activityActivityDataRecordRelationHibernateBatchBaseDao() {
-        return new HibernateBatchBaseDao<>(
-                template,
-                new MapStructBeanTransformer<>(
-                        LongLongRelationKey.class, HibernateLongLongRelationKey.class, P02HibernateMapper.class
-                ),
-                new MapStructBeanTransformer<>(
-                        ActivityActivityDataRecordRelation.class, HibernateActivityActivityDataRecordRelation.class,
-                        P02HibernateMapper.class
-                ),
-                HibernateActivityActivityDataRecordRelation.class,
-                new DefaultDeletionMod<>(),
-                batchSize
-        );
-    }
-
-    @Bean
-    public HibernateEntireLookupDao<ActivityActivityDataRecordRelation, HibernateActivityActivityDataRecordRelation>
-    activityActivityDataRecordRelationHibernateEntireLookupDao() {
-        return new HibernateEntireLookupDao<>(
-                template,
-                new MapStructBeanTransformer<>(
-                        ActivityActivityDataRecordRelation.class, HibernateActivityActivityDataRecordRelation.class,
-                        P02HibernateMapper.class
-                ),
-                HibernateActivityActivityDataRecordRelation.class
-        );
-    }
-
-    @Bean
-    public HibernatePresetLookupDao<ActivityActivityDataRecordRelation, HibernateActivityActivityDataRecordRelation>
-    activityActivityDataRecordRelationHibernatePresetLookupDao() {
-        return new HibernatePresetLookupDao<>(
-                template,
-                new MapStructBeanTransformer<>(
-                        ActivityActivityDataRecordRelation.class, HibernateActivityActivityDataRecordRelation.class,
-                        P02HibernateMapper.class
-                ),
-                HibernateActivityActivityDataRecordRelation.class,
-                activityActivityDataRecordRelationPresetCriteriaMaker
         );
     }
 
@@ -498,54 +447,6 @@ public class P02DaoConfiguration {
     }
 
     @Bean
-    public HibernateBatchBaseDao<LongLongRelationKey, HibernateLongLongRelationKey,
-            ActivityTemplateActivityDataItemRelation, HibernateActivityTemplateActivityDataItemRelation>
-    activityTemplateActivityDataItemRelationHibernateBatchBaseDao() {
-        return new HibernateBatchBaseDao<>(
-                template,
-                new MapStructBeanTransformer<>(
-                        LongLongRelationKey.class, HibernateLongLongRelationKey.class, P02HibernateMapper.class
-                ),
-                new MapStructBeanTransformer<>(
-                        ActivityTemplateActivityDataItemRelation.class,
-                        HibernateActivityTemplateActivityDataItemRelation.class, P02HibernateMapper.class
-                ),
-                HibernateActivityTemplateActivityDataItemRelation.class,
-                new DefaultDeletionMod<>(),
-                batchSize
-        );
-    }
-
-    @Bean
-    public HibernateEntireLookupDao<ActivityTemplateActivityDataItemRelation,
-            HibernateActivityTemplateActivityDataItemRelation>
-    activityTemplateActivityDataItemRelationHibernateEntireLookupDao() {
-        return new HibernateEntireLookupDao<>(
-                template,
-                new MapStructBeanTransformer<>(
-                        ActivityTemplateActivityDataItemRelation.class,
-                        HibernateActivityTemplateActivityDataItemRelation.class, P02HibernateMapper.class
-                ),
-                HibernateActivityTemplateActivityDataItemRelation.class
-        );
-    }
-
-    @Bean
-    public HibernatePresetLookupDao<ActivityTemplateActivityDataItemRelation,
-            HibernateActivityTemplateActivityDataItemRelation>
-    activityTemplateActivityDataItemRelationHibernatePresetLookupDao() {
-        return new HibernatePresetLookupDao<>(
-                template,
-                new MapStructBeanTransformer<>(
-                        ActivityTemplateActivityDataItemRelation.class,
-                        HibernateActivityTemplateActivityDataItemRelation.class, P02HibernateMapper.class
-                ),
-                HibernateActivityTemplateActivityDataItemRelation.class,
-                activityTemplateActivityDataItemRelationPresetCriteriaMaker
-        );
-    }
-
-    @Bean
     public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, ActivityTemplateCoverInfo,
             HibernateActivityTemplateCoverInfo> activityTemplateCoverInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
@@ -585,6 +486,49 @@ public class P02DaoConfiguration {
                 ),
                 HibernateActivityTemplateCoverInfo.class,
                 activityTemplateCoverInfoPresetCriteriaMaker
+        );
+    }
+
+    @Bean
+    public HibernateBatchBaseDao<LongIdKey, HibernateLongIdKey, ActivityTemplateDataInfo,
+            HibernateActivityTemplateDataInfo> activityTemplateDataInfoHibernateBatchBaseDao() {
+        return new HibernateBatchBaseDao<>(
+                template,
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(
+                        ActivityTemplateDataInfo.class, HibernateActivityTemplateDataInfo.class,
+                        P02HibernateMapper.class
+                ),
+                HibernateActivityTemplateDataInfo.class,
+                new DefaultDeletionMod<>(),
+                batchSize
+        );
+    }
+
+    @Bean
+    public HibernateEntireLookupDao<ActivityTemplateDataInfo, HibernateActivityTemplateDataInfo>
+    activityTemplateDataInfoHibernateEntireLookupDao() {
+        return new HibernateEntireLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        ActivityTemplateDataInfo.class, HibernateActivityTemplateDataInfo.class,
+                        P02HibernateMapper.class
+                ),
+                HibernateActivityTemplateDataInfo.class
+        );
+    }
+
+    @Bean
+    public HibernatePresetLookupDao<ActivityTemplateDataInfo, HibernateActivityTemplateDataInfo>
+    activityTemplateDataInfoHibernatePresetLookupDao() {
+        return new HibernatePresetLookupDao<>(
+                template,
+                new MapStructBeanTransformer<>(
+                        ActivityTemplateDataInfo.class, HibernateActivityTemplateDataInfo.class,
+                        P02HibernateMapper.class
+                ),
+                HibernateActivityTemplateDataInfo.class,
+                activityTemplateDataInfoPresetCriteriaMaker
         );
     }
 

@@ -2,7 +2,6 @@ package com.dwarfeng.familyhelper.life.impl.service.operation;
 
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
 import com.dwarfeng.familyhelper.life.stack.bean.key.ActivityTemplateParticipantKey;
-import com.dwarfeng.familyhelper.life.stack.bean.key.LongLongRelationKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PoatKey;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PoatacKey;
 import com.dwarfeng.familyhelper.life.stack.cache.*;
@@ -30,11 +29,11 @@ public class ActivityTemplateCrudOperation implements BatchCrudOperation<LongIdK
     private final ActivityTemplateCoverInfoDao activityTemplateCoverInfoDao;
     private final ActivityTemplateCoverInfoCache activityTemplateCoverInfoCache;
 
+    private final ActivityTemplateDataInfoDao activityTemplateDataInfoDao;
+    private final ActivityTemplateDataInfoCache activityTemplateDataInfoCache;
+
     private final ActivityTemplateFileInfoDao activityTemplateFileInfoDao;
     private final ActivityTemplateFileInfoCache activityTemplateFileInfoCache;
-
-    private final ActivityTemplateActivityDataItemRelationDao activityTemplateActivityDataItemRelationDao;
-    private final ActivityTemplateActivityDataItemRelationCache activityTemplateActivityDataItemRelationCache;
 
     private final PoatDao poatDao;
     private final PoatCache poatCache;
@@ -49,30 +48,33 @@ public class ActivityTemplateCrudOperation implements BatchCrudOperation<LongIdK
     private long activityTemplateTimeout;
 
     public ActivityTemplateCrudOperation(
-            ActivityTemplateDao ActivityTemplateDao, ActivityTemplateCache ActivityTemplateCache,
+            ActivityTemplateDao activityTemplateDao,
+            ActivityTemplateCache activityTemplateCache,
             ActivityTemplateParticipantDao activityTemplateParticipantDao,
             ActivityTemplateParticipantCache activityTemplateParticipantCache,
             ActivityTemplateCoverInfoDao activityTemplateCoverInfoDao,
             ActivityTemplateCoverInfoCache activityTemplateCoverInfoCache,
+            ActivityTemplateDataInfoDao activityTemplateDataInfoDao,
+            ActivityTemplateDataInfoCache activityTemplateDataInfoCache,
             ActivityTemplateFileInfoDao activityTemplateFileInfoDao,
             ActivityTemplateFileInfoCache activityTemplateFileInfoCache,
-            ActivityTemplateActivityDataItemRelationDao activityTemplateActivityDataItemRelationDao,
-            ActivityTemplateActivityDataItemRelationCache activityTemplateActivityDataItemRelationCache,
-            PoatDao poatDao, PoatCache poatCache,
-            PoatacDao poatacDao, PoatacCache poatacCache,
+            PoatDao poatDao,
+            PoatCache poatCache,
+            PoatacDao poatacDao,
+            PoatacCache poatacCache,
             ActivityTemplateDriverInfoDao activityTemplateDriverInfoDao,
             ActivityTemplateDriverInfoCache activityTemplateDriverInfoCache
     ) {
-        this.activityTemplateDao = ActivityTemplateDao;
-        this.activityTemplateCache = ActivityTemplateCache;
+        this.activityTemplateDao = activityTemplateDao;
+        this.activityTemplateCache = activityTemplateCache;
         this.activityTemplateParticipantDao = activityTemplateParticipantDao;
         this.activityTemplateParticipantCache = activityTemplateParticipantCache;
         this.activityTemplateCoverInfoDao = activityTemplateCoverInfoDao;
         this.activityTemplateCoverInfoCache = activityTemplateCoverInfoCache;
+        this.activityTemplateDataInfoDao = activityTemplateDataInfoDao;
+        this.activityTemplateDataInfoCache = activityTemplateDataInfoCache;
         this.activityTemplateFileInfoDao = activityTemplateFileInfoDao;
         this.activityTemplateFileInfoCache = activityTemplateFileInfoCache;
-        this.activityTemplateActivityDataItemRelationDao = activityTemplateActivityDataItemRelationDao;
-        this.activityTemplateActivityDataItemRelationCache = activityTemplateActivityDataItemRelationCache;
         this.poatDao = poatDao;
         this.poatCache = poatCache;
         this.poatacDao = poatacDao;
@@ -114,14 +116,14 @@ public class ActivityTemplateCrudOperation implements BatchCrudOperation<LongIdK
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 查找删除除所有相关的活动模板参与者。
+        // 查找删除所有相关的活动模板参与者。
         List<ActivityTemplateParticipantKey> activityTemplateParticipantKeys = activityTemplateParticipantDao.lookup(
                 ActivityTemplateParticipantMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
         ).stream().map(ActivityTemplateParticipant::getKey).collect(Collectors.toList());
         activityTemplateParticipantCache.batchDelete(activityTemplateParticipantKeys);
         activityTemplateParticipantDao.batchDelete(activityTemplateParticipantKeys);
 
-        // 查找删除除所有相关的活动模板封面信息。
+        // 查找删除所有相关的活动模板封面信息。
         List<LongIdKey> activityTemplateCoverInfoKeys = activityTemplateCoverInfoDao.lookup(
                 ActivityTemplateCoverInfoMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
         ).stream().map(ActivityTemplateCoverInfo::getKey).collect(Collectors.toList());
@@ -129,7 +131,14 @@ public class ActivityTemplateCrudOperation implements BatchCrudOperation<LongIdK
         activityTemplateCoverInfoDao.batchDelete(activityTemplateCoverInfoKeys);
         // TODO 文件删除。
 
-        // 查找删除除所有相关的活动模板文件信息。
+        // 查找删除所有相关的活动模板数据信息。
+        List<LongIdKey> activityTemplateDataInfoKeys = activityTemplateDataInfoDao.lookup(
+                ActivityTemplateDataInfoMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
+        ).stream().map(ActivityTemplateDataInfo::getKey).collect(Collectors.toList());
+        activityTemplateDataInfoCache.batchDelete(activityTemplateDataInfoKeys);
+        activityTemplateDataInfoDao.batchDelete(activityTemplateDataInfoKeys);
+
+        // 查找删除所有相关的活动模板文件信息。
         List<LongIdKey> activityTemplateFileInfoKeys = activityTemplateFileInfoDao.lookup(
                 ActivityTemplateFileInfoMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
         ).stream().map(ActivityTemplateFileInfo::getKey).collect(Collectors.toList());
@@ -137,29 +146,21 @@ public class ActivityTemplateCrudOperation implements BatchCrudOperation<LongIdK
         activityTemplateFileInfoDao.batchDelete(activityTemplateFileInfoKeys);
         // TODO 文件删除。
 
-        // 查找删除除所有相关的活动模板活动数据条目关联。
-        List<LongLongRelationKey> activityTemplateActivityDataItemRelationKeys =
-                activityTemplateActivityDataItemRelationDao.lookup(
-                        ActivityTemplateActivityDataItemRelationMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
-                ).stream().map(ActivityTemplateActivityDataItemRelation::getKey).collect(Collectors.toList());
-        activityTemplateActivityDataItemRelationCache.batchDelete(activityTemplateActivityDataItemRelationKeys);
-        activityTemplateActivityDataItemRelationDao.batchDelete(activityTemplateActivityDataItemRelationKeys);
-
-        // 查找删除除所有相关的活动模板权限。
+        // 查找删除所有相关的活动模板权限。
         List<PoatKey> poatKeys = poatDao.lookup(
                 PoatMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
         ).stream().map(Poat::getKey).collect(Collectors.toList());
         poatCache.batchDelete(poatKeys);
         poatDao.batchDelete(poatKeys);
 
-        // 查找删除除所有相关的活动模板活动权限。
+        // 查找删除所有相关的活动模板活动权限。
         List<PoatacKey> poatacKeys = poatacDao.lookup(
                 PoatacMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
         ).stream().map(Poatac::getKey).collect(Collectors.toList());
         poatacCache.batchDelete(poatacKeys);
         poatacDao.batchDelete(poatacKeys);
 
-        // 查找删除除所有相关的活动模板驱动信息。
+        // 查找删除所有相关的活动模板驱动信息。
         List<LongIdKey> activityTemplateDriverInfoKeys = activityTemplateDriverInfoDao.lookup(
                 ActivityTemplateDriverInfoMaintainService.CHILD_FOR_ACTIVITY_TEMPLATE, new Object[]{key}
         ).stream().map(ActivityTemplateDriverInfo::getKey).collect(Collectors.toList());

@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tbl_activity")
 public class HibernateActivity implements Bean {
 
-    private static final long serialVersionUID = 6024273477964258876L;
+    private static final long serialVersionUID = -6383938328794476177L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -72,11 +72,11 @@ public class HibernateActivity implements Bean {
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityFileInfo.class, mappedBy = "activity")
     private Set<HibernateActivityFileInfo> activityFileInfos = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityActivityDataRecordRelation.class, mappedBy = "activity")
-    private Set<HibernateActivityActivityDataRecordRelation> activityActivityDataRecordRelations = new HashSet<>();
-
     @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernatePoac.class, mappedBy = "activity")
     private Set<HibernatePoac> poacs = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.MERGE, targetEntity = HibernateActivityDataRecord.class, mappedBy = "activity")
+    private Set<HibernateActivityDataRecord> activityDataRecords = new HashSet<>();
 
     public HibernateActivity() {
     }
@@ -211,20 +211,20 @@ public class HibernateActivity implements Bean {
         this.activityFileInfos = activityFileInfos;
     }
 
-    public Set<HibernateActivityActivityDataRecordRelation> getActivityActivityDataRecordRelations() {
-        return activityActivityDataRecordRelations;
-    }
-
-    public void setActivityActivityDataRecordRelations(Set<HibernateActivityActivityDataRecordRelation> activityActivityDataRecordRelations) {
-        this.activityActivityDataRecordRelations = activityActivityDataRecordRelations;
-    }
-
     public Set<HibernatePoac> getPoacs() {
         return poacs;
     }
 
     public void setPoacs(Set<HibernatePoac> poacs) {
         this.poacs = poacs;
+    }
+
+    public Set<HibernateActivityDataRecord> getActivityDataRecords() {
+        return activityDataRecords;
+    }
+
+    public void setActivityDataRecords(Set<HibernateActivityDataRecord> activityDataRecords) {
+        this.activityDataRecords = activityDataRecords;
     }
 
     @Override

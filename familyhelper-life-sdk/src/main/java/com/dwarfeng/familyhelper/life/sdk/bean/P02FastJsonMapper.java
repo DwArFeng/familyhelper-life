@@ -46,11 +46,6 @@ public interface P02FastJsonMapper {
             FastJsonActivityTemplateParticipantKey fastJsonActivityTemplateParticipantKey
     );
 
-    FastJsonLongLongRelationKey longLongRelationKeyToFastJson(LongLongRelationKey longLongRelationKey);
-
-    @InheritInverseConfiguration
-    LongLongRelationKey longLongRelationKeyFromFastJson(FastJsonLongLongRelationKey fastJsonLongLongRelationKey);
-
     FastJsonPoacKey poacKeyToFastJson(PoacKey poacKey);
 
     @InheritInverseConfiguration
@@ -75,15 +70,6 @@ public interface P02FastJsonMapper {
 
     @InheritInverseConfiguration
     Activity activityFromFastJson(FastJsonActivity fastJsonActivity);
-
-    FastJsonActivityActivityDataRecordRelation activityActivityDataRecordRelationToFastJson(
-            ActivityActivityDataRecordRelation activityActivityDataRecordRelation
-    );
-
-    @InheritInverseConfiguration
-    ActivityActivityDataRecordRelation activityActivityDataRecordRelationFromFastJson(
-            FastJsonActivityActivityDataRecordRelation fastJsonActivityActivityDataRecordRelation
-    );
 
     FastJsonActivityCoverInfo activityCoverInfoToFastJson(ActivityCoverInfo activityCoverInfo);
 
@@ -125,15 +111,6 @@ public interface P02FastJsonMapper {
     @InheritInverseConfiguration
     ActivityTemplate activityTemplateFromFastJson(FastJsonActivityTemplate fastJsonActivityTemplate);
 
-    FastJsonActivityTemplateActivityDataItemRelation activityTemplateActivityDataItemRelationToFastJson(
-            ActivityTemplateActivityDataItemRelation activityTemplateActivityDataItemRelation
-    );
-
-    @InheritInverseConfiguration
-    ActivityTemplateActivityDataItemRelation activityTemplateActivityDataItemRelationFromFastJson(
-            FastJsonActivityTemplateActivityDataItemRelation fastJsonActivityTemplateActivityDataItemRelation
-    );
-
     FastJsonActivityTemplateCoverInfo activityTemplateCoverInfoToFastJson(
             ActivityTemplateCoverInfo activityTemplateCoverInfo
     );
@@ -141,6 +118,15 @@ public interface P02FastJsonMapper {
     @InheritInverseConfiguration
     ActivityTemplateCoverInfo activityTemplateCoverInfoFromFastJson(
             FastJsonActivityTemplateCoverInfo fastJsonActivityTemplateCoverInfo
+    );
+
+    FastJsonActivityTemplateDataInfo activityTemplateDataInfoToFastJson(
+            ActivityTemplateDataInfo activityTemplateDataInfo
+    );
+
+    @InheritInverseConfiguration
+    ActivityTemplateDataInfo activityTemplateDataInfoFromFastJson(
+            FastJsonActivityTemplateDataInfo fastJsonActivityTemplateDataInfo
     );
 
     FastJsonActivityTemplateDriverInfo activityTemplateDriverInfoToFastJson(

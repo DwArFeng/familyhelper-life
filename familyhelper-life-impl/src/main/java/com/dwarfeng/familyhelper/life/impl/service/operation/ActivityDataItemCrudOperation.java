@@ -2,15 +2,15 @@ package com.dwarfeng.familyhelper.life.impl.service.operation;
 
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataItem;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataRecord;
-import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateActivityDataItemRelation;
-import com.dwarfeng.familyhelper.life.stack.bean.key.LongLongRelationKey;
+import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDataInfo;
 import com.dwarfeng.familyhelper.life.stack.cache.ActivityDataItemCache;
-import com.dwarfeng.familyhelper.life.stack.cache.ActivityTemplateActivityDataItemRelationCache;
+import com.dwarfeng.familyhelper.life.stack.cache.ActivityDataRecordCache;
+import com.dwarfeng.familyhelper.life.stack.cache.ActivityTemplateDataInfoCache;
 import com.dwarfeng.familyhelper.life.stack.dao.ActivityDataItemDao;
 import com.dwarfeng.familyhelper.life.stack.dao.ActivityDataRecordDao;
-import com.dwarfeng.familyhelper.life.stack.dao.ActivityTemplateActivityDataItemRelationDao;
+import com.dwarfeng.familyhelper.life.stack.dao.ActivityTemplateDataInfoDao;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataRecordMaintainService;
-import com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateActivityDataItemRelationMaintainService;
+import com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateDataInfoMaintainService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes;
 import com.dwarfeng.subgrade.sdk.service.custom.operation.BatchCrudOperation;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -27,28 +27,29 @@ public class ActivityDataItemCrudOperation implements BatchCrudOperation<LongIdK
     private final ActivityDataItemDao activityDataItemDao;
     private final ActivityDataItemCache activityDataItemCache;
 
-    private final ActivityDataRecordCrudOperation activityDataRecordCrudOperation;
     private final ActivityDataRecordDao activityDataRecordDao;
+    private final ActivityDataRecordCache activityDataRecordCache;
 
-    private final ActivityTemplateActivityDataItemRelationDao activityTemplateActivityDataItemRelationDao;
-    private final ActivityTemplateActivityDataItemRelationCache activityTemplateActivityDataItemRelationCache;
+    private final ActivityTemplateDataInfoDao activityTemplateDataInfoDao;
+    private final ActivityTemplateDataInfoCache activityTemplateDataInfoCache;
 
     @Value("${cache.timeout.entity.activity_data_item}")
     private long activityDataItemTimeout;
 
     public ActivityDataItemCrudOperation(
-            ActivityDataItemDao ActivityDataItemDao, ActivityDataItemCache ActivityDataItemCache,
-            ActivityDataRecordCrudOperation activityDataRecordCrudOperation,
+            ActivityDataItemDao activityDataItemDao,
+            ActivityDataItemCache activityDataItemCache,
             ActivityDataRecordDao activityDataRecordDao,
-            ActivityTemplateActivityDataItemRelationDao activityTemplateActivityDataItemRelationDao,
-            ActivityTemplateActivityDataItemRelationCache activityTemplateActivityDataItemRelationCache
+            ActivityDataRecordCache activityDataRecordCache,
+            ActivityTemplateDataInfoDao activityTemplateDataInfoDao,
+            ActivityTemplateDataInfoCache activityTemplateDataInfoCache
     ) {
-        this.activityDataItemDao = ActivityDataItemDao;
-        this.activityDataItemCache = ActivityDataItemCache;
-        this.activityDataRecordCrudOperation = activityDataRecordCrudOperation;
+        this.activityDataItemDao = activityDataItemDao;
+        this.activityDataItemCache = activityDataItemCache;
         this.activityDataRecordDao = activityDataRecordDao;
-        this.activityTemplateActivityDataItemRelationDao = activityTemplateActivityDataItemRelationDao;
-        this.activityTemplateActivityDataItemRelationCache = activityTemplateActivityDataItemRelationCache;
+        this.activityDataRecordCache = activityDataRecordCache;
+        this.activityTemplateDataInfoDao = activityTemplateDataInfoDao;
+        this.activityTemplateDataInfoCache = activityTemplateDataInfoCache;
     }
 
     @Override
@@ -84,20 +85,19 @@ public class ActivityDataItemCrudOperation implements BatchCrudOperation<LongIdK
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 查找删除除所有相关的活动数据记录。
+        // 查找删除所有相关的活动数据记录。
         List<LongIdKey> activityDataRecordKeys = activityDataRecordDao.lookup(
                 ActivityDataRecordMaintainService.CHILD_FOR_ITEM, new Object[]{key}
         ).stream().map(ActivityDataRecord::getKey).collect(Collectors.toList());
-        activityDataRecordCrudOperation.batchDelete(activityDataRecordKeys);
+        activityDataRecordCache.batchDelete(activityDataRecordKeys);
+        activityDataRecordDao.batchDelete(activityDataRecordKeys);
 
-        // 查找删除除所有相关的活动模板活动数据条目关联。
-        List<LongLongRelationKey> activityTemplateActivityDataItemRelationKeys =
-                activityTemplateActivityDataItemRelationDao.lookup(
-                        ActivityTemplateActivityDataItemRelationMaintainService.CHILD_FOR_ACTIVITY_DATA_ITEM,
-                        new Object[]{key}
-                ).stream().map(ActivityTemplateActivityDataItemRelation::getKey).collect(Collectors.toList());
-        activityTemplateActivityDataItemRelationCache.batchDelete(activityTemplateActivityDataItemRelationKeys);
-        activityTemplateActivityDataItemRelationDao.batchDelete(activityTemplateActivityDataItemRelationKeys);
+        // 查找删除所有相关的活动模板数据信息。
+        List<LongIdKey> activityTemplateDataInfoKeys = activityTemplateDataInfoDao.lookup(
+                ActivityTemplateDataInfoMaintainService.CHILD_FOR_ACTIVITY_DATA_ITEM, new Object[]{key}
+        ).stream().map(ActivityTemplateDataInfo::getKey).collect(Collectors.toList());
+        activityTemplateDataInfoCache.batchDelete(activityTemplateDataInfoKeys);
+        activityTemplateDataInfoDao.batchDelete(activityTemplateDataInfoKeys);
 
         // 删除自身。
         activityDataItemCache.delete(key);

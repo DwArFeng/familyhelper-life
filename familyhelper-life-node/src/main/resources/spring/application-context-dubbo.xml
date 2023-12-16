@@ -92,11 +92,6 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityActivityDataRecordRelationMaintainService"
-            ref="activityActivityDataRecordRelationMaintainServiceImpl"
-            group="${dubbo.provider.group}"
-    />
-    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityCoverInfoMaintainService"
             ref="activityCoverInfoMaintainServiceImpl"
             group="${dubbo.provider.group}"
@@ -157,13 +152,13 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateActivityDataItemRelationMaintainService"
-            ref="activityTemplateActivityDataItemRelationMaintainServiceImpl"
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateCoverInfoMaintainService"
+            ref="activityTemplateCoverInfoMaintainServiceImpl"
             group="${dubbo.provider.group}"
     />
     <dubbo:service
-            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateCoverInfoMaintainService"
-            ref="activityTemplateCoverInfoMaintainServiceImpl"
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateDataInfoMaintainService"
+            ref="activityTemplateDataInfoMaintainServiceImpl"
             group="${dubbo.provider.group}"
     />
     <dubbo:service

@@ -18,4 +18,7 @@ public interface ActivityDataRecordMaintainService extends BatchCrudService<Long
     String CHILD_FOR_ITEM = "child_for_item";
     String CHILD_FOR_ITEM_RECORDED_DATE_ASC = "child_for_item_recorded_date_asc";
     String CHILD_FOR_ITEM_RECORDED_DATE_DESC = "child_for_item_recorded_date_desc";
+    String CHILD_FOR_ACTIVITY = "child_for_activity";
+    String CHILD_FOR_ACTIVITY_RECORDED_DATE_ASC = "child_for_activity_recorded_date_asc";
+    String CHILD_FOR_ACTIVITY_RECORDED_DATE_DESC = "child_for_activity_recorded_date_desc";
 }

@@ -1,9 +1,11 @@
 package com.dwarfeng.familyhelper.life.impl.service;
 
+import com.dwarfeng.familyhelper.life.stack.bean.entity.Activity;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataItem;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataRecord;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataItemMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataRecordMaintainService;
+import com.dwarfeng.familyhelper.life.stack.service.ActivityMaintainService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -28,16 +30,19 @@ public class ActivityDataRecordMaintainServiceImplTest {
     private ActivityDataRecordMaintainService activityDataRecordMaintainService;
     @Autowired
     private ActivityDataItemMaintainService activityDataItemMaintainService;
+    @Autowired
+    private ActivityMaintainService activityMaintainService;
 
     private List<ActivityDataRecord> activityDataRecords;
     private ActivityDataItem activityDataItem;
+    private Activity activity;
 
     @Before
     public void setUp() {
         activityDataRecords = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             ActivityDataRecord activityDataRecord = new ActivityDataRecord(
-                    null, null, BigDecimal.ONE, new Date(), "remark"
+                    null, null, null, BigDecimal.ONE, new Date(), "remark"
             );
             activityDataRecords.add(activityDataRecord);
         }
@@ -45,12 +50,17 @@ public class ActivityDataRecordMaintainServiceImplTest {
                 null, null, null, "name", "remark", 12450, BigDecimal.ONE, BigDecimal.ONE, BigDecimal.ONE,
                 BigDecimal.ONE, new Date(), new Date(), 12450
         );
+        activity = new Activity(
+                null, "activityType", "name", 12450, "remark", true, new Date(), new Date(), new Date(), new Date(),
+                new Date(), new Date()
+        );
     }
 
     @After
     public void tearDown() {
         activityDataRecords.clear();
         activityDataItem = null;
+        activity = null;
     }
 
     @Test
@@ -94,6 +104,32 @@ public class ActivityDataRecordMaintainServiceImplTest {
             ).getCount());
         } finally {
             activityDataItemMaintainService.deleteIfExists(activityDataItem.getKey());
+            for (ActivityDataRecord activityDataRecord : activityDataRecords) {
+                activityDataRecordMaintainService.deleteIfExists(activityDataRecord.getKey());
+            }
+        }
+    }
+
+    @Test
+    public void testForActivityCascade() throws Exception {
+        try {
+            activity.setKey(activityMaintainService.insertOrUpdate(activity));
+            for (ActivityDataRecord activityDataRecord : activityDataRecords) {
+                activityDataRecord.setActivityKey(activity.getKey());
+                activityDataRecord.setKey(activityDataRecordMaintainService.insert(activityDataRecord));
+            }
+
+            assertEquals(activityDataRecords.size(), activityDataRecordMaintainService.lookup(
+                    ActivityDataRecordMaintainService.CHILD_FOR_ACTIVITY, new Object[]{activity.getKey()}
+            ).getCount());
+
+            activityMaintainService.deleteIfExists(activity.getKey());
+
+            assertEquals(0, activityDataRecordMaintainService.lookup(
+                    ActivityDataRecordMaintainService.CHILD_FOR_ACTIVITY, new Object[]{activity.getKey()}
+            ).getCount());
+        } finally {
+            activityMaintainService.deleteIfExists(activity.getKey());
             for (ActivityDataRecord activityDataRecord : activityDataRecords) {
                 activityDataRecordMaintainService.deleteIfExists(activityDataRecord.getKey());
             }

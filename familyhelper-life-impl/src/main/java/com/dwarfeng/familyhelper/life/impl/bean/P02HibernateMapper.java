@@ -47,11 +47,6 @@ public interface P02HibernateMapper {
             HibernateActivityTemplateParticipantKey hibernateActivityTemplateParticipantKey
     );
 
-    HibernateLongLongRelationKey longLongRelationKeyToHibernate(LongLongRelationKey longLongRelationKey);
-
-    @InheritInverseConfiguration
-    LongLongRelationKey longLongRelationKeyFromHibernate(HibernateLongLongRelationKey hibernateLongLongRelationKey);
-
     HibernatePoacKey poacKeyToHibernate(PoacKey poacKey);
 
     @InheritInverseConfiguration
@@ -76,25 +71,12 @@ public interface P02HibernateMapper {
     @Mapping(target = "longId", ignore = true)
     @Mapping(target = "activityParticipants", ignore = true)
     @Mapping(target = "activityFileInfos", ignore = true)
+    @Mapping(target = "activityDataRecords", ignore = true)
     @Mapping(target = "activityCoverInfos", ignore = true)
-    @Mapping(target = "activityActivityDataRecordRelations", ignore = true)
     HibernateActivity activityToHibernate(Activity activity);
 
     @InheritInverseConfiguration
     Activity activityFromHibernate(HibernateActivity hibernateActivity);
-
-    @Mapping(target = "rightLongId", ignore = true)
-    @Mapping(target = "leftLongId", ignore = true)
-    @Mapping(target = "activityDataRecord", ignore = true)
-    @Mapping(target = "activity", ignore = true)
-    HibernateActivityActivityDataRecordRelation activityActivityDataRecordRelationToHibernate(
-            ActivityActivityDataRecordRelation activityActivityDataRecordRelation
-    );
-
-    @InheritInverseConfiguration
-    ActivityActivityDataRecordRelation activityActivityDataRecordRelationFromHibernate(
-            HibernateActivityActivityDataRecordRelation hibernateActivityActivityDataRecordRelation
-    );
 
     @Mapping(target = "longId", ignore = true)
     @Mapping(target = "activityLongId", ignore = true)
@@ -108,6 +90,7 @@ public interface P02HibernateMapper {
     @Mapping(target = "records", ignore = true)
     @Mapping(target = "nodeLongId", ignore = true)
     @Mapping(target = "longId", ignore = true)
+    @Mapping(target = "activityTemplateDataInfos", ignore = true)
     @Mapping(target = "activityDataSet", ignore = true)
     @Mapping(target = "activityDataNode", ignore = true)
     HibernateActivityDataItem activityDataItemToHibernate(ActivityDataItem activityDataItem);
@@ -128,8 +111,9 @@ public interface P02HibernateMapper {
 
     @Mapping(target = "longId", ignore = true)
     @Mapping(target = "itemLongId", ignore = true)
+    @Mapping(target = "activityLongId", ignore = true)
     @Mapping(target = "activityDataItem", ignore = true)
-    @Mapping(target = "activityActivityDataRecordRelations", ignore = true)
+    @Mapping(target = "activity", ignore = true)
     HibernateActivityDataRecord activityDataRecordToHibernate(ActivityDataRecord activityDataRecord);
 
     @InheritInverseConfiguration
@@ -167,25 +151,12 @@ public interface P02HibernateMapper {
     @Mapping(target = "activityTemplateParticipants", ignore = true)
     @Mapping(target = "activityTemplateFileInfos", ignore = true)
     @Mapping(target = "activityTemplateDriverInfos", ignore = true)
+    @Mapping(target = "activityTemplateDataInfos", ignore = true)
     @Mapping(target = "activityTemplateCoverInfos", ignore = true)
-    @Mapping(target = "activityTemplateActivityDataItemRelations", ignore = true)
     HibernateActivityTemplate activityTemplateToHibernate(ActivityTemplate activityTemplate);
 
     @InheritInverseConfiguration
     ActivityTemplate activityTemplateFromHibernate(HibernateActivityTemplate hibernateActivityTemplate);
-
-    @Mapping(target = "rightLongId", ignore = true)
-    @Mapping(target = "leftLongId", ignore = true)
-    @Mapping(target = "activityTemplate", ignore = true)
-    @Mapping(target = "activityDataItem", ignore = true)
-    HibernateActivityTemplateActivityDataItemRelation activityTemplateActivityDataItemRelationToHibernate(
-            ActivityTemplateActivityDataItemRelation activityTemplateActivityDataItemRelation
-    );
-
-    @InheritInverseConfiguration
-    ActivityTemplateActivityDataItemRelation activityTemplateActivityDataItemRelationFromHibernate(
-            HibernateActivityTemplateActivityDataItemRelation hibernateActivityTemplateActivityDataItemRelation
-    );
 
     @Mapping(target = "longId", ignore = true)
     @Mapping(target = "activityTemplateLongId", ignore = true)
@@ -197,6 +168,20 @@ public interface P02HibernateMapper {
     @InheritInverseConfiguration
     ActivityTemplateCoverInfo activityTemplateCoverInfoFromHibernate(
             HibernateActivityTemplateCoverInfo hibernateActivityTemplateCoverInfo
+    );
+
+    @Mapping(target = "longId", ignore = true)
+    @Mapping(target = "activityTemplateLongId", ignore = true)
+    @Mapping(target = "activityTemplate", ignore = true)
+    @Mapping(target = "activityDataItemLongId", ignore = true)
+    @Mapping(target = "activityDataItem", ignore = true)
+    HibernateActivityTemplateDataInfo activityTemplateDataInfoToHibernate(
+            ActivityTemplateDataInfo activityTemplateDataInfo
+    );
+
+    @InheritInverseConfiguration
+    ActivityTemplateDataInfo activityTemplateDataInfoFromHibernate(
+            HibernateActivityTemplateDataInfo hibernateActivityTemplateDataInfo
     );
 
     @Mapping(target = "longId", ignore = true)

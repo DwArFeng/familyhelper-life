@@ -14,10 +14,11 @@ import java.util.Date;
  */
 public class ActivityDataRecord implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = 1662120065655454368L;
+    private static final long serialVersionUID = 5319310814144923468L;
 
     private LongIdKey key;
     private LongIdKey itemKey;
+    private LongIdKey activityKey;
     private BigDecimal value;
     private Date recordedDate;
     private String remark;
@@ -25,9 +26,13 @@ public class ActivityDataRecord implements Entity<LongIdKey> {
     public ActivityDataRecord() {
     }
 
-    public ActivityDataRecord(LongIdKey key, LongIdKey itemKey, BigDecimal value, Date recordedDate, String remark) {
+    public ActivityDataRecord(
+            LongIdKey key, LongIdKey itemKey, LongIdKey activityKey, BigDecimal value, Date recordedDate,
+            String remark
+    ) {
         this.key = key;
         this.itemKey = itemKey;
+        this.activityKey = activityKey;
         this.value = value;
         this.recordedDate = recordedDate;
         this.remark = remark;
@@ -49,6 +54,14 @@ public class ActivityDataRecord implements Entity<LongIdKey> {
 
     public void setItemKey(LongIdKey itemKey) {
         this.itemKey = itemKey;
+    }
+
+    public LongIdKey getActivityKey() {
+        return activityKey;
+    }
+
+    public void setActivityKey(LongIdKey activityKey) {
+        this.activityKey = activityKey;
     }
 
     public BigDecimal getValue() {
@@ -80,6 +93,7 @@ public class ActivityDataRecord implements Entity<LongIdKey> {
         return "ActivityDataRecord{" +
                 "key=" + key +
                 ", itemKey=" + itemKey +
+                ", activityKey=" + activityKey +
                 ", value=" + value +
                 ", recordedDate=" + recordedDate +
                 ", remark='" + remark + '\'' +
