@@ -82,7 +82,7 @@ public class PbRecordCrudOperation implements BatchCrudOperation<LongIdKey, PbRe
             ftpHandler.deleteFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(key));
         }
 
-        // 查找删除除所有相关的个人最佳文件信息。
+        // 查找删除所有相关的个人最佳文件信息。
         List<LongIdKey> pbFileInfoKeys = pbFileInfoDao.lookup(
                 PbFileInfoMaintainService.CHILD_FOR_RECORD, new Object[]{key}
         ).stream().map(PbFileInfo::getKey).collect(Collectors.toList());

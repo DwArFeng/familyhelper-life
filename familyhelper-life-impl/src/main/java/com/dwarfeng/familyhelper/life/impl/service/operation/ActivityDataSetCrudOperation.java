@@ -91,7 +91,7 @@ public class ActivityDataSetCrudOperation implements BatchCrudOperation<LongIdKe
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 查找删除除所有相关的活动数据集合权限。
+        // 查找删除所有相关的活动数据集合权限。
         List<PoadKey> poadKeys = poadDao.lookup(PoadMaintainService.CHILD_FOR_ACTIVITY_DATA_SET, new Object[]{key})
                 .stream().map(Poad::getKey).collect(Collectors.toList());
         poadCache.batchDelete(poadKeys);

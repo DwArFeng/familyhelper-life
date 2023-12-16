@@ -113,41 +113,41 @@ public class UserCrudOperation implements BatchCrudOperation<StringIdKey, User> 
         popbCache.batchDelete(popbKeys);
         popbDao.batchDelete(popbKeys);
 
-        // 查找删除除所有相关的活动参与者。
+        // 查找删除所有相关的活动参与者。
         List<ActivityParticipantKey> activityParticipantKeys = activityParticipantDao.lookup(
                 ActivityParticipantMaintainService.CHILD_FOR_USER, new Object[]{key}
         ).stream().map(ActivityParticipant::getKey).collect(Collectors.toList());
         activityParticipantCache.batchDelete(activityParticipantKeys);
         activityParticipantDao.batchDelete(activityParticipantKeys);
 
-        // 查找删除除所有相关的活动模板参与者。
+        // 查找删除所有相关的活动模板参与者。
         List<ActivityTemplateParticipantKey> activityTemplateParticipantKeys = activityTemplateParticipantDao.lookup(
                 ActivityTemplateParticipantMaintainService.CHILD_FOR_USER, new Object[]{key}
         ).stream().map(ActivityTemplateParticipant::getKey).collect(Collectors.toList());
         activityTemplateParticipantCache.batchDelete(activityTemplateParticipantKeys);
         activityTemplateParticipantDao.batchDelete(activityTemplateParticipantKeys);
 
-        // 查找删除除所有相关的活动数据集合权限。
+        // 查找删除所有相关的活动数据集合权限。
         List<PoadKey> poadKeys = poadDao.lookup(PoadMaintainService.CHILD_FOR_USER, new Object[]{key})
                 .stream().map(Poad::getKey).collect(Collectors.toList());
         poadCache.batchDelete(poadKeys);
         poadDao.batchDelete(poadKeys);
 
-        // 查找删除除所有相关的活动权限。
+        // 查找删除所有相关的活动权限。
         List<PoacKey> poacKeys = poacDao.lookup(
                 PoacMaintainService.CHILD_FOR_USER, new Object[]{key}
         ).stream().map(Poac::getKey).collect(Collectors.toList());
         poacCache.batchDelete(poacKeys);
         poacDao.batchDelete(poacKeys);
 
-        // 查找删除除所有相关的活动模板权限。
+        // 查找删除所有相关的活动模板权限。
         List<PoatKey> poatKeys = poatDao.lookup(
                 PoatMaintainService.CHILD_FOR_USER, new Object[]{key}
         ).stream().map(Poat::getKey).collect(Collectors.toList());
         poatCache.batchDelete(poatKeys);
         poatDao.batchDelete(poatKeys);
 
-        // 查找删除除所有相关的活动模板活动权限。
+        // 查找删除所有相关的活动模板活动权限。
         List<PoatacKey> poatacKeys = poatacDao.lookup(
                 PoatacMaintainService.CHILD_FOR_USER, new Object[]{key}
         ).stream().map(Poatac::getKey).collect(Collectors.toList());

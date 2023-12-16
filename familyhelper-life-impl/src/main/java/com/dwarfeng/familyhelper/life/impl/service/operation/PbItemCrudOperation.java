@@ -71,7 +71,7 @@ public class PbItemCrudOperation implements BatchCrudOperation<LongIdKey, PbItem
 
     @Override
     public void delete(LongIdKey key) throws Exception {
-        // 查找删除除所有相关的个人最佳记录。
+        // 查找删除所有相关的个人最佳记录。
         List<LongIdKey> pbRecordKeys = pbRecordDao.lookup(
                 PbRecordMaintainService.CHILD_FOR_ITEM, new Object[]{key}
         ).stream().map(PbRecord::getKey).collect(Collectors.toList());
