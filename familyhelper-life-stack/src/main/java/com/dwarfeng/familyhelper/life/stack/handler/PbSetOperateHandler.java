@@ -49,20 +49,20 @@ public interface PbSetOperateHandler extends Handler {
     /**
      * 添加或更新个人最佳集合的访客权限。
      *
-     * @param ownerUserKey              操作者的主键。
+     * @param userKey              操作者的主键。
      * @param pbSetPermissionUpsertInfo 权限添加信息。
      * @throws HandlerException 处理器异常。
      */
-    void upsertPermission(StringIdKey ownerUserKey, PbSetPermissionUpsertInfo pbSetPermissionUpsertInfo)
+    void upsertPermission(StringIdKey userKey, PbSetPermissionUpsertInfo pbSetPermissionUpsertInfo)
             throws HandlerException;
 
     /**
      * 移除个人最佳集合的访客权限。
      *
-     * @param ownerUserKey              操作者的主键。
+     * @param userKey              操作者的主键。
      * @param pbSetPermissionRemoveInfo 权限移除信息。
      * @throws HandlerException 处理器异常。
      */
-    void removePermission(StringIdKey ownerUserKey, PbSetPermissionRemoveInfo pbSetPermissionRemoveInfo)
+    void removePermission(StringIdKey userKey, PbSetPermissionRemoveInfo pbSetPermissionRemoveInfo)
             throws HandlerException;
 }

@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 优化部分操作服务及操作处理器。
+  - 优化 PbSetOperateService 中方法的参数名称。
+  - 优化 PbSetOperateHandler 中方法的参数名称，实现类中的注释，实现类中的方法的部分代码顺序。
+
 - 优化 Ftp 常量类以及 FtpHandler 调用方式。
 
 - 增加预设查询。

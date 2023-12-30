@@ -59,10 +59,10 @@ public class PbSetOperateServiceImpl implements PbSetOperateService {
 
     @Override
     public void upsertPermission(
-            StringIdKey ownerUserKey, PbSetPermissionUpsertInfo pbSetPermissionUpsertInfo
+            StringIdKey userKey, PbSetPermissionUpsertInfo pbSetPermissionUpsertInfo
     ) throws ServiceException {
         try {
-            pbSetOperateHandler.upsertPermission(ownerUserKey, pbSetPermissionUpsertInfo);
+            pbSetOperateHandler.upsertPermission(userKey, pbSetPermissionUpsertInfo);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("添加个人最佳集合的访客权限时发生异常", LogLevel.WARN, sem, e);
         }
@@ -70,10 +70,10 @@ public class PbSetOperateServiceImpl implements PbSetOperateService {
 
     @Override
     public void removePermission(
-            StringIdKey ownerUserKey, PbSetPermissionRemoveInfo pbSetPermissionRemoveInfo
+            StringIdKey userKey, PbSetPermissionRemoveInfo pbSetPermissionRemoveInfo
     ) throws ServiceException {
         try {
-            pbSetOperateHandler.removePermission(ownerUserKey, pbSetPermissionRemoveInfo);
+            pbSetOperateHandler.removePermission(userKey, pbSetPermissionRemoveInfo);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logAndThrow("移除个人最佳集合的访客权限时发生异常", LogLevel.WARN, sem, e);
         }
