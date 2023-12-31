@@ -64,6 +64,12 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(240), "activity template participant not exists");
     public static final ServiceException.Code ACTIVITY_TEMPLATE_DATA_INFO_NOT_EXISTS =
             new ServiceException.Code(offset(250), "activity template data info not exists");
+    public static final ServiceException.Code ACTIVITY_NOT_EXISTS =
+            new ServiceException.Code(offset(260), "activity not exists");
+    public static final ServiceException.Code USER_NOT_PERMITTED_FOR_ACTIVITY =
+            new ServiceException.Code(offset(270), "user not permitted for activity");
+    public static final ServiceException.Code ACTIVITY_LOCKED =
+            new ServiceException.Code(offset(280), "activity locked");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -114,6 +120,9 @@ public final class ServiceExceptionCodes {
         ACTIVITY_TEMPLATE_PARTICIPANT_EXISTS.setCode(offset(230));
         ACTIVITY_TEMPLATE_PARTICIPANT_NOT_EXISTS.setCode(offset(240));
         ACTIVITY_TEMPLATE_DATA_INFO_NOT_EXISTS.setCode(offset(250));
+        ACTIVITY_NOT_EXISTS.setCode(offset(260));
+        USER_NOT_PERMITTED_FOR_ACTIVITY.setCode(offset(270));
+        ACTIVITY_LOCKED.setCode(offset(280));
     }
 
     private ServiceExceptionCodes() {

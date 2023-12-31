@@ -2,10 +2,7 @@ package com.dwarfeng.familyhelper.life.impl.handler;
 
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
-import com.dwarfeng.familyhelper.life.stack.bean.key.ActivityTemplateParticipantKey;
-import com.dwarfeng.familyhelper.life.stack.bean.key.PoadKey;
-import com.dwarfeng.familyhelper.life.stack.bean.key.PoatKey;
-import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
+import com.dwarfeng.familyhelper.life.stack.bean.key.*;
 import com.dwarfeng.familyhelper.life.stack.exception.*;
 import com.dwarfeng.familyhelper.life.stack.service.*;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
@@ -46,6 +43,8 @@ public class HandlerValidator {
     private final ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService;
     private final ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService;
     private final ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService;
+    private final ActivityMaintainService activityMaintainService;
+    private final PoacMaintainService poacMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -64,7 +63,9 @@ public class HandlerValidator {
             ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService,
             ActivityTemplateParticipantMaintainService activityTemplateParticipantMaintainService,
             ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService,
-            ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService
+            ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService,
+            ActivityMaintainService activityMaintainService,
+            PoacMaintainService poacMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -83,6 +84,8 @@ public class HandlerValidator {
         this.activityTemplateParticipantMaintainService = activityTemplateParticipantMaintainService;
         this.activityTemplateFileInfoMaintainService = activityTemplateFileInfoMaintainService;
         this.activityTemplateDataInfoMaintainService = activityTemplateDataInfoMaintainService;
+        this.activityMaintainService = activityMaintainService;
+        this.poacMaintainService = poacMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -226,6 +229,16 @@ public class HandlerValidator {
             if (Objects.isNull(activityTemplateFileKey) ||
                     !activityTemplateFileInfoMaintainService.exists(activityTemplateFileKey)) {
                 throw new ActivityTemplateFileNotExistsException(activityTemplateFileKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityExists(LongIdKey activityKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityKey) || !activityMaintainService.exists(activityKey)) {
+                throw new ActivityNotExistsException(activityKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -700,6 +713,42 @@ public class HandlerValidator {
             if (Objects.isNull(activityTemplateDataInfoKey) ||
                     !activityTemplateDataInfoMaintainService.exists(activityTemplateDataInfoKey)) {
                 throw new ActivityTemplateDataInfoNotExistsException(activityTemplateDataInfoKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForActivity(StringIdKey userKey, LongIdKey activityKey)
+            throws HandlerException {
+        try {
+            // 1. 构造 Poac 主键。
+            PoacKey poacKey = new PoacKey(activityKey.getLongId(), userKey.getStringId());
+
+            // 2. 查看 Poac 实体是否存在，如果不存在，则没有权限。
+            if (!poacMaintainService.exists(poacKey)) {
+                throw new UserNotPermittedForActivityException(userKey, activityKey);
+            }
+
+            // 3. 查看 Poac.permissionLevel 是否为 Poac.PERMISSION_LEVEL_OWNER，如果不是，则没有权限。
+            Poac poac = poacMaintainService.get(poacKey);
+            if (Objects.equals(poac.getPermissionLevel(), Constants.PERMISSION_LEVEL_OWNER)) {
+                return;
+            }
+            throw new UserNotPermittedForActivityException(userKey, activityKey);
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityNotLocked(LongIdKey activityKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityKey) || !activityMaintainService.exists(activityKey)) {
+                throw new ActivityNotExistsException(activityKey);
+            }
+            Activity activity = activityMaintainService.get(activityKey);
+            if (activity.isLocked()) {
+                throw new ActivityLockedException(activityKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);

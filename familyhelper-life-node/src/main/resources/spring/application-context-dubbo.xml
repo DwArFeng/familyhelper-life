@@ -92,6 +92,11 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityOperateService"
+            ref="activityOperateServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityCoverInfoMaintainService"
             ref="activityCoverInfoMaintainServiceImpl"
             group="${dubbo.provider.group}"
