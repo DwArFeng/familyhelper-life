@@ -102,6 +102,12 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityCoverOperateService"
+            ref="activityCoverOperateServiceImpl"
+            protocol="hessian"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityDataItemMaintainService"
             ref="activityDataItemMaintainServiceImpl"
             group="${dubbo.provider.group}"

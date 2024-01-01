@@ -70,6 +70,10 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(270), "user not permitted for activity");
     public static final ServiceException.Code ACTIVITY_LOCKED =
             new ServiceException.Code(offset(280), "activity locked");
+    public static final ServiceException.Code ACTIVITY_COVER_NOT_EXISTS =
+            new ServiceException.Code(offset(290), "activity cover not exists");
+    public static final ServiceException.Code ILLEGAL_ACTIVITY_COVER_STATE =
+            new ServiceException.Code(offset(300), "illegal activity cover state");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -123,6 +127,8 @@ public final class ServiceExceptionCodes {
         ACTIVITY_NOT_EXISTS.setCode(offset(260));
         USER_NOT_PERMITTED_FOR_ACTIVITY.setCode(offset(270));
         ACTIVITY_LOCKED.setCode(offset(280));
+        ACTIVITY_COVER_NOT_EXISTS.setCode(offset(290));
+        ILLEGAL_ACTIVITY_COVER_STATE.setCode(offset(300));
     }
 
     private ServiceExceptionCodes() {

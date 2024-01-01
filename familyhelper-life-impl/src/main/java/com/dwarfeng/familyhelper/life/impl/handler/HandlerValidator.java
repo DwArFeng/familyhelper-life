@@ -45,6 +45,7 @@ public class HandlerValidator {
     private final ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService;
     private final ActivityMaintainService activityMaintainService;
     private final PoacMaintainService poacMaintainService;
+    private final ActivityCoverInfoMaintainService activityCoverInfoMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -65,7 +66,8 @@ public class HandlerValidator {
             ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService,
             ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService,
             ActivityMaintainService activityMaintainService,
-            PoacMaintainService poacMaintainService
+            PoacMaintainService poacMaintainService,
+            ActivityCoverInfoMaintainService activityCoverInfoMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -86,6 +88,7 @@ public class HandlerValidator {
         this.activityTemplateDataInfoMaintainService = activityTemplateDataInfoMaintainService;
         this.activityMaintainService = activityMaintainService;
         this.poacMaintainService = poacMaintainService;
+        this.activityCoverInfoMaintainService = activityCoverInfoMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -239,6 +242,16 @@ public class HandlerValidator {
         try {
             if (Objects.isNull(activityKey) || !activityMaintainService.exists(activityKey)) {
                 throw new ActivityNotExistsException(activityKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityCoverExists(LongIdKey activityCoverKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityCoverKey) || !activityCoverInfoMaintainService.exists(activityCoverKey)) {
+                throw new ActivityCoverNotExistsException(activityCoverKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -708,12 +721,61 @@ public class HandlerValidator {
         }
     }
 
+    public void makeSureActivityCoverHasSameActivity(List<LongIdKey> activityCoverKeys)
+            throws HandlerException {
+        try {
+            LongIdKey activityKey = activityCoverInfoMaintainService.get(
+                    activityCoverKeys.get(0)
+            ).getActivityKey();
+            if (Objects.isNull(activityKey)) {
+                throw new IllegalActivityCoverStateException(activityCoverKeys.get(0));
+            }
+            for (LongIdKey activityCoverKey : activityCoverKeys) {
+                LongIdKey anchorActivityKey = activityCoverInfoMaintainService.get(
+                        activityCoverKey
+                ).getActivityKey();
+                if (!Objects.equals(activityKey, anchorActivityKey)) {
+                    throw new IllegalActivityCoverStateException(activityCoverKey);
+                }
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
     public void makeSureActivityTemplateDataInfoExists(LongIdKey activityTemplateDataInfoKey) throws HandlerException {
         try {
             if (Objects.isNull(activityTemplateDataInfoKey) ||
                     !activityTemplateDataInfoMaintainService.exists(activityTemplateDataInfoKey)) {
                 throw new ActivityTemplateDataInfoNotExistsException(activityTemplateDataInfoKey);
             }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    public void makeSureUserInspectPermittedForActivity(StringIdKey userKey, LongIdKey activityKey)
+            throws HandlerException {
+        try {
+            // 1. 构造 Poac 主键。
+            PoacKey poacKey = new PoacKey(activityKey.getLongId(), userKey.getStringId());
+
+            // 2. 查看 Poac 实体是否存在，如果不存在，则没有权限。
+            if (!poacMaintainService.exists(poacKey)) {
+                throw new UserNotPermittedForActivityException(userKey, activityKey);
+            }
+
+            // 3. 查看 Poac.permissionLevel 是否为 Poac.PERMISSION_LEVEL_OWNER 或 Poac.PERMISSION_LEVEL_GUEST，
+            // 如果不是，则没有权限。
+            Poac poac = poacMaintainService.get(poacKey);
+            if (Objects.equals(poac.getPermissionLevel(), Constants.PERMISSION_LEVEL_OWNER)) {
+                return;
+            }
+            if (Objects.equals(poac.getPermissionLevel(), Constants.PERMISSION_LEVEL_GUEST)) {
+                return;
+            }
+            throw new UserNotPermittedForActivityException(userKey, activityKey);
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
