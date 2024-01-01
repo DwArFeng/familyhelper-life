@@ -148,6 +148,12 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityFileOperateService"
+            ref="activityFileOperateServiceImpl"
+            protocol="hessian"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityParticipantMaintainService"
             ref="activityParticipantMaintainServiceImpl"
             group="${dubbo.provider.group}"

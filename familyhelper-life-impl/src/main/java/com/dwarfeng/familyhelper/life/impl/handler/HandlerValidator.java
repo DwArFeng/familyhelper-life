@@ -46,6 +46,7 @@ public class HandlerValidator {
     private final ActivityMaintainService activityMaintainService;
     private final PoacMaintainService poacMaintainService;
     private final ActivityCoverInfoMaintainService activityCoverInfoMaintainService;
+    private final ActivityFileInfoMaintainService activityFileInfoMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -67,7 +68,8 @@ public class HandlerValidator {
             ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService,
             ActivityMaintainService activityMaintainService,
             PoacMaintainService poacMaintainService,
-            ActivityCoverInfoMaintainService activityCoverInfoMaintainService
+            ActivityCoverInfoMaintainService activityCoverInfoMaintainService,
+            ActivityFileInfoMaintainService activityFileInfoMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -89,6 +91,7 @@ public class HandlerValidator {
         this.activityMaintainService = activityMaintainService;
         this.poacMaintainService = poacMaintainService;
         this.activityCoverInfoMaintainService = activityCoverInfoMaintainService;
+        this.activityFileInfoMaintainService = activityFileInfoMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -252,6 +255,16 @@ public class HandlerValidator {
         try {
             if (Objects.isNull(activityCoverKey) || !activityCoverInfoMaintainService.exists(activityCoverKey)) {
                 throw new ActivityCoverNotExistsException(activityCoverKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityFileExists(LongIdKey activityFileKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityFileKey) || !activityFileInfoMaintainService.exists(activityFileKey)) {
+                throw new ActivityFileNotExistsException(activityFileKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
@@ -812,6 +825,25 @@ public class HandlerValidator {
             if (activity.isLocked()) {
                 throw new ActivityLockedException(activityKey);
             }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureUserModifyPermittedForActivityFileInfo(StringIdKey userKey, LongIdKey activityFileInfoKey)
+            throws HandlerException {
+        try {
+            // 确认 activityFileKey 对应的文件存在。
+            makeSureActivityFileExists(activityFileInfoKey);
+
+            // 查找指定的活动文件是否绑定活动，如果不绑定活动，则抛出活动文件状态异常。
+            ActivityFileInfo activityFileInfo = activityFileInfoMaintainService.get(activityFileInfoKey);
+            if (Objects.isNull(activityFileInfo.getActivityKey())) {
+                throw new IllegalActivityFileStateException(activityFileInfoKey);
+            }
+
+            // 取出活动文件的活动外键，判断用户是否拥有该活动的权限。
+            makeSureUserModifyPermittedForActivity(userKey, activityFileInfo.getActivityKey());
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }

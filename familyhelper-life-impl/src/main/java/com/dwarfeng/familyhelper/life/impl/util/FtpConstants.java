@@ -16,6 +16,7 @@ public final class FtpConstants {
             "familyhelper-life", "activity-template-file"
     };
     public static final String[] FILE_PATHS_ACTIVITY_COVER = new String[]{"familyhelper-life", "activity-cover"};
+    public static final String[] FILE_PATHS_ACTIVITY_FILE = new String[]{"familyhelper-life", "activity-file"};
 
     private FtpConstants() {
         throw new IllegalStateException("禁止实例化");
