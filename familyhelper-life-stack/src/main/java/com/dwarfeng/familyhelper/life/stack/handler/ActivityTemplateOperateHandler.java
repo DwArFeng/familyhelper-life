@@ -87,4 +87,26 @@ public interface ActivityTemplateOperateHandler extends Handler {
     void removeActivityPermission(
             StringIdKey userKey, ActivityTemplateActivityPermissionRemoveInfo removeInfo
     ) throws HandlerException;
+
+    /**
+     * 创建活动。
+     *
+     * @param userKey    操作者的主键。
+     * @param createInfo 活动创建信息。
+     * @return 生成的活动的主键。
+     * @throws HandlerException 处理器异常。
+     */
+    LongIdKey createActivityFormal(StringIdKey userKey, ActivityTemplateActivityCreateInfo createInfo)
+            throws HandlerException;
+
+    /**
+     * 创建用于测试的活动。
+     *
+     * @param userKey    操作者的主键。
+     * @param createInfo 活动创建信息。
+     * @return 生成的活动的主键。
+     * @throws HandlerException 处理器异常。
+     */
+    LongIdKey createActivityTest(StringIdKey userKey, ActivityTemplateActivityCreateInfo createInfo)
+            throws HandlerException;
 }

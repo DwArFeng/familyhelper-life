@@ -87,4 +87,26 @@ public interface ActivityTemplateOperateService extends Service {
     void removeActivityPermission(
             StringIdKey userKey, ActivityTemplateActivityPermissionRemoveInfo removeInfo
     ) throws ServiceException;
+
+    /**
+     * 创建活动。
+     *
+     * @param userKey    操作者的主键。
+     * @param createInfo 活动创建信息。
+     * @return 生成的活动的主键。
+     * @throws ServiceException 服务异常。
+     */
+    LongIdKey createActivity(StringIdKey userKey, ActivityTemplateActivityCreateInfo createInfo)
+            throws ServiceException;
+
+    /**
+     * 创建用于测试的活动。
+     *
+     * @param userKey    操作者的主键。
+     * @param createInfo 活动创建信息。
+     * @return 生成的活动的主键。
+     * @throws ServiceException 服务异常。
+     */
+    LongIdKey createActivityForTest(StringIdKey userKey, ActivityTemplateActivityCreateInfo createInfo)
+            throws ServiceException;
 }

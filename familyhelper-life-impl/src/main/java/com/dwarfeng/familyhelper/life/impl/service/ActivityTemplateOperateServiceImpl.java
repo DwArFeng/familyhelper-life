@@ -97,4 +97,24 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
             throw ServiceExceptionHelper.logAndThrow("移除活动模板活动权限时发生异常", LogLevel.WARN, sem, e);
         }
     }
+
+    @Override
+    public LongIdKey createActivity(StringIdKey userKey, ActivityTemplateActivityCreateInfo createInfo)
+            throws ServiceException {
+        try {
+            return activityTemplateOperateHandler.createActivityFormal(userKey, createInfo);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logAndThrow("创建活动时发生异常", LogLevel.WARN, sem, e);
+        }
+    }
+
+    @Override
+    public LongIdKey createActivityForTest(StringIdKey userKey, ActivityTemplateActivityCreateInfo createInfo)
+            throws ServiceException {
+        try {
+            return activityTemplateOperateHandler.createActivityTest(userKey, createInfo);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logAndThrow("创建用于测试的活动时发生异常", LogLevel.WARN, sem, e);
+        }
+    }
 }
