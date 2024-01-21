@@ -78,6 +78,10 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(310), "activity file not exists");
     public static final ServiceException.Code ILLEGAL_ACTIVITY_FILE_STATE =
             new ServiceException.Code(offset(320), "illegal activity file state");
+    public static final ServiceException.Code ACTIVITY_PARTICIPANT_EXISTS =
+            new ServiceException.Code(offset(330), "activity participant exists");
+    public static final ServiceException.Code ACTIVITY_PARTICIPANT_NOT_EXISTS =
+            new ServiceException.Code(offset(340), "activity participant not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -135,6 +139,8 @@ public final class ServiceExceptionCodes {
         ILLEGAL_ACTIVITY_COVER_STATE.setCode(offset(300));
         ACTIVITY_FILE_NOT_EXISTS.setCode(offset(310));
         ILLEGAL_ACTIVITY_FILE_STATE.setCode(offset(320));
+        ACTIVITY_PARTICIPANT_EXISTS.setCode(offset(330));
+        ACTIVITY_PARTICIPANT_NOT_EXISTS.setCode(offset(340));
     }
 
     private ServiceExceptionCodes() {

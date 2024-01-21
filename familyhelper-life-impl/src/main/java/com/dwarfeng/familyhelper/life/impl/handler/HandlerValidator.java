@@ -47,6 +47,7 @@ public class HandlerValidator {
     private final PoacMaintainService poacMaintainService;
     private final ActivityCoverInfoMaintainService activityCoverInfoMaintainService;
     private final ActivityFileInfoMaintainService activityFileInfoMaintainService;
+    private final ActivityParticipantMaintainService activityParticipantMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -69,7 +70,8 @@ public class HandlerValidator {
             ActivityMaintainService activityMaintainService,
             PoacMaintainService poacMaintainService,
             ActivityCoverInfoMaintainService activityCoverInfoMaintainService,
-            ActivityFileInfoMaintainService activityFileInfoMaintainService
+            ActivityFileInfoMaintainService activityFileInfoMaintainService,
+            ActivityParticipantMaintainService activityParticipantMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -92,6 +94,7 @@ public class HandlerValidator {
         this.poacMaintainService = poacMaintainService;
         this.activityCoverInfoMaintainService = activityCoverInfoMaintainService;
         this.activityFileInfoMaintainService = activityFileInfoMaintainService;
+        this.activityParticipantMaintainService = activityParticipantMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -794,6 +797,7 @@ public class HandlerValidator {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     public void makeSureUserModifyPermittedForActivity(StringIdKey userKey, LongIdKey activityKey)
             throws HandlerException {
         try {
@@ -844,6 +848,30 @@ public class HandlerValidator {
 
             // 取出活动文件的活动外键，判断用户是否拥有该活动的权限。
             makeSureUserModifyPermittedForActivity(userKey, activityFileInfo.getActivityKey());
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityParticipantNotExists(ActivityParticipantKey activityParticipantKey)
+            throws HandlerException {
+        try {
+            if (Objects.nonNull(activityParticipantKey) &&
+                    activityParticipantMaintainService.exists(activityParticipantKey)) {
+                throw new ActivityParticipantExistsException(activityParticipantKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityParticipantExists(ActivityParticipantKey activityParticipantKey)
+            throws HandlerException {
+        try {
+            if (Objects.isNull(activityParticipantKey) ||
+                    !activityParticipantMaintainService.exists(activityParticipantKey)) {
+                throw new ActivityParticipantNotExistsException(activityParticipantKey);
+            }
         } catch (ServiceException e) {
             throw new HandlerException(e);
         }
