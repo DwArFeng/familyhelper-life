@@ -133,6 +133,11 @@
             group="${dubbo.provider.group}"
     />
     <dubbo:service
+            interface="com.dwarfeng.familyhelper.life.stack.service.ActivityDataRecordOperateService"
+            ref="activityDataRecordOperateServiceImpl"
+            group="${dubbo.provider.group}"
+    />
+    <dubbo:service
             interface="com.dwarfeng.familyhelper.life.stack.service.ActivityDataSetMaintainService"
             ref="activityDataSetMaintainServiceImpl"
             group="${dubbo.provider.group}"

@@ -48,6 +48,7 @@ public class HandlerValidator {
     private final ActivityCoverInfoMaintainService activityCoverInfoMaintainService;
     private final ActivityFileInfoMaintainService activityFileInfoMaintainService;
     private final ActivityParticipantMaintainService activityParticipantMaintainService;
+    private final ActivityDataRecordMaintainService activityDataRecordMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -71,7 +72,8 @@ public class HandlerValidator {
             PoacMaintainService poacMaintainService,
             ActivityCoverInfoMaintainService activityCoverInfoMaintainService,
             ActivityFileInfoMaintainService activityFileInfoMaintainService,
-            ActivityParticipantMaintainService activityParticipantMaintainService
+            ActivityParticipantMaintainService activityParticipantMaintainService,
+            ActivityDataRecordMaintainService activityDataRecordMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -95,6 +97,7 @@ public class HandlerValidator {
         this.activityCoverInfoMaintainService = activityCoverInfoMaintainService;
         this.activityFileInfoMaintainService = activityFileInfoMaintainService;
         this.activityParticipantMaintainService = activityParticipantMaintainService;
+        this.activityDataRecordMaintainService = activityDataRecordMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -871,6 +874,17 @@ public class HandlerValidator {
             if (Objects.isNull(activityParticipantKey) ||
                     !activityParticipantMaintainService.exists(activityParticipantKey)) {
                 throw new ActivityParticipantNotExistsException(activityParticipantKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityDataRecordExists(LongIdKey activityDataRecordKey) throws HandlerException {
+        try {
+            if (Objects.isNull(activityDataRecordKey) ||
+                    !activityDataRecordMaintainService.exists(activityDataRecordKey)) {
+                throw new ActivityDataRecordNotExistsException(activityDataRecordKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
