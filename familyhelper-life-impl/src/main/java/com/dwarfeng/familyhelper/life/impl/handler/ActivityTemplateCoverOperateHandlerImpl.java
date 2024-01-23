@@ -159,6 +159,7 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
         return Long.toString(itemCoverKey.getLongId());
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public void updateOrder(StringIdKey userKey, ActivityTemplateCoverOrderUpdateInfo coverUpdateInfo)
             throws HandlerException {

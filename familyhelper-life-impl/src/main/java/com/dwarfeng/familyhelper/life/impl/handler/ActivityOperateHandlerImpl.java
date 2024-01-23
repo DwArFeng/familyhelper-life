@@ -141,7 +141,6 @@ public class ActivityOperateHandlerImpl implements ActivityOperateHandler {
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     public void upsertPermission(StringIdKey userKey, ActivityPermissionUpsertInfo activityPermissionUpsertInfo)
             throws HandlerException {

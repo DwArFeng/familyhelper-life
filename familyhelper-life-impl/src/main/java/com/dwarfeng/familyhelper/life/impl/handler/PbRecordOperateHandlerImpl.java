@@ -96,7 +96,6 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
             // 确认个人最佳项目存在。
             handlerValidator.makeSurePbItemExists(itemKey);
 
-
             // 确认用户有权限操作指定的个人最佳项目。
             handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbRecordKey);
 

@@ -199,7 +199,6 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     public void upsertPermission(
             StringIdKey userKey, ActivityTemplatePermissionUpsertInfo activityTemplatePermissionUpsertInfo
@@ -276,7 +275,6 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     public void upsertActivityPermission(
             StringIdKey userKey, ActivityTemplateActivityPermissionUpsertInfo upsertInfo
@@ -636,10 +634,10 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         return Long.toString(itemFileKey.getLongId());
     }
 
-    private static String parsePermissionLabel(int permissionLevel) {
+    private String parsePermissionLabel(int permissionLevel) {
         switch (permissionLevel) {
             case Constants.PERMISSION_LEVEL_GUEST:
-                return "目标";
+                return "访客";
             case Constants.PERMISSION_LEVEL_OWNER:
                 return "所有者";
             default:

@@ -120,7 +120,6 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     public void upsertPermission(
             StringIdKey userKey, PbSetPermissionUpsertInfo pbSetPermissionUpsertInfo
@@ -149,17 +148,7 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             }
 
             // 通过入口信息组合权限实体，并进行插入或更新操作。
-            String permissionLabel;
-            switch (permissionLevel) {
-                case Constants.PERMISSION_LEVEL_GUEST:
-                    permissionLabel = "目标";
-                    break;
-                case Constants.PERMISSION_LEVEL_OWNER:
-                    permissionLabel = "所有者";
-                    break;
-                default:
-                    permissionLabel = "（未知）";
-            }
+            String permissionLabel = parsePermissionLabel(permissionLevel);
             Popb popb = new Popb(
                     new PopbKey(pbSetKey.getLongId(), targetUserKey.getStringId()),
                     permissionLevel,
@@ -203,6 +192,17 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             throw e;
         } catch (Exception e) {
             throw new HandlerException(e);
+        }
+    }
+
+    private String parsePermissionLabel(int permissionLevel) {
+        switch (permissionLevel) {
+            case Constants.PERMISSION_LEVEL_GUEST:
+                return "访客";
+            case Constants.PERMISSION_LEVEL_OWNER:
+                return "所有者";
+            default:
+                return "（未知）";
         }
     }
 }

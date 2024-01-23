@@ -72,6 +72,7 @@ public class ActivityCoverOperateHandlerImpl implements ActivityCoverOperateHand
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public void upload(StringIdKey userKey, ActivityCoverUploadInfo coverUploadInfo) throws HandlerException {
         try {
