@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 优化文件格式。
+  - 优化 `telqos/connection.properties` 文件的格式。
+
 - 增加预设的运维指令。
   - com.dwarfeng.springtelqos.api.integration.log4j2.Log4j2Command。
 
