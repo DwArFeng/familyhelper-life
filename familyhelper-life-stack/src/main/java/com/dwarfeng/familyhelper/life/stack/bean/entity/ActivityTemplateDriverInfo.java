@@ -11,8 +11,8 @@ import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
  */
 public class ActivityTemplateDriverInfo implements Entity<LongIdKey> {
 
-    private static final long serialVersionUID = 9018597310499171025L;
-    
+    private static final long serialVersionUID = 4302122708533985117L;
+
     private LongIdKey key;
     private LongIdKey activityTemplateKey;
     private boolean enabled;
@@ -38,12 +38,19 @@ public class ActivityTemplateDriverInfo implements Entity<LongIdKey> {
     private boolean generateFlag;
     private String remark;
 
+    /**
+     * 提醒人员的范围。
+     *
+     * @see 1.1.1
+     */
+    private int remindScopeType;
+
     public ActivityTemplateDriverInfo() {
     }
 
     public ActivityTemplateDriverInfo(
             LongIdKey key, LongIdKey activityTemplateKey, boolean enabled, String type, String param,
-            boolean remindFlag, boolean generateFlag, String remark
+            boolean remindFlag, boolean generateFlag, String remark, int remindScopeType
     ) {
         this.key = key;
         this.activityTemplateKey = activityTemplateKey;
@@ -53,6 +60,7 @@ public class ActivityTemplateDriverInfo implements Entity<LongIdKey> {
         this.remindFlag = remindFlag;
         this.generateFlag = generateFlag;
         this.remark = remark;
+        this.remindScopeType = remindScopeType;
     }
 
     @Override
@@ -121,6 +129,14 @@ public class ActivityTemplateDriverInfo implements Entity<LongIdKey> {
         this.remark = remark;
     }
 
+    public int getRemindScopeType() {
+        return remindScopeType;
+    }
+
+    public void setRemindScopeType(int remindScopeType) {
+        this.remindScopeType = remindScopeType;
+    }
+
     @Override
     public String toString() {
         return "ActivityTemplateDriverInfo{" +
@@ -132,6 +148,7 @@ public class ActivityTemplateDriverInfo implements Entity<LongIdKey> {
                 ", remindFlag=" + remindFlag +
                 ", generateFlag=" + generateFlag +
                 ", remark='" + remark + '\'' +
+                ", remindScopeType=" + remindScopeType +
                 '}';
     }
 }

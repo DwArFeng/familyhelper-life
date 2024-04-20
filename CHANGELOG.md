@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 添加实体属性。
+  - ActivityTemplateDriverInfo.remindScopeType。
+
 - 优化文件格式。
   - 优化 `telqos/connection.properties` 文件的格式。
 

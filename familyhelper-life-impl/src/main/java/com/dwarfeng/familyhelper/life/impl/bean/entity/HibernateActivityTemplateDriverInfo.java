@@ -12,7 +12,7 @@ import java.util.Optional;
 @Table(name = "tbl_activity_template_driver_info")
 public class HibernateActivityTemplateDriverInfo implements Bean {
 
-    private static final long serialVersionUID = 1637721034767904865L;
+    private static final long serialVersionUID = 3814172244035298591L;
 
     // -----------------------------------------------------------主键-----------------------------------------------------------
     @Id
@@ -41,6 +41,9 @@ public class HibernateActivityTemplateDriverInfo implements Bean {
 
     @Column(name = "remark", length = Constraints.LENGTH_REMARK)
     private String remark;
+
+    @Column(name = "remind_scope_type")
+    private int remindScopeType;
 
     // -----------------------------------------------------------多对一-----------------------------------------------------------
     @ManyToOne(targetEntity = HibernateActivityTemplate.class)
@@ -134,6 +137,14 @@ public class HibernateActivityTemplateDriverInfo implements Bean {
         this.remark = remark;
     }
 
+    public int getRemindScopeType() {
+        return remindScopeType;
+    }
+
+    public void setRemindScopeType(int remindScopeType) {
+        this.remindScopeType = remindScopeType;
+    }
+
     public HibernateActivityTemplate getActivityTemplate() {
         return activityTemplate;
     }
@@ -153,6 +164,7 @@ public class HibernateActivityTemplateDriverInfo implements Bean {
                 "remindFlag = " + remindFlag + ", " +
                 "generateFlag = " + generateFlag + ", " +
                 "remark = " + remark + ", " +
+                "remindScopeType = " + remindScopeType + ", " +
                 "activityTemplate = " + activityTemplate + ")";
     }
 }

@@ -2,6 +2,7 @@ package com.dwarfeng.familyhelper.life.sdk.bean.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dwarfeng.familyhelper.life.sdk.util.Constraints;
+import com.dwarfeng.familyhelper.life.sdk.util.ValidRemindScopeType;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDriverInfo;
 import com.dwarfeng.subgrade.sdk.bean.key.WebInputLongIdKey;
 import com.dwarfeng.subgrade.stack.bean.Bean;
@@ -20,7 +21,7 @@ import java.util.Objects;
  */
 public class WebInputActivityTemplateDriverInfo implements Bean {
 
-    private static final long serialVersionUID = 3363676302203637501L;
+    private static final long serialVersionUID = 3063461513597313021L;
 
     public static ActivityTemplateDriverInfo toStackBean(WebInputActivityTemplateDriverInfo webInput) {
         if (Objects.isNull(webInput)) {
@@ -34,7 +35,8 @@ public class WebInputActivityTemplateDriverInfo implements Bean {
                     webInput.getParam(),
                     webInput.isRemindFlag(),
                     webInput.isGenerateFlag(),
-                    webInput.getRemark()
+                    webInput.getRemark(),
+                    webInput.getRemindScopeType()
             );
         }
     }
@@ -68,6 +70,10 @@ public class WebInputActivityTemplateDriverInfo implements Bean {
     @JSONField(name = "remark")
     @Length(max = Constraints.LENGTH_REMARK)
     private String remark;
+
+    @JSONField(name = "remind_scope_type")
+    @ValidRemindScopeType
+    private int remindScopeType;
 
     public WebInputActivityTemplateDriverInfo() {
     }
@@ -136,6 +142,14 @@ public class WebInputActivityTemplateDriverInfo implements Bean {
         this.remark = remark;
     }
 
+    public int getRemindScopeType() {
+        return remindScopeType;
+    }
+
+    public void setRemindScopeType(int remindScopeType) {
+        this.remindScopeType = remindScopeType;
+    }
+
     @Override
     public String toString() {
         return "WebInputActivityTemplateDriverInfo{" +
@@ -147,6 +161,7 @@ public class WebInputActivityTemplateDriverInfo implements Bean {
                 ", remindFlag=" + remindFlag +
                 ", generateFlag=" + generateFlag +
                 ", remark='" + remark + '\'' +
+                ", remindScopeType=" + remindScopeType +
                 '}';
     }
 }

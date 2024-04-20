@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class FastJsonActivityTemplateDriverInfo implements Bean {
 
-    private static final long serialVersionUID = -1570341694780276362L;
+    private static final long serialVersionUID = 154614274147108130L;
 
     public static FastJsonActivityTemplateDriverInfo of(ActivityTemplateDriverInfo activityTemplateDriverInfo) {
         if (Objects.isNull(activityTemplateDriverInfo)) {
@@ -29,7 +29,8 @@ public class FastJsonActivityTemplateDriverInfo implements Bean {
                     activityTemplateDriverInfo.getParam(),
                     activityTemplateDriverInfo.isRemindFlag(),
                     activityTemplateDriverInfo.isGenerateFlag(),
-                    activityTemplateDriverInfo.getRemark()
+                    activityTemplateDriverInfo.getRemark(),
+                    activityTemplateDriverInfo.getRemindScopeType()
             );
         }
     }
@@ -58,12 +59,15 @@ public class FastJsonActivityTemplateDriverInfo implements Bean {
     @JSONField(name = "remark", ordinal = 8)
     private String remark;
 
+    @JSONField(name = "remind_scope_type", ordinal = 9)
+    private int remindScopeType;
+
     public FastJsonActivityTemplateDriverInfo() {
     }
 
     public FastJsonActivityTemplateDriverInfo(
             FastJsonLongIdKey key, FastJsonLongIdKey activityTemplateKey, boolean enabled, String type, String param,
-            boolean remindFlag, boolean generateFlag, String remark
+            boolean remindFlag, boolean generateFlag, String remark, int remindScopeType
     ) {
         this.key = key;
         this.activityTemplateKey = activityTemplateKey;
@@ -73,6 +77,7 @@ public class FastJsonActivityTemplateDriverInfo implements Bean {
         this.remindFlag = remindFlag;
         this.generateFlag = generateFlag;
         this.remark = remark;
+        this.remindScopeType = remindScopeType;
     }
 
     public FastJsonLongIdKey getKey() {
@@ -139,6 +144,14 @@ public class FastJsonActivityTemplateDriverInfo implements Bean {
         this.remark = remark;
     }
 
+    public int getRemindScopeType() {
+        return remindScopeType;
+    }
+
+    public void setRemindScopeType(int remindScopeType) {
+        this.remindScopeType = remindScopeType;
+    }
+
     @Override
     public String toString() {
         return "FastJsonActivityTemplateDriverInfo{" +
@@ -150,6 +163,7 @@ public class FastJsonActivityTemplateDriverInfo implements Bean {
                 ", remindFlag=" + remindFlag +
                 ", generateFlag=" + generateFlag +
                 ", remark='" + remark + '\'' +
+                ", remindScopeType=" + remindScopeType +
                 '}';
     }
 }

@@ -36,7 +36,7 @@ public class ActivityTemplateDriverInfoMaintainServiceImplTest {
         activityTemplateDriverInfos = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             ActivityTemplateDriverInfo activityTemplateDriverInfo = new ActivityTemplateDriverInfo(
-                    null, null, true, "type", "param", true, true, "remark"
+                    null, null, true, "type", "param", true, true, "remark", 12450
             );
             activityTemplateDriverInfos.add(activityTemplateDriverInfo);
         }
