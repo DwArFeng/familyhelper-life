@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- dwarfeng-ftp 优化。
+  - 优化 FtpHandler 的扫描方式，使其符合最新版本标准。
+
 - dubbo 优化。
   - 优化 `dubbo/connection.properties` 中配置的键名。
 
