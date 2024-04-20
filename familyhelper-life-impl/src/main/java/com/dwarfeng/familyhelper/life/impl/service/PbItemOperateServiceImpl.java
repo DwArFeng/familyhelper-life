@@ -30,7 +30,7 @@ public class PbItemOperateServiceImpl implements PbItemOperateService {
         try {
             return pbItemOperateHandler.createPbItem(userKey, pbItemCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建个人最佳项目时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建个人最佳项目时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -40,7 +40,7 @@ public class PbItemOperateServiceImpl implements PbItemOperateService {
         try {
             pbItemOperateHandler.updatePbItem(userKey, pbItemUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新个人最佳项目时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新个人最佳项目时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -49,7 +49,7 @@ public class PbItemOperateServiceImpl implements PbItemOperateService {
         try {
             pbItemOperateHandler.removePbItem(userKey, pbItemKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除个人最佳项目时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除个人最佳项目时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

@@ -30,7 +30,7 @@ public class PbNodeOperateServiceImpl implements PbNodeOperateService {
         try {
             return pbNodeOperateHandler.createPbNode(userKey, pbNodeCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建个人最佳节点时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建个人最佳节点时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -40,7 +40,7 @@ public class PbNodeOperateServiceImpl implements PbNodeOperateService {
         try {
             pbNodeOperateHandler.updatePbNode(userKey, pbNodeUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新个人最佳节点时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新个人最佳节点时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -49,7 +49,7 @@ public class PbNodeOperateServiceImpl implements PbNodeOperateService {
         try {
             pbNodeOperateHandler.removePbNode(userKey, pbNodeKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除个人最佳节点时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除个人最佳节点时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

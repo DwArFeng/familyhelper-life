@@ -11,6 +11,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.key.PoadKey;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityDataSetOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataSetMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PoadMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -63,10 +64,8 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
 
             // 返回生成的主键。
             return activityDataSetKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -92,10 +91,8 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
 
             // 更新活动数据集合实体。
             activityDataSetMaintainService.update(activityDataSet);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -113,10 +110,8 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
 
             // 删除指定主键的活动数据集合。
             activityDataSetMaintainService.delete(activityDataSetKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -155,10 +150,8 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
                     "赋予用户 " + targetUserKey.getStringId() + " " + permissionLabel + "权限"
             );
             poadMaintainService.insertOrUpdate(poad);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -188,10 +181,8 @@ public class ActivityDataSetOperateHandlerImpl implements ActivityDataSetOperate
             // 通过入口信息组合权限实体主键，并进行存在删除操作。
             PoadKey poadKey = new PoadKey(activityDataSetKey.getLongId(), targetUserKey.getStringId());
             poadMaintainService.deleteIfExists(poadKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 

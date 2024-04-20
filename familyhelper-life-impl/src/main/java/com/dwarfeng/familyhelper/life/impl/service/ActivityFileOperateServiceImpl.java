@@ -33,7 +33,7 @@ public class ActivityFileOperateServiceImpl implements ActivityFileOperateServic
         try {
             return activityFileOperateHandler.downloadActivityFile(userKey, activityFileKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("下载活动文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("下载活动文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -44,7 +44,7 @@ public class ActivityFileOperateServiceImpl implements ActivityFileOperateServic
         try {
             activityFileOperateHandler.uploadActivityFile(userKey, activityFileUploadInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("上传活动文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("上传活动文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -55,7 +55,7 @@ public class ActivityFileOperateServiceImpl implements ActivityFileOperateServic
         try {
             activityFileOperateHandler.updateActivityFile(userKey, activityFileUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -65,7 +65,7 @@ public class ActivityFileOperateServiceImpl implements ActivityFileOperateServic
         try {
             activityFileOperateHandler.removeActivityFile(userKey, activityFileKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

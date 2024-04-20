@@ -8,10 +8,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityCoverInfo;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityCoverOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityCoverInfoMaintainService;
 import com.dwarfeng.ftp.handler.FtpHandler;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -25,19 +26,19 @@ public class ActivityCoverOperateHandlerImpl implements ActivityCoverOperateHand
 
     private final FtpHandler ftpHandler;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
 
     public ActivityCoverOperateHandlerImpl(
             ActivityCoverInfoMaintainService activityCoverInfoMaintainService,
             FtpHandler ftpHandler,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityCoverInfoMaintainService = activityCoverInfoMaintainService;
         this.ftpHandler = ftpHandler;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
@@ -65,10 +66,8 @@ public class ActivityCoverOperateHandlerImpl implements ActivityCoverOperateHand
 
             // 构造返回值并返回。
             return new ActivityCover(activityCoverInfo.getOriginName(), content);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -90,7 +89,7 @@ public class ActivityCoverOperateHandlerImpl implements ActivityCoverOperateHand
             handlerValidator.makeSureActivityNotLocked(activityKey);
 
             // 分配主键。
-            LongIdKey activityCoverKey = keyFetcher.fetchKey();
+            LongIdKey activityCoverKey = keyGenerator.generate();
 
             // 获取活动封面内容并存储（覆盖）。
             byte[] content = coverUploadInfo.getContent();
@@ -117,10 +116,8 @@ public class ActivityCoverOperateHandlerImpl implements ActivityCoverOperateHand
             )).map(info -> info.getIndex() + 1).orElse(0);
             activityCoverInfo.setIndex(index);
             activityCoverInfoMaintainService.insertOrUpdate(activityCoverInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -154,10 +151,8 @@ public class ActivityCoverOperateHandlerImpl implements ActivityCoverOperateHand
 
             // 删除 ActivityCoverInfo。
             activityCoverInfoMaintainService.delete(coverKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -221,10 +216,8 @@ public class ActivityCoverOperateHandlerImpl implements ActivityCoverOperateHand
 
             // 批量更新。
             activityCoverInfoMaintainService.batchUpdate(orderedActivityCoverInfos);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

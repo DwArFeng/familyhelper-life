@@ -8,10 +8,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateFileInfo
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityTemplateFileOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateFileInfoMaintainService;
 import com.dwarfeng.ftp.handler.FtpHandler;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -22,19 +23,19 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
     private final ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService;
     private final FtpHandler ftpHandler;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
 
     public ActivityTemplateFileOperateHandlerImpl(
             ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService,
             FtpHandler ftpHandler,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityTemplateFileInfoMaintainService = activityTemplateFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
@@ -66,10 +67,8 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
 
             // 6. 拼接 ActivityTemplateFile 并返回。
             return new ActivityTemplateFile(activityTemplateFileInfo.getOriginName(), content);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -90,7 +89,7 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
             handlerValidator.makeSureUserModifyPermittedForActivityTemplate(userKey, activityTemplateKey);
 
             // 4. 分配主键。
-            LongIdKey activityTemplateFileKey = keyFetcher.fetchKey();
+            LongIdKey activityTemplateFileKey = keyGenerator.generate();
 
             // 5. 项目文件内容并存储（覆盖）。
             byte[] content = activityTemplateFileUploadInfo.getContent();
@@ -111,10 +110,8 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
             activityTemplateFileInfo.setInspectedDate(currentDate);
             activityTemplateFileInfo.setRemark("通过 familyhelper-assets 服务上传/更新项目文件");
             activityTemplateFileInfoMaintainService.insertOrUpdate(activityTemplateFileInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -148,10 +145,8 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
             activityTemplateFileInfo.setLength(content.length);
             activityTemplateFileInfo.setModifiedDate(new Date());
             activityTemplateFileInfoMaintainService.update(activityTemplateFileInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -184,10 +179,8 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
 
             // 5. 如果存在 ActivityTemplateFileInfo 实体，则删除。
             activityTemplateFileInfoMaintainService.deleteIfExists(activityTemplateFileKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 

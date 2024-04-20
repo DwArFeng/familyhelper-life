@@ -11,6 +11,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
 import com.dwarfeng.familyhelper.life.stack.handler.PbSetOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.PbSetMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PopbMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -63,10 +64,8 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
 
             // 返回生成的主键。
             return pbSetKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -92,10 +91,8 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
 
             // 更新个人最佳集合实体。
             pbSetMaintainService.update(pbSet);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -113,10 +110,8 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
 
             // 删除指定主键的个人最佳集合。
             pbSetMaintainService.delete(pbSetKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -155,10 +150,8 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
                     "赋予用户 " + targetUserKey.getStringId() + " " + permissionLabel + "权限"
             );
             popbMaintainService.insertOrUpdate(popb);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -188,10 +181,8 @@ public class PbSetOperateHandlerImpl implements PbSetOperateHandler {
             // 通过入口信息组合权限实体主键，并进行存在删除操作。
             PopbKey popbKey = new PopbKey(pbSetKey.getLongId(), targetUserKey.getStringId());
             popbMaintainService.deleteIfExists(popbKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 

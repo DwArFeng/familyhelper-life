@@ -34,7 +34,7 @@ public class PbSetOperateServiceImpl implements PbSetOperateService {
         try {
             return pbSetOperateHandler.createPbSet(userKey, pbSetCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建个人最佳集合时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建个人最佳集合时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -44,7 +44,7 @@ public class PbSetOperateServiceImpl implements PbSetOperateService {
         try {
             pbSetOperateHandler.updatePbSet(userKey, pbSetUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新个人最佳集合时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新个人最佳集合时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -53,7 +53,7 @@ public class PbSetOperateServiceImpl implements PbSetOperateService {
         try {
             pbSetOperateHandler.removePbSet(userKey, pbSetKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除个人最佳集合时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除个人最佳集合时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -64,7 +64,7 @@ public class PbSetOperateServiceImpl implements PbSetOperateService {
         try {
             pbSetOperateHandler.upsertPermission(userKey, pbSetPermissionUpsertInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("添加个人最佳集合的访客权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("添加个人最佳集合的访客权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -75,7 +75,7 @@ public class PbSetOperateServiceImpl implements PbSetOperateService {
         try {
             pbSetOperateHandler.removePermission(userKey, pbSetPermissionRemoveInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("移除个人最佳集合的访客权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("移除个人最佳集合的访客权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

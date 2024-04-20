@@ -33,7 +33,7 @@ public class ActivityTemplateFileOperateServiceImpl implements ActivityTemplateF
         try {
             return activityTemplateFileOperateHandler.downloadActivityTemplateFile(userKey, activityTemplateFileKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("下载活动模板文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("下载活动模板文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -44,7 +44,7 @@ public class ActivityTemplateFileOperateServiceImpl implements ActivityTemplateF
         try {
             activityTemplateFileOperateHandler.uploadActivityTemplateFile(userKey, activityTemplateFileUploadInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("上传活动模板文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("上传活动模板文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -55,7 +55,7 @@ public class ActivityTemplateFileOperateServiceImpl implements ActivityTemplateF
         try {
             activityTemplateFileOperateHandler.updateActivityTemplateFile(userKey, activityTemplateFileUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动模板文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动模板文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -65,7 +65,7 @@ public class ActivityTemplateFileOperateServiceImpl implements ActivityTemplateF
         try {
             activityTemplateFileOperateHandler.removeActivityTemplateFile(userKey, activityTemplateFileKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动模板文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动模板文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

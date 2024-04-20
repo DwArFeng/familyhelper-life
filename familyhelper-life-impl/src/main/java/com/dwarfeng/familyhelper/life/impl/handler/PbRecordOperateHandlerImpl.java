@@ -9,6 +9,7 @@ import com.dwarfeng.familyhelper.life.stack.handler.PbRecordOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.PbItemMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PbRecordMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PbSetMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -73,10 +74,8 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
 
             // 返回主键。
             return pbRecordKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -106,10 +105,8 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
 
             // 更新 个人最佳项目 实体。
             pbRecordMaintainService.update(pbRecord);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -127,10 +124,8 @@ public class PbRecordOperateHandlerImpl implements PbRecordOperateHandler {
 
             // 存在删除指定的个人最佳项目。
             pbRecordMaintainService.deleteIfExists(pbRecordKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

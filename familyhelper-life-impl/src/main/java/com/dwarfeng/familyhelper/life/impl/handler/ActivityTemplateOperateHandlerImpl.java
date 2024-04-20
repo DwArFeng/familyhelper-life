@@ -11,10 +11,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.key.PoatacKey;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityTemplateOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.*;
 import com.dwarfeng.ftp.handler.FtpHandler;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.ParserContext;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
 
     private final FtpHandler ftpHandler;
 
-    private final KeyFetcher<LongIdKey> longIdKeyFetcher;
+    private final KeyGenerator<LongIdKey> longIdKeyGenerator;
 
     private final ExpressionParser expressionParser;
     private final ParserContext parserContext;
@@ -63,7 +64,7 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
             ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService,
             ActivityFileInfoMaintainService activityFileInfoMaintainService,
             FtpHandler ftpHandler,
-            KeyFetcher<LongIdKey> longIdKeyFetcher,
+            KeyGenerator<LongIdKey> longIdKeyGenerator,
             ExpressionParser expressionParser,
             ParserContext parserContext,
             HandlerValidator handlerValidator
@@ -82,7 +83,7 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         this.activityTemplateFileInfoMaintainService = activityTemplateFileInfoMaintainService;
         this.activityFileInfoMaintainService = activityFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
-        this.longIdKeyFetcher = longIdKeyFetcher;
+        this.longIdKeyGenerator = longIdKeyGenerator;
         this.expressionParser = expressionParser;
         this.parserContext = parserContext;
         this.handlerValidator = handlerValidator;
@@ -133,10 +134,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
 
             // 返回生成的主键。
             return activityTemplateKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -171,10 +170,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
 
             // 更新活动模板实体。
             activityTemplateMaintainService.update(activityTemplate);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -192,10 +189,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
 
             // 删除活动模板实体。
             activityTemplateMaintainService.delete(activityTemplateKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -234,10 +229,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
                     "赋予用户 " + targetUserKey.getStringId() + " " + permissionLabel + "权限"
             );
             poatMaintainService.insertOrUpdate(poat);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -268,10 +261,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
             // 通过入口信息组合权限实体主键，并进行存在删除操作。
             PoatKey poatKey = new PoatKey(activityTemplateKey.getLongId(), targetUserKey.getStringId());
             poatMaintainService.deleteIfExists(poatKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -310,10 +301,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
                     "赋予用户 " + targetUserKey.getStringId() + " " + permissionLabel + "权限"
             );
             poatacMaintainService.insertOrUpdate(poatac);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -344,10 +333,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
             // 通过入口信息组合权限实体主键，并进行存在删除操作。
             PoatacKey poatacKey = new PoatacKey(activityTemplateKey.getLongId(), targetUserKey.getStringId());
             poatacMaintainService.deleteIfExists(poatacKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -379,10 +366,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
 
             // 返回生成的主键。
             return activityKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -407,10 +392,8 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
 
             // 从活动模板初始化活动，并返回生成的主键。
             return initActivityFromActivityTemplate(activityTemplate);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -466,7 +449,7 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         List<ActivityCoverInfo> activityCoverInfos = new ArrayList<>();
         Map<LongIdKey, LongIdKey> activityCoverInfoActivityTemplateCoverInfoKeyMap = new HashMap<>();
         for (ActivityTemplateCoverInfo activityTemplateCoverInfo : activityTemplateCoverInfos) {
-            LongIdKey activityCoverInfoKey = longIdKeyFetcher.fetchKey();
+            LongIdKey activityCoverInfoKey = longIdKeyGenerator.generate();
             activityCoverInfoActivityTemplateCoverInfoKeyMap.put(
                     activityCoverInfoKey, activityTemplateCoverInfo.getKey()
             );
@@ -546,7 +529,7 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         List<ActivityFileInfo> activityFileInfos = new ArrayList<>();
         Map<LongIdKey, LongIdKey> activityFileInfoActivityTemplateFileInfoKeyMap = new HashMap<>();
         for (ActivityTemplateFileInfo activityTemplateFileInfo : activityTemplateFileInfos) {
-            LongIdKey activityFileInfoKey = longIdKeyFetcher.fetchKey();
+            LongIdKey activityFileInfoKey = longIdKeyGenerator.generate();
             activityFileInfoActivityTemplateFileInfoKeyMap.put(
                     activityFileInfoKey, activityTemplateFileInfo.getKey()
             );

@@ -8,10 +8,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityFileInfo;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityFileOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityFileInfoMaintainService;
 import com.dwarfeng.ftp.handler.FtpHandler;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -22,19 +23,19 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
     private final ActivityFileInfoMaintainService activityFileInfoMaintainService;
     private final FtpHandler ftpHandler;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
 
     public ActivityFileOperateHandlerImpl(
             ActivityFileInfoMaintainService activityFileInfoMaintainService,
             FtpHandler ftpHandler,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityFileInfoMaintainService = activityFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
@@ -66,10 +67,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
 
             // 拼接 ActivityFile 并返回。
             return new ActivityFile(activityFileInfo.getOriginName(), content);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -92,7 +91,7 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             handlerValidator.makeSureActivityNotLocked(activityKey);
 
             // 分配主键。
-            LongIdKey activityFileKey = keyFetcher.fetchKey();
+            LongIdKey activityFileKey = keyGenerator.generate();
 
             // 项目文件内容并存储（覆盖）。
             byte[] content = activityFileUploadInfo.getContent();
@@ -113,10 +112,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             activityFileInfo.setInspectedDate(currentDate);
             activityFileInfo.setRemark("通过 familyhelper-assets 服务上传/更新项目文件");
             activityFileInfoMaintainService.insertOrUpdate(activityFileInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -155,10 +152,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             activityFileInfo.setLength(content.length);
             activityFileInfo.setModifiedDate(new Date());
             activityFileInfoMaintainService.update(activityFileInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -191,10 +186,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
 
             // 如果存在 ActivityFileInfo 实体，则删除。
             activityFileInfoMaintainService.deleteIfExists(activityFileKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 

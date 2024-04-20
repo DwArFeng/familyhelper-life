@@ -34,7 +34,7 @@ public class ActivityDataSetOperateServiceImpl implements ActivityDataSetOperate
         try {
             return activityDataSetOperateHandler.createActivityDataSet(userKey, activityDataSetCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动数据集合时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动数据集合时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -44,7 +44,7 @@ public class ActivityDataSetOperateServiceImpl implements ActivityDataSetOperate
         try {
             activityDataSetOperateHandler.updateActivityDataSet(userKey, activityDataSetUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动数据集合时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动数据集合时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -53,7 +53,7 @@ public class ActivityDataSetOperateServiceImpl implements ActivityDataSetOperate
         try {
             activityDataSetOperateHandler.removeActivityDataSet(userKey, activityDataSetKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动数据集合时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动数据集合时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -64,7 +64,7 @@ public class ActivityDataSetOperateServiceImpl implements ActivityDataSetOperate
         try {
             activityDataSetOperateHandler.upsertPermission(userKey, activityDataSetPermissionUpsertInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("添加活动数据集合的访客权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("添加活动数据集合的访客权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -75,7 +75,7 @@ public class ActivityDataSetOperateServiceImpl implements ActivityDataSetOperate
         try {
             activityDataSetOperateHandler.removePermission(userKey, activityDataSetPermissionRemoveInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("移除活动数据集合的访客权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("移除活动数据集合的访客权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

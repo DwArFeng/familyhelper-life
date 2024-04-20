@@ -34,7 +34,7 @@ public class ActivityParticipantOperateServiceImpl implements ActivityParticipan
         try {
             return activityParticipantOperateHandler.create(userKey, createInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入活动参与者时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入活动参与者时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -43,7 +43,7 @@ public class ActivityParticipantOperateServiceImpl implements ActivityParticipan
         try {
             activityParticipantOperateHandler.update(userKey, updateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动参与者时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动参与者时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -52,7 +52,7 @@ public class ActivityParticipantOperateServiceImpl implements ActivityParticipan
         try {
             activityParticipantOperateHandler.remove(userKey, removeInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动参与者时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动参与者时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

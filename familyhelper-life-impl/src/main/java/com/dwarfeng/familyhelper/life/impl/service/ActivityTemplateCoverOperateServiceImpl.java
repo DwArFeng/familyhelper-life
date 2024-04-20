@@ -33,7 +33,7 @@ public class ActivityTemplateCoverOperateServiceImpl implements ActivityTemplate
         try {
             return activityTemplateCoverOperateHandler.download(userKey, coverKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("下载活动模板封面时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("下载活动模板封面时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -42,7 +42,7 @@ public class ActivityTemplateCoverOperateServiceImpl implements ActivityTemplate
         try {
             activityTemplateCoverOperateHandler.upload(userKey, coverUploadInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("上传活动模板封面时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("上传活动模板封面时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -51,7 +51,7 @@ public class ActivityTemplateCoverOperateServiceImpl implements ActivityTemplate
         try {
             activityTemplateCoverOperateHandler.remove(userKey, coverKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动模板封面时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动模板封面时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -61,7 +61,7 @@ public class ActivityTemplateCoverOperateServiceImpl implements ActivityTemplate
         try {
             activityTemplateCoverOperateHandler.updateOrder(userKey, coverUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动模板封面的顺序时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动模板封面的顺序时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

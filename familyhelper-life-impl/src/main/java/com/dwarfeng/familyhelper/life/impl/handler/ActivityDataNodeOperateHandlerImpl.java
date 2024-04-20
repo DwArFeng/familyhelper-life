@@ -5,6 +5,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityDataNodeUpdateInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataNode;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityDataNodeOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataNodeMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -60,10 +61,8 @@ public class ActivityDataNodeOperateHandlerImpl implements ActivityDataNodeOpera
 
             // 插入活动数据节点，并返回活动数据节点的主键。
             return activityDataNodeMaintainService.insert(activityDataNode);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -98,10 +97,8 @@ public class ActivityDataNodeOperateHandlerImpl implements ActivityDataNodeOpera
 
             // 更新 活动数据节点 实体。
             activityDataNodeMaintainService.update(activityDataNode);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -119,10 +116,8 @@ public class ActivityDataNodeOperateHandlerImpl implements ActivityDataNodeOpera
 
             // 删除活动数据节点。
             activityDataNodeMaintainService.delete(activityDataNodeKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

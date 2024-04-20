@@ -7,6 +7,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.PbSet;
 import com.dwarfeng.familyhelper.life.stack.handler.PbItemOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.PbItemMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PbSetMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -71,10 +72,8 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
 
             // 返回主键。
             return pbItemKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -111,10 +110,8 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
 
             // 更新 个人最佳项目 实体。
             pbItemMaintainService.update(pbItem);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -142,10 +139,8 @@ public class PbItemOperateHandlerImpl implements PbItemOperateHandler {
             PbSet pbSet = pbSetMaintainService.get(setKey);
             pbSet.setItemCount(Math.max(pbSet.getItemCount() - 1, 0));
             pbSetMaintainService.update(pbSet);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

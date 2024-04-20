@@ -5,7 +5,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
 import com.dwarfeng.familyhelper.life.stack.bean.key.PopbKey;
 import com.dwarfeng.familyhelper.life.stack.cache.PopbCache;
 import com.dwarfeng.familyhelper.life.stack.dao.*;
-import com.dwarfeng.subgrade.impl.bean.key.ExceptionKeyFetcher;
+import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
 import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class P01ServiceConfiguration {
 
-    private final KeyFetcherConfiguration keyFetcherConfiguration;
+    private final GenerateConfiguration generateConfiguration;
     private final ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration;
 
     private final UserCrudOperation userCrudOperation;
@@ -41,17 +41,23 @@ public class P01ServiceConfiguration {
     private long popbTimeout;
 
     public P01ServiceConfiguration(
-            KeyFetcherConfiguration keyFetcherConfiguration,
+            GenerateConfiguration generateConfiguration,
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
             UserCrudOperation userCrudOperation,
-            PopbDao popbDao, PopbCache popbCache,
-            PbSetCrudOperation pbSetCrudOperation, PbSetDao pbSetDao,
-            PbNodeCrudOperation pbNodeCrudOperation, PbNodeDao pbNodeDao,
-            PbItemCrudOperation pbItemCrudOperation, PbItemDao pbItemDao,
-            PbRecordCrudOperation pbRecordCrudOperation, PbRecordDao pbRecordDao,
-            PbFileInfoCrudOperation pbFileInfoCrudOperation, PbFileInfoDao pbFileInfoDao
+            PopbDao popbDao,
+            PopbCache popbCache,
+            PbSetCrudOperation pbSetCrudOperation,
+            PbSetDao pbSetDao,
+            PbNodeCrudOperation pbNodeCrudOperation,
+            PbNodeDao pbNodeDao,
+            PbItemCrudOperation pbItemCrudOperation,
+            PbItemDao pbItemDao,
+            PbRecordCrudOperation pbRecordCrudOperation,
+            PbRecordDao pbRecordDao,
+            PbFileInfoCrudOperation pbFileInfoCrudOperation,
+            PbFileInfoDao pbFileInfoDao
     ) {
-        this.keyFetcherConfiguration = keyFetcherConfiguration;
+        this.generateConfiguration = generateConfiguration;
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.userCrudOperation = userCrudOperation;
         this.popbDao = popbDao;
@@ -72,7 +78,7 @@ public class P01ServiceConfiguration {
     public CustomBatchCrudService<StringIdKey, User> userBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 userCrudOperation,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -83,7 +89,7 @@ public class P01ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 popbDao,
                 popbCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 popbTimeout
@@ -112,7 +118,7 @@ public class P01ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, PbSet> pbSetBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 pbSetCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -140,7 +146,7 @@ public class P01ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, PbNode> pbNodeBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 pbNodeCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -168,7 +174,7 @@ public class P01ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, PbItem> pbItemBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 pbItemCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -196,7 +202,7 @@ public class P01ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, PbRecord> pbRecordBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 pbRecordCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -224,7 +230,7 @@ public class P01ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, PbFileInfo> pbFileInfoBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 pbFileInfoCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );

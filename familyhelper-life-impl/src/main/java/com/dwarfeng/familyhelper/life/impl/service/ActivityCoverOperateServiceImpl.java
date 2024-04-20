@@ -33,7 +33,7 @@ public class ActivityCoverOperateServiceImpl implements ActivityCoverOperateServ
         try {
             return activityCoverOperateHandler.download(userKey, coverKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("下载活动封面时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("下载活动封面时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -42,7 +42,7 @@ public class ActivityCoverOperateServiceImpl implements ActivityCoverOperateServ
         try {
             activityCoverOperateHandler.upload(userKey, coverUploadInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("上传活动封面时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("上传活动封面时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -51,7 +51,7 @@ public class ActivityCoverOperateServiceImpl implements ActivityCoverOperateServ
         try {
             activityCoverOperateHandler.remove(userKey, coverKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动封面时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动封面时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -61,7 +61,7 @@ public class ActivityCoverOperateServiceImpl implements ActivityCoverOperateServ
         try {
             activityCoverOperateHandler.updateOrder(userKey, coverUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动封面的顺序时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动封面的顺序时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

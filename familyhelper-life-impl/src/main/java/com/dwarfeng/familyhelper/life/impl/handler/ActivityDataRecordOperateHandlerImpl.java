@@ -5,10 +5,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityDataRecordUpdateInf
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataRecord;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityDataRecordOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataRecordMaintainService;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -19,17 +20,17 @@ public class ActivityDataRecordOperateHandlerImpl implements ActivityDataRecordO
 
     private final ActivityDataRecordMaintainService activityDataRecordMaintainService;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
 
     public ActivityDataRecordOperateHandlerImpl(
             ActivityDataRecordMaintainService activityDataRecordMaintainService,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityDataRecordMaintainService = activityDataRecordMaintainService;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
@@ -58,7 +59,7 @@ public class ActivityDataRecordOperateHandlerImpl implements ActivityDataRecordO
             handlerValidator.makeSureActivityNotLocked(activityKey);
 
             // 生成活动数据记录主键。
-            LongIdKey key = keyFetcher.fetchKey();
+            LongIdKey key = keyGenerator.generate();
 
             // 创建活动数据记录。
             Date currentDate = new Date();
@@ -71,10 +72,8 @@ public class ActivityDataRecordOperateHandlerImpl implements ActivityDataRecordO
 
             // 返回活动数据记录主键。
             return key;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -108,10 +107,8 @@ public class ActivityDataRecordOperateHandlerImpl implements ActivityDataRecordO
 
             // 调用维护服务更新活动数据记录实体。
             activityDataRecordMaintainService.update(activityDataRecord);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -134,10 +131,8 @@ public class ActivityDataRecordOperateHandlerImpl implements ActivityDataRecordO
 
             // 调用维护服务删除活动数据记录实体。
             activityDataRecordMaintainService.delete(key);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

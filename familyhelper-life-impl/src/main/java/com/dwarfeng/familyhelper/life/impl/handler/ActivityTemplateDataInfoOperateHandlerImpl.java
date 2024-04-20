@@ -5,10 +5,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityTemplateDataInfoUpd
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDataInfo;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityTemplateDataInfoOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateDataInfoMaintainService;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -18,17 +19,17 @@ public class ActivityTemplateDataInfoOperateHandlerImpl implements ActivityTempl
 
     private final ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
 
     public ActivityTemplateDataInfoOperateHandlerImpl(
             ActivityTemplateDataInfoMaintainService activityTemplateDataInfoMaintainService,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityTemplateDataInfoMaintainService = activityTemplateDataInfoMaintainService;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
@@ -53,7 +54,7 @@ public class ActivityTemplateDataInfoOperateHandlerImpl implements ActivityTempl
             );
 
             // 生成活动模板数据信息主键。
-            LongIdKey key = keyFetcher.fetchKey();
+            LongIdKey key = keyGenerator.generate();
 
             // 创建活动模板数据信息。
             ActivityTemplateDataInfo activityTemplateDataInfo = new ActivityTemplateDataInfo(
@@ -65,10 +66,8 @@ public class ActivityTemplateDataInfoOperateHandlerImpl implements ActivityTempl
 
             // 返回活动模板数据信息主键。
             return key;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -97,10 +96,8 @@ public class ActivityTemplateDataInfoOperateHandlerImpl implements ActivityTempl
 
             // 调用维护服务更新活动模板数据信息实体。
             activityTemplateDataInfoMaintainService.update(activityTemplateDataInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -120,10 +117,8 @@ public class ActivityTemplateDataInfoOperateHandlerImpl implements ActivityTempl
 
             // 调用维护服务删除活动模板数据信息实体。
             activityTemplateDataInfoMaintainService.delete(key);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

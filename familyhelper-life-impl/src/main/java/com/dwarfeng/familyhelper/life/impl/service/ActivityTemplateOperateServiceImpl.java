@@ -31,7 +31,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             return activityTemplateOperateHandler.createActivityTemplate(userKey, activityTemplateCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动模板时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动模板时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -41,7 +41,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             activityTemplateOperateHandler.updateActivityTemplate(userKey, activityTemplateUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动模板时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动模板时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -50,7 +50,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             activityTemplateOperateHandler.removeActivityTemplate(userKey, activityTemplateKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动模板时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动模板时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -61,7 +61,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             activityTemplateOperateHandler.upsertPermission(userKey, activityTemplatePermissionUpsertInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("添加活动模板权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("添加活动模板权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -72,7 +72,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             activityTemplateOperateHandler.removePermission(userKey, activityTemplatePermissionRemoveInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("移除活动模板权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("移除活动模板权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -83,7 +83,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             activityTemplateOperateHandler.upsertActivityPermission(userKey, upsertInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("添加活动模板活动权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("添加活动模板活动权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -94,7 +94,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             activityTemplateOperateHandler.removeActivityPermission(userKey, removeInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("移除活动模板活动权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("移除活动模板活动权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -104,7 +104,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             return activityTemplateOperateHandler.createActivityFormal(userKey, createInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -114,7 +114,7 @@ public class ActivityTemplateOperateServiceImpl implements ActivityTemplateOpera
         try {
             return activityTemplateOperateHandler.createActivityTest(userKey, createInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建用于测试的活动时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建用于测试的活动时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

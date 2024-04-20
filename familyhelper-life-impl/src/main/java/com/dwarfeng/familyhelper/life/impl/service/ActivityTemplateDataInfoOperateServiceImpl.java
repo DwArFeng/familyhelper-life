@@ -32,7 +32,7 @@ public class ActivityTemplateDataInfoOperateServiceImpl implements ActivityTempl
         try {
             return activityTemplateDataInfoOperateHandler.create(userKey, createInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动模板数据信息时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动模板数据信息时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -41,7 +41,7 @@ public class ActivityTemplateDataInfoOperateServiceImpl implements ActivityTempl
         try {
             activityTemplateDataInfoOperateHandler.update(userKey, updateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动模板数据信息时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动模板数据信息时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -50,7 +50,7 @@ public class ActivityTemplateDataInfoOperateServiceImpl implements ActivityTempl
         try {
             activityTemplateDataInfoOperateHandler.remove(userKey, key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动模板数据信息时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动模板数据信息时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

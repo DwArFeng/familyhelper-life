@@ -7,10 +7,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.PbFileInfo;
 import com.dwarfeng.familyhelper.life.stack.handler.PbFileOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.PbFileInfoMaintainService;
 import com.dwarfeng.ftp.handler.FtpHandler;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -21,19 +22,19 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
     private final PbFileInfoMaintainService pbFileInfoMaintainService;
     private final FtpHandler ftpHandler;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
 
     public PbFileOperateHandlerImpl(
             PbFileInfoMaintainService pbFileInfoMaintainService,
             FtpHandler ftpHandler,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.pbFileInfoMaintainService = pbFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
@@ -61,10 +62,8 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
 
             // 6. 拼接 PbFile 并返回。
             return new PbFile(pbFileInfo.getOriginName(), content);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -82,7 +81,7 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
             handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, recordKey);
 
             // 4. 分配主键。
-            LongIdKey pbFileKey = keyFetcher.fetchKey();
+            LongIdKey pbFileKey = keyGenerator.generate();
 
             // 5. 个人最佳文件内容并存储（覆盖）。
             byte[] content = pbFileUploadInfo.getContent();
@@ -98,10 +97,8 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
             pbFileInfo.setUploadedDate(new Date());
             pbFileInfo.setRemark("通过 familyhelper-assets 服务上传/更新个人最佳文件");
             pbFileInfoMaintainService.insertOrUpdate(pbFileInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -125,10 +122,8 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
 
             // 5. 如果存在 PbFileInfo 实体，则删除。
             pbFileInfoMaintainService.deleteIfExists(pbFileKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 

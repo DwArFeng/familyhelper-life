@@ -32,7 +32,7 @@ public class ActivityDataItemOperateServiceImpl implements ActivityDataItemOpera
         try {
             return activityDataItemOperateHandler.createActivityDataItem(userKey, activityDataItemCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动数据项目时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动数据项目时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -42,7 +42,7 @@ public class ActivityDataItemOperateServiceImpl implements ActivityDataItemOpera
         try {
             activityDataItemOperateHandler.updateActivityDataItem(userKey, activityDataItemUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动数据项目时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动数据项目时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -51,7 +51,7 @@ public class ActivityDataItemOperateServiceImpl implements ActivityDataItemOpera
         try {
             activityDataItemOperateHandler.removeActivityDataItem(userKey, activityDataItemKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动数据项目时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动数据项目时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

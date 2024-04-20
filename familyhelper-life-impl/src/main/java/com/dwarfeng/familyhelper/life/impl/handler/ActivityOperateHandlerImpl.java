@@ -11,6 +11,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.key.PoacKey;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.PoacMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -72,10 +73,8 @@ public class ActivityOperateHandlerImpl implements ActivityOperateHandler {
 
             // 返回生成的主键。
             return activityKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -113,10 +112,8 @@ public class ActivityOperateHandlerImpl implements ActivityOperateHandler {
             activity.setInspectedDate(currentDate);
             activity.setModifiedDate(currentDate);
             activityMaintainService.update(activity);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -134,10 +131,8 @@ public class ActivityOperateHandlerImpl implements ActivityOperateHandler {
 
             // 删除活动实体。
             activityMaintainService.delete(activityKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -189,10 +184,8 @@ public class ActivityOperateHandlerImpl implements ActivityOperateHandler {
                     "由" + userKey.getStringId() + "赋予" + targetUserKey.getStringId() + permissionLabel + "权限"
             );
             poacMaintainService.insertOrUpdate(poac);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -224,10 +217,8 @@ public class ActivityOperateHandlerImpl implements ActivityOperateHandler {
 
             // 删除权限实体。
             poacMaintainService.deleteIfExists(new PoacKey(activityKey.getLongId(), targetUserKey.getStringId()));
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -254,10 +245,8 @@ public class ActivityOperateHandlerImpl implements ActivityOperateHandler {
 
             // 调用维护服务更新活动实体。
             activityMaintainService.update(activity);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

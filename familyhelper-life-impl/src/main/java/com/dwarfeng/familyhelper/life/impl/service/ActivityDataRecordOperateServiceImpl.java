@@ -32,7 +32,7 @@ public class ActivityDataRecordOperateServiceImpl implements ActivityDataRecordO
         try {
             return activityDataRecordOperateHandler.create(userKey, createInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动数据记录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动数据记录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -41,7 +41,7 @@ public class ActivityDataRecordOperateServiceImpl implements ActivityDataRecordO
         try {
             activityDataRecordOperateHandler.update(userKey, updateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动数据记录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动数据记录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -50,7 +50,7 @@ public class ActivityDataRecordOperateServiceImpl implements ActivityDataRecordO
         try {
             activityDataRecordOperateHandler.remove(userKey, key);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动数据记录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动数据记录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

@@ -7,6 +7,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityDataSet;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityDataItemOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataItemMaintainService;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityDataSetMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -70,10 +71,8 @@ public class ActivityDataItemOperateHandlerImpl implements ActivityDataItemOpera
 
             // 返回活动数据项目的主键。
             return activityDataItemKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -111,10 +110,8 @@ public class ActivityDataItemOperateHandlerImpl implements ActivityDataItemOpera
 
             // 更新 活动数据项目 实体。
             activityDataItemMaintainService.update(activityDataItem);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -142,10 +139,8 @@ public class ActivityDataItemOperateHandlerImpl implements ActivityDataItemOpera
             ActivityDataSet activityDataSet = activityDataSetMaintainService.get(setKey);
             activityDataSet.setItemCount(activityDataSet.getItemCount() - 1);
             activityDataSetMaintainService.update(activityDataSet);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

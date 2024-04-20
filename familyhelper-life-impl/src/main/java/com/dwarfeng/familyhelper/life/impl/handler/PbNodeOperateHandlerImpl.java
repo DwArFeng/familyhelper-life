@@ -5,6 +5,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.dto.PbNodeUpdateInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbNode;
 import com.dwarfeng.familyhelper.life.stack.handler.PbNodeOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.PbNodeMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -57,10 +58,8 @@ public class PbNodeOperateHandlerImpl implements PbNodeOperateHandler {
 
             // 7. 插入个人最佳节点，并返回个人最佳节点实体的主键。
             return pbNodeMaintainService.insert(pbNode);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -95,10 +94,8 @@ public class PbNodeOperateHandlerImpl implements PbNodeOperateHandler {
 
             // 7. 更新 个人最佳节点 实体。
             pbNodeMaintainService.update(pbNode);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -116,10 +113,8 @@ public class PbNodeOperateHandlerImpl implements PbNodeOperateHandler {
 
             // 4. 存在删除指定的个人最佳节点。
             pbNodeMaintainService.deleteIfExists(pbNodeKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

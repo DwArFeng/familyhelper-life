@@ -32,7 +32,7 @@ public class ActivityOperateServiceImpl implements ActivityOperateService {
         try {
             return handler.createActivity(userKey, activityCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -41,7 +41,7 @@ public class ActivityOperateServiceImpl implements ActivityOperateService {
         try {
             handler.updateActivity(userKey, activityUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -50,7 +50,7 @@ public class ActivityOperateServiceImpl implements ActivityOperateService {
         try {
             handler.removeActivity(userKey, activityKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -60,7 +60,7 @@ public class ActivityOperateServiceImpl implements ActivityOperateService {
         try {
             handler.upsertPermission(userKey, activityPermissionUpsertInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("添加或更新活动的访客权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("添加或更新活动的访客权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -70,7 +70,7 @@ public class ActivityOperateServiceImpl implements ActivityOperateService {
         try {
             handler.removePermission(userKey, activityPermissionRemoveInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("移除活动的访客权限时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("移除活动的访客权限时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -79,7 +79,7 @@ public class ActivityOperateServiceImpl implements ActivityOperateService {
         try {
             handler.lockActivity(userKey, activityKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("锁定活动时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("锁定活动时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

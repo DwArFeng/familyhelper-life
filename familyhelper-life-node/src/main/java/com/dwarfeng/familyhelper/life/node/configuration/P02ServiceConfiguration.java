@@ -5,7 +5,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
 import com.dwarfeng.familyhelper.life.stack.bean.key.*;
 import com.dwarfeng.familyhelper.life.stack.cache.*;
 import com.dwarfeng.familyhelper.life.stack.dao.*;
-import com.dwarfeng.subgrade.impl.bean.key.ExceptionKeyFetcher;
+import com.dwarfeng.subgrade.impl.generation.ExceptionKeyGenerator;
 import com.dwarfeng.subgrade.impl.service.CustomBatchCrudService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class P02ServiceConfiguration {
 
-    private final KeyFetcherConfiguration keyFetcherConfiguration;
+    private final GenerateConfiguration generateConfiguration;
     private final ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration;
 
     private final ActivityCrudOperation activityCrudOperation;
@@ -96,7 +96,7 @@ public class P02ServiceConfiguration {
     private long poatacTimeout;
 
     public P02ServiceConfiguration(
-            KeyFetcherConfiguration keyFetcherConfiguration,
+            GenerateConfiguration generateConfiguration,
             ServiceExceptionMapperConfiguration serviceExceptionMapperConfiguration,
             ActivityCrudOperation activityCrudOperation,
             ActivityDao activityDao,
@@ -139,7 +139,7 @@ public class P02ServiceConfiguration {
             PoatacDao poatacDao,
             PoatacCache poatacCache
     ) {
-        this.keyFetcherConfiguration = keyFetcherConfiguration;
+        this.generateConfiguration = generateConfiguration;
         this.serviceExceptionMapperConfiguration = serviceExceptionMapperConfiguration;
         this.activityCrudOperation = activityCrudOperation;
         this.activityDao = activityDao;
@@ -149,8 +149,8 @@ public class P02ServiceConfiguration {
         this.activityDataItemDao = activityDataItemDao;
         this.activityDataNodeCrudOperation = activityDataNodeCrudOperation;
         this.activityDataNodeDao = activityDataNodeDao;
-        this.activityDataRecordCache = activityDataRecordCache;
         this.activityDataRecordDao = activityDataRecordDao;
+        this.activityDataRecordCache = activityDataRecordCache;
         this.activityDataSetCrudOperation = activityDataSetCrudOperation;
         this.activityDataSetDao = activityDataSetDao;
         this.activityFileInfoDao = activityFileInfoDao;
@@ -187,7 +187,7 @@ public class P02ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, Activity> activityBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 activityCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -216,7 +216,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityCoverInfoDao,
                 activityCoverInfoCache,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityCoverInfoTimeout
@@ -245,7 +245,7 @@ public class P02ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, ActivityDataItem> activityDataItemBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 activityDataItemCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -273,7 +273,7 @@ public class P02ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, ActivityDataNode> activityDataNodeBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 activityDataNodeCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -302,7 +302,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityDataRecordDao,
                 activityDataRecordCache,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityDataRecordTimeout
@@ -331,7 +331,7 @@ public class P02ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, ActivityDataSet> activityDataSetBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 activityDataSetCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -360,7 +360,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityFileInfoDao,
                 activityFileInfoCache,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityFileInfoTimeout
@@ -391,7 +391,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityParticipantDao,
                 activityParticipantCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityParticipantTimeout
@@ -420,7 +420,7 @@ public class P02ServiceConfiguration {
     public CustomBatchCrudService<LongIdKey, ActivityTemplate> activityTemplateBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
                 activityTemplateCrudOperation,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN
         );
@@ -450,7 +450,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityTemplateCoverInfoDao,
                 activityTemplateCoverInfoCache,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityTemplateCoverInfoTimeout
@@ -481,7 +481,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityTemplateDataInfoDao,
                 activityTemplateDataInfoCache,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityTemplateDataInfoTimeout
@@ -512,7 +512,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityTemplateDriverInfoDao,
                 activityTemplateDriverInfoCache,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityTemplateDriverInfoTimeout
@@ -545,7 +545,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityTemplateDriverSupportDao,
                 activityTemplateDriverSupportCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityTemplateDriverSupportTimeout
@@ -578,7 +578,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityTemplateFileInfoDao,
                 activityTemplateFileInfoCache,
-                keyFetcherConfiguration.longIdKeyKeyFetcher(),
+                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityTemplateFileInfoTimeout
@@ -611,7 +611,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityTemplateParticipantDao,
                 activityTemplateParticipantCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityTemplateParticipantTimeout
@@ -643,7 +643,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 activityTypeIndicatorDao,
                 activityTypeIndicatorCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 activityTypeIndicatorTimeout
@@ -664,7 +664,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 poacDao,
                 poacCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 poacTimeout
@@ -694,7 +694,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 poadDao,
                 poadCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 poadTimeout
@@ -724,7 +724,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 poatDao,
                 poatCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 poatTimeout
@@ -754,7 +754,7 @@ public class P02ServiceConfiguration {
         return new GeneralBatchCrudService<>(
                 poatacDao,
                 poatacCache,
-                new ExceptionKeyFetcher<>(),
+                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
                 LogLevel.WARN,
                 poatacTimeout

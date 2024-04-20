@@ -31,7 +31,7 @@ public class PbFileOperateServiceImpl implements PbFileOperateService {
         try {
             return pbFileOperateHandler.downloadPbFile(userKey, pbFileKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("下载个人最佳文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("下载个人最佳文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -41,7 +41,7 @@ public class PbFileOperateServiceImpl implements PbFileOperateService {
         try {
             pbFileOperateHandler.uploadPbFile(userKey, pbFileUploadInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("上传个人最佳文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("上传个人最佳文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -50,7 +50,7 @@ public class PbFileOperateServiceImpl implements PbFileOperateService {
         try {
             pbFileOperateHandler.removePbFile(userKey, pbFileKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除个人最佳文件时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除个人最佳文件时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

@@ -7,6 +7,7 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateParticip
 import com.dwarfeng.familyhelper.life.stack.bean.key.ActivityTemplateParticipantKey;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityTemplateParticipantOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateParticipantMaintainService;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
@@ -63,10 +64,8 @@ public class ActivityTemplateParticipantOperateHandlerImpl implements ActivityTe
 
             // 返回活动模板参与者主键。
             return activityTemplateParticipantKey;
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -97,10 +96,8 @@ public class ActivityTemplateParticipantOperateHandlerImpl implements ActivityTe
 
             // 调用维护服务更新活动模板参与者实体。
             activityTemplateParticipantMaintainService.update(activityTemplateParticipant);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -125,10 +122,8 @@ public class ActivityTemplateParticipantOperateHandlerImpl implements ActivityTe
 
             // 调用维护服务删除活动模板参与者实体。
             activityTemplateParticipantMaintainService.delete(activityTemplateParticipantKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

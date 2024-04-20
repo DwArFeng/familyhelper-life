@@ -30,7 +30,7 @@ public class PbRecordOperateServiceImpl implements PbRecordOperateService {
         try {
             return pbRecordOperateHandler.createPbRecord(userKey, pbRecordCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建个人最佳记录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建个人最佳记录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -40,7 +40,7 @@ public class PbRecordOperateServiceImpl implements PbRecordOperateService {
         try {
             pbRecordOperateHandler.updatePbRecord(userKey, pbRecordUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新个人最佳记录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新个人最佳记录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -49,7 +49,7 @@ public class PbRecordOperateServiceImpl implements PbRecordOperateService {
         try {
             pbRecordOperateHandler.removePbRecord(userKey, pbRecordKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除个人最佳记录时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除个人最佳记录时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

@@ -34,7 +34,7 @@ public class ActivityTemplateParticipantOperateServiceImpl implements ActivityTe
         try {
             return activityTemplateParticipantOperateHandler.create(userKey, createInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("插入活动模板参与者时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("插入活动模板参与者时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -43,7 +43,7 @@ public class ActivityTemplateParticipantOperateServiceImpl implements ActivityTe
         try {
             activityTemplateParticipantOperateHandler.update(userKey, updateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动模板参与者时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动模板参与者时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -52,7 +52,7 @@ public class ActivityTemplateParticipantOperateServiceImpl implements ActivityTe
         try {
             activityTemplateParticipantOperateHandler.remove(userKey, removeInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动模板参与者时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动模板参与者时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

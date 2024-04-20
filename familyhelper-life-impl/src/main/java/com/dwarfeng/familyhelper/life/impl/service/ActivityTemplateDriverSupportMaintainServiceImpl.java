@@ -249,9 +249,7 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
                     )).collect(Collectors.toList());
             crudService.batchInsert(activityTemplateDriverSupports);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("重置调度器支持时发生异常",
-                    LogLevel.WARN, sem, e
-            );
+            throw ServiceExceptionHelper.logParse("重置调度器支持时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }

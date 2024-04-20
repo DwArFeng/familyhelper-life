@@ -8,10 +8,11 @@ import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateCoverInf
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityTemplateCoverOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateCoverInfoMaintainService;
 import com.dwarfeng.ftp.handler.FtpHandler;
-import com.dwarfeng.subgrade.stack.bean.key.KeyFetcher;
+import com.dwarfeng.subgrade.sdk.exception.HandlerExceptionHelper;
 import com.dwarfeng.subgrade.stack.bean.key.LongIdKey;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.HandlerException;
+import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -25,19 +26,19 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
     private final FtpHandler ftpHandler;
 
-    private final KeyFetcher<LongIdKey> keyFetcher;
+    private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
 
     public ActivityTemplateCoverOperateHandlerImpl(
             ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService,
             FtpHandler ftpHandler,
-            KeyFetcher<LongIdKey> keyFetcher,
+            KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityTemplateCoverInfoMaintainService = activityTemplateCoverInfoMaintainService;
         this.ftpHandler = ftpHandler;
-        this.keyFetcher = keyFetcher;
+        this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
@@ -65,10 +66,8 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
             // 构造返回值并返回。
             return new ActivityTemplateCover(activityTemplateCoverInfo.getOriginName(), content);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -86,7 +85,7 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
             handlerValidator.makeSureUserModifyPermittedForActivityTemplate(userKey, activityTemplateKey);
 
             // 分配主键。
-            LongIdKey activityTemplateCoverKey = keyFetcher.fetchKey();
+            LongIdKey activityTemplateCoverKey = keyGenerator.generate();
 
             // 获取活动模板封面内容并存储（覆盖）。
             byte[] content = coverUploadInfo.getContent();
@@ -113,10 +112,8 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
             )).map(info -> info.getIndex() + 1).orElse(0);
             activityTemplateCoverInfo.setIndex(index);
             activityTemplateCoverInfoMaintainService.insertOrUpdate(activityTemplateCoverInfo);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -148,10 +145,8 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
             // 删除 ActivityTemplateCoverInfo。
             activityTemplateCoverInfoMaintainService.delete(coverKey);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 
@@ -214,10 +209,8 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
             // 批量更新。
             activityTemplateCoverInfoMaintainService.batchUpdate(orderedActivityTemplateCoverInfos);
-        } catch (HandlerException e) {
-            throw e;
         } catch (Exception e) {
-            throw new HandlerException(e);
+            throw HandlerExceptionHelper.parse(e);
         }
     }
 }

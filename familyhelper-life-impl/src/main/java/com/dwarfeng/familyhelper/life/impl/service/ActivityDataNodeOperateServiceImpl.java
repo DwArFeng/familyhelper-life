@@ -34,7 +34,7 @@ public class ActivityDataNodeOperateServiceImpl implements ActivityDataNodeOpera
         try {
             return activityDataNodeOperateHandler.createActivityDataNode(userKey, activityDataNodeCreateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("创建活动数据节点时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("创建活动数据节点时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -44,7 +44,7 @@ public class ActivityDataNodeOperateServiceImpl implements ActivityDataNodeOpera
         try {
             activityDataNodeOperateHandler.updateActivityDataNode(userKey, activityDataNodeUpdateInfo);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("更新活动数据节点时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("更新活动数据节点时发生异常", LogLevel.WARN, e, sem);
         }
     }
 
@@ -53,7 +53,7 @@ public class ActivityDataNodeOperateServiceImpl implements ActivityDataNodeOpera
         try {
             activityDataNodeOperateHandler.removeActivityDataNode(userKey, activityDataNodeKey);
         } catch (Exception e) {
-            throw ServiceExceptionHelper.logAndThrow("删除活动数据节点时发生异常", LogLevel.WARN, sem, e);
+            throw ServiceExceptionHelper.logParse("删除活动数据节点时发生异常", LogLevel.WARN, e, sem);
         }
     }
 }
