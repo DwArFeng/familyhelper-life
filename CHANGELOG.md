@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 增加预设的运维指令。
+  - com.dwarfeng.springtelqos.api.integration.log4j2.Log4j2Command。
+
 - dwarfeng-ftp 优化。
   - 优化 FtpHandler 的扫描方式，使其符合最新版本标准。
 
