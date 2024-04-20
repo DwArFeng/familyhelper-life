@@ -60,3 +60,23 @@ buildNumber.properties
 #################
 /familyhelper-life-impl/conf/
 /familyhelper-life-node/conf/
+
+#################
+## Libext Files
+#################
+/familyhelper-life-node/libext/
+
+#################
+## Opt Files
+#################
+/familyhelper-life-node/opt/
+
+#################
+## Optext Files
+#################
+/familyhelper-life-node/optext/
+
+#################
+## Confext Files
+#################
+/familyhelper-life-node/confext/
