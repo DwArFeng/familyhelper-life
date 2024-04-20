@@ -4,6 +4,14 @@
 
 #### 功能构建
 
+- 实现预设推送器。
+  - com.dwarfeng.familyhelper.life.impl.handler.pusher.DrainPusher。
+  - com.dwarfeng.familyhelper.life.impl.handler.pusher.LogPusher。
+  - com.dwarfeng.familyhelper.life.impl.handler.pusher.MultiPusher。
+
+- 实现核心机制。
+  - 推送机制。
+
 - 添加实体属性。
   - ActivityTemplateDriverInfo.remindScopeType。
 
