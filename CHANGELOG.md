@@ -4,6 +4,14 @@
 
 #### 功能构建
 
+- 实现预设驱动器。
+  - com.dwarfeng.familyhelper.life.impl.handler.atdriver.CronActivityTemplateDriverProvider。
+  - com.dwarfeng.familyhelper.life.impl.handler.atdriver.CronActivityTemplateDriverSupporter。
+  - com.dwarfeng.familyhelper.life.impl.handler.atdriver.FixedDelayActivityTemplateDriverProvider。
+  - com.dwarfeng.familyhelper.life.impl.handler.atdriver.FixedDelayActivityTemplateDriverSupporter。
+  - com.dwarfeng.familyhelper.life.impl.handler.atdriver.FixedRateActivityTemplateDriverProvider。
+  - com.dwarfeng.familyhelper.life.impl.handler.atdriver.FixedRateActivityTemplateDriverSupporter。
+
 - 实现预设推送器。
   - com.dwarfeng.familyhelper.life.impl.handler.pusher.DrainPusher。
   - com.dwarfeng.familyhelper.life.impl.handler.pusher.LogPusher。
