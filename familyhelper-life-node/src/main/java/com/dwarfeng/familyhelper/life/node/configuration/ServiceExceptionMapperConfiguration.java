@@ -53,6 +53,9 @@ public class ServiceExceptionMapperConfiguration {
         destination.put(ActivityParticipantExistsException.class, ServiceExceptionCodes.ACTIVITY_PARTICIPANT_EXISTS);
         destination.put(ActivityParticipantNotExistsException.class, ServiceExceptionCodes.ACTIVITY_PARTICIPANT_NOT_EXISTS);
         destination.put(ActivityDataRecordNotExistsException.class, ServiceExceptionCodes.ACTIVITY_DATA_RECORD_NOT_EXISTS);
+        destination.put(ActivityTemplateDriverException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_DRIVER_FAILED);
+        destination.put(UnsupportedActivityTemplateDriverTypeException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_DRIVER_TYPE_UNSUPPORTED);
+        destination.put(ActivityTemplateDriverInfoNotExistsException.class, ServiceExceptionCodes.ACTIVITY_TEMPLATE_DRIVER_INFO_NOT_EXISTS);
         return new MapServiceExceptionMapper(destination, com.dwarfeng.subgrade.sdk.exception.ServiceExceptionCodes.UNDEFINED);
     }
 }

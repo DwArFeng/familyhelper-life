@@ -11,6 +11,7 @@
 
 - 实现核心机制。
   - 推送机制。
+  - 驱动机制。
 
 - 添加实体属性。
   - ActivityTemplateDriverInfo.remindScopeType。

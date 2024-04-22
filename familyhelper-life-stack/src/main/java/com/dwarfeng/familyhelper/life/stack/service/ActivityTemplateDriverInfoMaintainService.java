@@ -18,4 +18,5 @@ public interface ActivityTemplateDriverInfoMaintainService extends
 
     String CHILD_FOR_ACTIVITY_TEMPLATE = "child_for_activity_template";
     String ENABLED = "enabled";
+    String CHILD_FOR_ACTIVITY_TEMPLATE_ENABLED = "child_for_activity_template_enabled";
 }

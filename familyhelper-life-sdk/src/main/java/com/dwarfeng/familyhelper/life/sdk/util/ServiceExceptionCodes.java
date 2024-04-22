@@ -84,6 +84,12 @@ public final class ServiceExceptionCodes {
             new ServiceException.Code(offset(340), "activity participant not exists");
     public static final ServiceException.Code ACTIVITY_DATA_RECORD_NOT_EXISTS =
             new ServiceException.Code(offset(350), "activity data record not exists");
+    public static final ServiceException.Code ACTIVITY_TEMPLATE_DRIVER_FAILED =
+            new ServiceException.Code(offset(360), "activity template driver failed");
+    public static final ServiceException.Code ACTIVITY_TEMPLATE_DRIVER_TYPE_UNSUPPORTED =
+            new ServiceException.Code(offset(361), "activity template driver type unsupported");
+    public static final ServiceException.Code ACTIVITY_TEMPLATE_DRIVER_INFO_NOT_EXISTS =
+            new ServiceException.Code(offset(370), "activity template driver info not exists");
 
     private static int offset(int i) {
         return EXCEPTION_CODE_OFFSET + i;
@@ -144,6 +150,9 @@ public final class ServiceExceptionCodes {
         ACTIVITY_PARTICIPANT_EXISTS.setCode(offset(330));
         ACTIVITY_PARTICIPANT_NOT_EXISTS.setCode(offset(340));
         ACTIVITY_DATA_RECORD_NOT_EXISTS.setCode(offset(350));
+        ACTIVITY_TEMPLATE_DRIVER_FAILED.setCode(offset(360));
+        ACTIVITY_TEMPLATE_DRIVER_TYPE_UNSUPPORTED.setCode(offset(361));
+        ACTIVITY_TEMPLATE_DRIVER_INFO_NOT_EXISTS.setCode(offset(370));
     }
 
     private ServiceExceptionCodes() {

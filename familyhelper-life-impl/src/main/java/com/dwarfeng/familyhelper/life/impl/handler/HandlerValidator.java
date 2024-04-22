@@ -49,6 +49,7 @@ public class HandlerValidator {
     private final ActivityFileInfoMaintainService activityFileInfoMaintainService;
     private final ActivityParticipantMaintainService activityParticipantMaintainService;
     private final ActivityDataRecordMaintainService activityDataRecordMaintainService;
+    private final ActivityTemplateDriverInfoMaintainService activityTemplateDriverInfoMaintainService;
 
     public HandlerValidator(
             UserMaintainService userMaintainService,
@@ -73,7 +74,8 @@ public class HandlerValidator {
             ActivityCoverInfoMaintainService activityCoverInfoMaintainService,
             ActivityFileInfoMaintainService activityFileInfoMaintainService,
             ActivityParticipantMaintainService activityParticipantMaintainService,
-            ActivityDataRecordMaintainService activityDataRecordMaintainService
+            ActivityDataRecordMaintainService activityDataRecordMaintainService,
+            ActivityTemplateDriverInfoMaintainService activityTemplateDriverInfoMaintainService
     ) {
         this.userMaintainService = userMaintainService;
         this.popbMaintainService = popbMaintainService;
@@ -98,6 +100,7 @@ public class HandlerValidator {
         this.activityFileInfoMaintainService = activityFileInfoMaintainService;
         this.activityParticipantMaintainService = activityParticipantMaintainService;
         this.activityDataRecordMaintainService = activityDataRecordMaintainService;
+        this.activityTemplateDriverInfoMaintainService = activityTemplateDriverInfoMaintainService;
     }
 
     public void makeSureUserExists(StringIdKey userKey) throws HandlerException {
@@ -885,6 +888,18 @@ public class HandlerValidator {
             if (Objects.isNull(activityDataRecordKey) ||
                     !activityDataRecordMaintainService.exists(activityDataRecordKey)) {
                 throw new ActivityDataRecordNotExistsException(activityDataRecordKey);
+            }
+        } catch (ServiceException e) {
+            throw new HandlerException(e);
+        }
+    }
+
+    public void makeSureActivityTemplateDriverInfoExists(LongIdKey activityTemplateDriverInfoKey)
+            throws HandlerException {
+        try {
+            if (Objects.isNull(activityTemplateDriverInfoKey) ||
+                    !activityTemplateDriverInfoMaintainService.exists(activityTemplateDriverInfoKey)) {
+                throw new ActivityTemplateDriverInfoNotExistsException(activityTemplateDriverInfoKey);
             }
         } catch (ServiceException e) {
             throw new HandlerException(e);
