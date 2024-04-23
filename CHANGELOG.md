@@ -7,6 +7,7 @@
 - 实现运维指令。
   - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveCommand。
   - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveLocalCacheCommand。
+  - com.dwarfeng.familyhelper.life.impl.service.telqos.ResetCommand。
 
 - 实现预设重置器。
   - com.dwarfeng.familyhelper.life.impl.handler.resetter.CronResetter。
