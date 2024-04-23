@@ -15,6 +15,9 @@ public class LauncherSettingHandler implements Handler {
     @Value("${launcher.enable_activity_template_drive_delay}")
     private long enableActivityTemplateDriveDelay;
 
+    @Value("${launcher.start_reset_delay}")
+    private long startResetDelay;
+
     public boolean isResetActivityTemplateDriverSupport() {
         return resetActivityTemplateDriverSupport;
     }
@@ -27,12 +30,17 @@ public class LauncherSettingHandler implements Handler {
         return enableActivityTemplateDriveDelay;
     }
 
+    public long getStartResetDelay() {
+        return startResetDelay;
+    }
+
     @Override
     public String toString() {
         return "LauncherSettingHandler{" +
                 "resetActivityTemplateDriverSupport=" + resetActivityTemplateDriverSupport +
                 ", onlineActivityTemplateDriveDelay=" + onlineActivityTemplateDriveDelay +
                 ", enableActivityTemplateDriveDelay=" + enableActivityTemplateDriveDelay +
+                ", startResetDelay=" + startResetDelay +
                 '}';
     }
 }

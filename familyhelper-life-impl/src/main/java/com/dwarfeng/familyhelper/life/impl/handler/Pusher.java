@@ -35,4 +35,9 @@ public interface Pusher {
      * @throws HandlerException 处理器异常。
      */
     void activityRemindedByDriver(ActivityRemindedByDriverPushInfo pushInfo) throws HandlerException;
+
+    /**
+     * 活动模板驱动重置时执行的推送操作。
+     */
+    void activityTemplateDriveReset() throws HandlerException;
 }

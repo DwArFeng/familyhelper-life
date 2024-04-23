@@ -28,6 +28,10 @@ public class DrainPusher extends AbstractPusher {
     }
 
     @Override
+    public void activityTemplateDriveReset() {
+    }
+
+    @Override
     public String toString() {
         return "DrainPusher{" +
                 "pusherType='" + pusherType + '\'' +

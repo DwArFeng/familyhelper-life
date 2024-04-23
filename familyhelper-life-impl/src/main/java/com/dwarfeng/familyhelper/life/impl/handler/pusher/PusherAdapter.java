@@ -40,6 +40,11 @@ public abstract class PusherAdapter extends AbstractPusher {
     public void activityRemindedByDriver(ActivityRemindedByDriverPushInfo pushInfo) throws HandlerException {
     }
 
+    @SuppressWarnings("RedundantThrows")
+    @Override
+    public void activityTemplateDriveReset() throws HandlerException {
+    }
+
     @Override
     public String toString() {
         return "PusherAdapter{" +

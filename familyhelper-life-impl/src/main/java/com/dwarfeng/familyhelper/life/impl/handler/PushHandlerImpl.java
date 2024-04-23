@@ -42,4 +42,9 @@ public class PushHandlerImpl implements PushHandler {
     public void activityRemindedByDriver(ActivityRemindedByDriverPushInfo pushInfo) throws HandlerException {
         pusher.activityRemindedByDriver(pushInfo);
     }
+
+    @Override
+    public void activityTemplateDriveReset() throws HandlerException {
+        pusher.activityTemplateDriveReset();
+    }
 }

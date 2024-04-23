@@ -50,6 +50,12 @@ public class LogPusher extends AbstractPusher {
         logData(title, message);
     }
 
+    @Override
+    public void activityTemplateDriveReset() throws HandlerException {
+        String title = "推送活动模板驱动重置消息:";
+        logData(title, null);
+    }
+
     private void logData(String title, String message) throws HandlerException {
         String logLevel = this.logLevel.toUpperCase();
         logString(title, logLevel);
