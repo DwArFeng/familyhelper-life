@@ -4,6 +4,9 @@
 
 #### 功能构建
 
+- 增加服务方法。
+  - com.dwarfeng.familyhelper.life.stack.service.ActivityFileOperateService。
+
 - 实现运维指令。
   - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveCommand。
   - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveLocalCacheCommand。

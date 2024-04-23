@@ -1,8 +1,6 @@
 package com.dwarfeng.familyhelper.life.impl.service;
 
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityFile;
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityFileUpdateInfo;
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityFileUploadInfo;
+import com.dwarfeng.familyhelper.life.stack.bean.dto.*;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityFileOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityFileOperateService;
 import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
@@ -38,6 +36,16 @@ public class ActivityFileOperateServiceImpl implements ActivityFileOperateServic
     }
 
     @Override
+    public ActivityFileStream downloadActivityFileStream(StringIdKey userKey, LongIdKey activityFileKey)
+            throws ServiceException {
+        try {
+            return activityFileOperateHandler.downloadActivityFileStream(userKey, activityFileKey);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("下载活动文件流时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
     public void uploadActivityFile(
             StringIdKey userKey, ActivityFileUploadInfo activityFileUploadInfo
     ) throws ServiceException {
@@ -49,6 +57,16 @@ public class ActivityFileOperateServiceImpl implements ActivityFileOperateServic
     }
 
     @Override
+    public void uploadActivityFileStream(StringIdKey userKey, ActivityFileStreamUploadInfo activityFileStreamUploadInfo)
+            throws ServiceException {
+        try {
+            activityFileOperateHandler.uploadActivityFileStream(userKey, activityFileStreamUploadInfo);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("上传活动文件流时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
     public void updateActivityFile(
             StringIdKey userKey, ActivityFileUpdateInfo activityFileUpdateInfo
     ) throws ServiceException {
@@ -56,6 +74,16 @@ public class ActivityFileOperateServiceImpl implements ActivityFileOperateServic
             activityFileOperateHandler.updateActivityFile(userKey, activityFileUpdateInfo);
         } catch (Exception e) {
             throw ServiceExceptionHelper.logParse("更新活动文件时发生异常", LogLevel.WARN, e, sem);
+        }
+    }
+
+    @Override
+    public void updateActivityFileStream(StringIdKey userKey, ActivityFileStreamUpdateInfo activityFileStreamUpdateInfo)
+            throws ServiceException {
+        try {
+            activityFileOperateHandler.updateActivityFileStream(userKey, activityFileStreamUpdateInfo);
+        } catch (Exception e) {
+            throw ServiceExceptionHelper.logParse("更新活动文件流时发生异常", LogLevel.WARN, e, sem);
         }
     }
 

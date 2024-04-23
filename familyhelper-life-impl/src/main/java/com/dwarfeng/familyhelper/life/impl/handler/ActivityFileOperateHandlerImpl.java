@@ -1,9 +1,9 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
+import com.dwarfeng.dutil.basic.io.IOUtil;
 import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityFile;
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityFileUpdateInfo;
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityFileUploadInfo;
+import com.dwarfeng.familyhelper.life.sdk.util.Constants;
+import com.dwarfeng.familyhelper.life.stack.bean.dto.*;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityFileInfo;
 import com.dwarfeng.familyhelper.life.stack.handler.ActivityFileOperateHandler;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityFileInfoMaintainService;
@@ -15,6 +15,8 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
 import com.dwarfeng.subgrade.stack.generation.KeyGenerator;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 
 @Component
@@ -72,6 +74,40 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
         }
     }
 
+    @Override
+    public ActivityFileStream downloadActivityFileStream(StringIdKey userKey, LongIdKey activityFileKey)
+            throws HandlerException {
+        try {
+            // 确认用户存在。
+            handlerValidator.makeSureUserExists(userKey);
+
+            // 确认项目文件存在。
+            handlerValidator.makeSureActivityFileExists(activityFileKey);
+
+            // 获取项目文件对应的项目，并确认用户有权限操作项目。
+            ActivityFileInfo activityFileInfo = activityFileInfoMaintainService.get(
+                    activityFileKey
+            );
+            handlerValidator.makeSureUserInspectPermittedForActivity(
+                    userKey, activityFileInfo.getActivityKey()
+            );
+
+            // 获取项目文件的内容。
+            InputStream content = ftpHandler.openInputStream(
+                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+            );
+
+            // 更新文件的查看时间。
+            activityFileInfo.setInspectedDate(new Date());
+            activityFileInfoMaintainService.update(activityFileInfo);
+
+            // 拼接 ActivityFileStream 并返回。
+            return new ActivityFileStream(activityFileInfo.getOriginName(), activityFileInfo.getLength(), content);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
     @SuppressWarnings({"ExtractMethodRecommender", "DuplicatedCode"})
     @Override
     public void uploadActivityFile(StringIdKey userKey, ActivityFileUploadInfo activityFileUploadInfo)
@@ -117,6 +153,54 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
         }
     }
 
+    @SuppressWarnings("ExtractMethodRecommender")
+    @Override
+    public void uploadActivityFileStream(StringIdKey userKey, ActivityFileStreamUploadInfo activityFileStreamUploadInfo)
+            throws HandlerException {
+        try {
+            // 确认用户存在。
+            handlerValidator.makeSureUserExists(userKey);
+
+            // 确认项目文件所属的项目存在。
+            LongIdKey activityKey = activityFileStreamUploadInfo.getActivityKey();
+            handlerValidator.makeSureActivityExists(activityKey);
+
+            // 确认用户有权限操作项目。
+            handlerValidator.makeSureUserModifyPermittedForActivity(userKey, activityKey);
+
+            // 确认项目未锁定。
+            handlerValidator.makeSureActivityNotLocked(activityKey);
+
+            // 分配主键。
+            LongIdKey activityFileKey = keyGenerator.generate();
+
+            // 项目文件内容并存储（覆盖）。
+            InputStream cin = activityFileStreamUploadInfo.getContent();
+            try (OutputStream fout = ftpHandler.openOutputStream(
+                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+            )) {
+                IOUtil.trans(cin, fout, Constants.IO_TRANS_BUFFER_SIZE);
+            }
+
+            // 根据 activityFileUploadInfo 构造 ActivityFileInfo，插入或更新。
+            Date currentDate = new Date();
+            // 映射属性。
+            ActivityFileInfo activityFileInfo = new ActivityFileInfo();
+            activityFileInfo.setKey(activityFileKey);
+            activityFileInfo.setActivityKey(activityKey);
+            activityFileInfo.setOriginName(activityFileStreamUploadInfo.getOriginName());
+            activityFileInfo.setLength(activityFileStreamUploadInfo.getLength());
+            activityFileInfo.setCreatedDate(currentDate);
+            activityFileInfo.setModifiedDate(currentDate);
+            activityFileInfo.setInspectedDate(currentDate);
+            activityFileInfo.setRemark("通过 familyhelper-assets 服务上传/更新项目文件");
+            activityFileInfoMaintainService.insertOrUpdate(activityFileInfo);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public void updateActivityFile(
             StringIdKey userKey, ActivityFileUpdateInfo activityFileUpdateInfo
@@ -150,6 +234,48 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             // 根据 activityFileUpdateInfo 更新字段。
             activityFileInfo.setOriginName(activityFileUpdateInfo.getOriginName());
             activityFileInfo.setLength(content.length);
+            activityFileInfo.setModifiedDate(new Date());
+            activityFileInfoMaintainService.update(activityFileInfo);
+        } catch (Exception e) {
+            throw HandlerExceptionHelper.parse(e);
+        }
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    @Override
+    public void updateActivityFileStream(StringIdKey userKey, ActivityFileStreamUpdateInfo activityFileStreamUpdateInfo)
+            throws HandlerException {
+        try {
+            LongIdKey activityFileKey = activityFileStreamUpdateInfo.getActivityFileKey();
+
+            // 确认用户存在。
+            handlerValidator.makeSureUserExists(userKey);
+
+            // 确认项目文件信息存在。
+            handlerValidator.makeSureActivityFileExists(activityFileKey);
+
+            // 确认项目存在。
+            ActivityFileInfo activityFileInfo = activityFileInfoMaintainService.get(activityFileKey);
+            LongIdKey activityKey = activityFileInfo.getActivityKey();
+            handlerValidator.makeSureActivityExists(activityKey);
+
+            // 确认用户有权限操作项目文件信息。
+            handlerValidator.makeSureUserModifyPermittedForActivityFileInfo(userKey, activityFileKey);
+
+            // 确认项目未锁定。
+            handlerValidator.makeSureActivityNotLocked(activityKey);
+
+            // 项目文件内容并存储（覆盖）。
+            InputStream cin = activityFileStreamUpdateInfo.getContent();
+            try (OutputStream fout = ftpHandler.openOutputStream(
+                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+            )) {
+                IOUtil.trans(cin, fout, Constants.IO_TRANS_BUFFER_SIZE);
+            }
+
+            // 根据 activityFileUpdateInfo 更新字段。
+            activityFileInfo.setOriginName(activityFileStreamUpdateInfo.getOriginName());
+            activityFileInfo.setLength(activityFileStreamUpdateInfo.getLength());
             activityFileInfo.setModifiedDate(new Date());
             activityFileInfoMaintainService.update(activityFileInfo);
         } catch (Exception e) {
