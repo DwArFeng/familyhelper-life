@@ -8,6 +8,13 @@
   - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveCommand。
   - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveLocalCacheCommand。
 
+- 实现预设重置器。
+  - com.dwarfeng.familyhelper.life.impl.handler.resetter.CronResetter。
+  - com.dwarfeng.familyhelper.life.impl.handler.resetter.DubboResetter。
+  - com.dwarfeng.familyhelper.life.impl.handler.resetter.FixedDelayResetter。
+  - com.dwarfeng.familyhelper.life.impl.handler.resetter.FixedRateResetter。
+  - com.dwarfeng.familyhelper.life.impl.handler.resetter.NeverResetter。
+
 - 实现预设驱动器。
   - com.dwarfeng.familyhelper.life.impl.handler.atdriver.CronActivityTemplateDriverProvider。
   - com.dwarfeng.familyhelper.life.impl.handler.atdriver.CronActivityTemplateDriverSupporter。
