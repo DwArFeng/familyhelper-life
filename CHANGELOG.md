@@ -4,6 +4,10 @@
 
 #### 功能构建
 
+- 实现运维指令。
+  - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveCommand。
+  - com.dwarfeng.familyhelper.life.impl.service.telqos.ActivityTemplateDriveLocalCacheCommand。
+
 - 实现预设驱动器。
   - com.dwarfeng.familyhelper.life.impl.handler.atdriver.CronActivityTemplateDriverProvider。
   - com.dwarfeng.familyhelper.life.impl.handler.atdriver.CronActivityTemplateDriverSupporter。
