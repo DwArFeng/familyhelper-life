@@ -440,7 +440,6 @@ public class InternalActivityTemplateDriverContext implements ActivityTemplateDr
         return Long.toString(itemFileKey.getLongId());
     }
 
-
     private static final class ActivityCreateField {
 
         private final String activityType;

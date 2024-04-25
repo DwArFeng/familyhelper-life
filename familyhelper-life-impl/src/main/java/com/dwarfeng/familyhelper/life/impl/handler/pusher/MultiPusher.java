@@ -70,7 +70,7 @@ public class MultiPusher extends AbstractPusher {
     }
 
     @Override
-    public void activityTemplateDriveReset() throws HandlerException {
+    public void activityTemplateDriveReset() {
         for (Pusher delegate : delegates) {
             try {
                 delegate.activityTemplateDriveReset();

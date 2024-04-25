@@ -397,7 +397,7 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         }
     }
 
-    @SuppressWarnings("ExtractMethodRecommender")
+    @SuppressWarnings({"ExtractMethodRecommender", "DuplicatedCode"})
     private LongIdKey initActivityFromActivityTemplate(ActivityTemplate activityTemplate) throws Exception {
         // 展开参数。
         LongIdKey activityTemplateKey = activityTemplate.getKey();
@@ -570,6 +570,7 @@ public class ActivityTemplateOperateHandlerImpl implements ActivityTemplateOpera
         return activityKey;
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private ActivityCreateField parseActivityCreateField(ActivityTemplate activityTemplate) {
         // 展开参数。
         String activityType = activityTemplate.getActivityType();
