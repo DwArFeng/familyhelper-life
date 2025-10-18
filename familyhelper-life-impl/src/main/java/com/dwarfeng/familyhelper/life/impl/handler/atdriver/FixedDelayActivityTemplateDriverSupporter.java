@@ -1,6 +1,6 @@
 package com.dwarfeng.familyhelper.life.impl.handler.atdriver;
 
-import com.dwarfeng.familyhelper.life.impl.handler.ActivityTemplateDriverSupporter;
+import com.dwarfeng.familyhelper.life.sdk.handler.ActivityTemplateDriverSupporter;
 import org.springframework.stereotype.Component;
 
 /**

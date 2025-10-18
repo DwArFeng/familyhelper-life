@@ -1,9 +1,5 @@
 package com.dwarfeng.familyhelper.life.impl.handler.pusher;
 
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityGeneratedByDriverPushInfo;
-import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityRemindedByDriverPushInfo;
-import com.dwarfeng.subgrade.stack.exception.HandlerException;
-
 /**
  * 推送器适配器。
  *
@@ -18,37 +14,17 @@ import com.dwarfeng.subgrade.stack.exception.HandlerException;
  * </ul>
  *
  * @author DwArFeng
+ * @see com.dwarfeng.familyhelper.life.sdk.handler.pusher.PusherAdapter
  * @since 1.1.1
+ * @deprecated 该对象已经被废弃，请使用 sdk 模块下的对应对象代替。
  */
-public abstract class PusherAdapter extends AbstractPusher {
+@Deprecated
+public abstract class PusherAdapter extends com.dwarfeng.familyhelper.life.sdk.handler.pusher.PusherAdapter {
 
     public PusherAdapter() {
-        super();
     }
 
     public PusherAdapter(String pusherType) {
         super(pusherType);
-    }
-
-    @SuppressWarnings("RedundantThrows")
-    @Override
-    public void activityGeneratedByDriver(ActivityGeneratedByDriverPushInfo pushInfo) throws HandlerException {
-    }
-
-    @SuppressWarnings("RedundantThrows")
-    @Override
-    public void activityRemindedByDriver(ActivityRemindedByDriverPushInfo pushInfo) throws HandlerException {
-    }
-
-    @SuppressWarnings("RedundantThrows")
-    @Override
-    public void activityTemplateDriveReset() throws HandlerException {
-    }
-
-    @Override
-    public String toString() {
-        return "PusherAdapter{" +
-                "pusherType='" + pusherType + '\'' +
-                '}';
     }
 }
