@@ -35,10 +35,17 @@ public class ResetProcessor {
     }
 
     public void resetActivityTemplateDrive() throws HandlerException {
-        // 重置活动模板驱动。
+        // 获取当前活动模板驱动处理器的状态。
+        boolean started = activityTemplateDriveHandler.isStarted();
+
+        // 活动模板驱动处理器停止，且清空本地缓存。
         activityTemplateDriveHandler.stop();
         activityTemplateDriveLocalCacheHandler.clear();
-        activityTemplateDriveHandler.start();
+
+        // 如果活动模板驱动处理器之前是启动的，则重新启动。
+        if (started) {
+            activityTemplateDriveHandler.start();
+        }
 
         // 推送消息。
         try {
