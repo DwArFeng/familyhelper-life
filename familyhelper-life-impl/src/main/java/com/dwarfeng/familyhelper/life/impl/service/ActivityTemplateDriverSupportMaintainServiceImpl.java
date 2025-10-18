@@ -157,13 +157,23 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
         return crudService.batchGetIfExists(keys);
     }
 
+    @Deprecated
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<ActivityTemplateDriverSupport> elements) throws
-            ServiceException {
+    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<ActivityTemplateDriverSupport> elements)
+            throws ServiceException {
         return crudService.batchInsertIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<ActivityTemplateDriverSupport> elements)
+            throws ServiceException {
+        return crudService.batchInsertIfNotExists(elements);
     }
 
     @Override

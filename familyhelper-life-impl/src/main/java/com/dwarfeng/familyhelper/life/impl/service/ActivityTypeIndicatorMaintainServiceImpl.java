@@ -151,12 +151,23 @@ public class ActivityTypeIndicatorMaintainServiceImpl implements ActivityTypeInd
         return crudService.batchGetIfExists(keys);
     }
 
+    @Deprecated
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<ActivityTypeIndicator> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<ActivityTypeIndicator> elements)
+            throws ServiceException {
         return crudService.batchInsertIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<StringIdKey> batchInsertIfNotExists(@SkipRecord List<ActivityTypeIndicator> elements)
+            throws ServiceException {
+        return crudService.batchInsertIfNotExists(elements);
     }
 
     @Override
@@ -177,7 +188,8 @@ public class ActivityTypeIndicatorMaintainServiceImpl implements ActivityTypeInd
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<ActivityTypeIndicator> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<ActivityTypeIndicator> elements)
+            throws ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 

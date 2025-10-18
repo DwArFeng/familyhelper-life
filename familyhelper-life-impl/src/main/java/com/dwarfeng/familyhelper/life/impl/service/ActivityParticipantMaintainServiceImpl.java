@@ -129,7 +129,8 @@ public class ActivityParticipantMaintainServiceImpl implements ActivityParticipa
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<ActivityParticipantKey> batchInsert(@SkipRecord List<ActivityParticipant> elements) throws ServiceException {
+    public List<ActivityParticipantKey> batchInsert(@SkipRecord List<ActivityParticipant> elements)
+            throws ServiceException {
         return crudService.batchInsert(elements);
     }
 
@@ -151,16 +152,28 @@ public class ActivityParticipantMaintainServiceImpl implements ActivityParticipa
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityParticipant> batchGetIfExists(@SkipRecord List<ActivityParticipantKey> keys) throws ServiceException {
+    public List<ActivityParticipant> batchGetIfExists(@SkipRecord List<ActivityParticipantKey> keys)
+            throws ServiceException {
         return crudService.batchGetIfExists(keys);
+    }
+
+    @Deprecated
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<ActivityParticipantKey> batchInsertIfExists(@SkipRecord List<ActivityParticipant> elements)
+            throws ServiceException {
+        return crudService.batchInsertIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<ActivityParticipantKey> batchInsertIfExists(@SkipRecord List<ActivityParticipant> elements) throws ServiceException {
-        return crudService.batchInsertIfExists(elements);
+    public List<ActivityParticipantKey> batchInsertIfNotExists(@SkipRecord List<ActivityParticipant> elements)
+            throws ServiceException {
+        return crudService.batchInsertIfNotExists(elements);
     }
 
     @Override
@@ -181,7 +194,8 @@ public class ActivityParticipantMaintainServiceImpl implements ActivityParticipa
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<ActivityParticipantKey> batchInsertOrUpdate(@SkipRecord List<ActivityParticipant> elements) throws ServiceException {
+    public List<ActivityParticipantKey> batchInsertOrUpdate(@SkipRecord List<ActivityParticipant> elements)
+            throws ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 
@@ -213,7 +227,8 @@ public class ActivityParticipantMaintainServiceImpl implements ActivityParticipa
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<ActivityParticipant> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<ActivityParticipant> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 }

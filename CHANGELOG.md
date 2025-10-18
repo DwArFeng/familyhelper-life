@@ -4,6 +4,18 @@
 
 ### 功能构建
 
+- 依赖升级。
+  - 升级 `subgrade` 依赖版本为 `1.6.0.a` 并解决兼容性问题，以应用其新功能。
+  - 升级 `spring` 依赖版本为 `5.3.39` 以规避漏洞。
+  - 升级 `protobuf` 依赖版本为 `3.25.5` 以规避漏洞。
+  - 升级 `jetty` 依赖版本为 `9.4.57.v20241219` 以规避漏洞。
+  - 升级 `netty` 依赖版本为 `4.1.119.final` 以规避漏洞。
+  - 升级 `zookeeper` 依赖版本为 `3.9.4` 以规避漏洞。
+  - 升级 `snowflake` 依赖版本为 `1.7.2.a` 以规避漏洞。
+  - 升级 `dwarfeng-ftp` 依赖版本为 `1.3.5.a` 以规避漏洞。
+  - 升级 `spring-terminator` 依赖版本为 `1.0.14.a` 以规避漏洞。
+  - 升级 `spring-telqos` 依赖版本为 `1.1.14.a` 以规避漏洞。
+
 - 新增 telqos 指令。
   - com.dwarfeng.familyhelper.life.impl.service.telqos.SupportCommand。
 

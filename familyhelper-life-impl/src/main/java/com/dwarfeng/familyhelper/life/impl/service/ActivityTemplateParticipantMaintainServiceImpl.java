@@ -78,7 +78,8 @@ public class ActivityTemplateParticipantMaintainServiceImpl implements ActivityT
     @Override
     @BehaviorAnalyse
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public ActivityTemplateParticipantKey insertIfNotExists(ActivityTemplateParticipant element) throws ServiceException {
+    public ActivityTemplateParticipantKey insertIfNotExists(ActivityTemplateParticipant element)
+            throws ServiceException {
         return crudService.insertIfNotExists(element);
     }
 
@@ -121,7 +122,8 @@ public class ActivityTemplateParticipantMaintainServiceImpl implements ActivityT
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityTemplateParticipant> batchGet(@SkipRecord List<ActivityTemplateParticipantKey> keys) throws ServiceException {
+    public List<ActivityTemplateParticipant> batchGet(@SkipRecord List<ActivityTemplateParticipantKey> keys)
+            throws ServiceException {
         return crudService.batchGet(keys);
     }
 
@@ -129,7 +131,8 @@ public class ActivityTemplateParticipantMaintainServiceImpl implements ActivityT
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<ActivityTemplateParticipantKey> batchInsert(@SkipRecord List<ActivityTemplateParticipant> elements) throws ServiceException {
+    public List<ActivityTemplateParticipantKey> batchInsert(@SkipRecord List<ActivityTemplateParticipant> elements)
+            throws ServiceException {
         return crudService.batchInsert(elements);
     }
 
@@ -151,16 +154,30 @@ public class ActivityTemplateParticipantMaintainServiceImpl implements ActivityT
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityTemplateParticipant> batchGetIfExists(@SkipRecord List<ActivityTemplateParticipantKey> keys) throws ServiceException {
+    public List<ActivityTemplateParticipant> batchGetIfExists(@SkipRecord List<ActivityTemplateParticipantKey> keys)
+            throws ServiceException {
         return crudService.batchGetIfExists(keys);
+    }
+
+    @Deprecated
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<ActivityTemplateParticipantKey> batchInsertIfExists(
+            @SkipRecord List<ActivityTemplateParticipant> elements
+    ) throws ServiceException {
+        return crudService.batchInsertIfExists(elements);
     }
 
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<ActivityTemplateParticipantKey> batchInsertIfExists(@SkipRecord List<ActivityTemplateParticipant> elements) throws ServiceException {
-        return crudService.batchInsertIfExists(elements);
+    public List<ActivityTemplateParticipantKey> batchInsertIfNotExists(
+            @SkipRecord List<ActivityTemplateParticipant> elements
+    ) throws ServiceException {
+        return crudService.batchInsertIfNotExists(elements);
     }
 
     @Override
@@ -181,7 +198,9 @@ public class ActivityTemplateParticipantMaintainServiceImpl implements ActivityT
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<ActivityTemplateParticipantKey> batchInsertOrUpdate(@SkipRecord List<ActivityTemplateParticipant> elements) throws ServiceException {
+    public List<ActivityTemplateParticipantKey> batchInsertOrUpdate(
+            @SkipRecord List<ActivityTemplateParticipant> elements
+    ) throws ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 
@@ -213,7 +232,8 @@ public class ActivityTemplateParticipantMaintainServiceImpl implements ActivityT
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<ActivityTemplateParticipant> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<ActivityTemplateParticipant> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 }

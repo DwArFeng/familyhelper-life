@@ -155,12 +155,23 @@ public class ActivityTemplateDataInfoMaintainServiceImpl implements ActivityTemp
         return crudService.batchGetIfExists(keys);
     }
 
+    @Deprecated
     @Override
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertIfExists(@SkipRecord List<ActivityTemplateDataInfo> elements) throws ServiceException {
+    public List<LongIdKey> batchInsertIfExists(@SkipRecord List<ActivityTemplateDataInfo> elements)
+            throws ServiceException {
         return crudService.batchInsertIfExists(elements);
+    }
+
+    @Override
+    @BehaviorAnalyse
+    @SkipRecord
+    @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
+    public List<LongIdKey> batchInsertIfNotExists(@SkipRecord List<ActivityTemplateDataInfo> elements)
+            throws ServiceException {
+        return crudService.batchInsertIfNotExists(elements);
     }
 
     @Override
@@ -181,7 +192,8 @@ public class ActivityTemplateDataInfoMaintainServiceImpl implements ActivityTemp
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<LongIdKey> batchInsertOrUpdate(@SkipRecord List<ActivityTemplateDataInfo> elements) throws ServiceException {
+    public List<LongIdKey> batchInsertOrUpdate(@SkipRecord List<ActivityTemplateDataInfo> elements)
+            throws ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 
@@ -213,7 +225,8 @@ public class ActivityTemplateDataInfoMaintainServiceImpl implements ActivityTemp
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<ActivityTemplateDataInfo> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<ActivityTemplateDataInfo> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
     }
 }

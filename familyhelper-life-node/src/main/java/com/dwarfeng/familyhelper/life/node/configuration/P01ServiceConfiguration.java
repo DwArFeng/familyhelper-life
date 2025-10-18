@@ -77,21 +77,21 @@ public class P01ServiceConfiguration {
     @Bean
     public CustomBatchCrudService<StringIdKey, User> userBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
-                userCrudOperation,
-                new ExceptionKeyGenerator<>(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                userCrudOperation,
+                new ExceptionKeyGenerator<>()
         );
     }
 
     @Bean
     public GeneralBatchCrudService<PopbKey, Popb> popbGeneralBatchCrudService() {
         return new GeneralBatchCrudService<>(
+                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
+                LogLevel.WARN,
                 popbDao,
                 popbCache,
                 new ExceptionKeyGenerator<>(),
-                serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN,
                 popbTimeout
         );
     }
@@ -99,158 +99,158 @@ public class P01ServiceConfiguration {
     @Bean
     public DaoOnlyEntireLookupService<Popb> popbDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
-                popbDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                popbDao
         );
     }
 
     @Bean
     public DaoOnlyPresetLookupService<Popb> popbDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
-                popbDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                popbDao
         );
     }
 
     @Bean
     public CustomBatchCrudService<LongIdKey, PbSet> pbSetBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
-                pbSetCrudOperation,
-                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbSetCrudOperation,
+                generateConfiguration.snowflakeLongIdKeyGenerator()
         );
     }
 
     @Bean
     public DaoOnlyEntireLookupService<PbSet> pbSetDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
-                pbSetDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbSetDao
         );
     }
 
     @Bean
     public DaoOnlyPresetLookupService<PbSet> pbSetDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
-                pbSetDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbSetDao
         );
     }
 
     @Bean
     public CustomBatchCrudService<LongIdKey, PbNode> pbNodeBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
-                pbNodeCrudOperation,
-                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbNodeCrudOperation,
+                generateConfiguration.snowflakeLongIdKeyGenerator()
         );
     }
 
     @Bean
     public DaoOnlyEntireLookupService<PbNode> pbNodeDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
-                pbNodeDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbNodeDao
         );
     }
 
     @Bean
     public DaoOnlyPresetLookupService<PbNode> pbNodeDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
-                pbNodeDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbNodeDao
         );
     }
 
     @Bean
     public CustomBatchCrudService<LongIdKey, PbItem> pbItemBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
-                pbItemCrudOperation,
-                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbItemCrudOperation,
+                generateConfiguration.snowflakeLongIdKeyGenerator()
         );
     }
 
     @Bean
     public DaoOnlyEntireLookupService<PbItem> pbItemDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
-                pbItemDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbItemDao
         );
     }
 
     @Bean
     public DaoOnlyPresetLookupService<PbItem> pbItemDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
-                pbItemDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbItemDao
         );
     }
 
     @Bean
     public CustomBatchCrudService<LongIdKey, PbRecord> pbRecordBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
-                pbRecordCrudOperation,
-                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbRecordCrudOperation,
+                generateConfiguration.snowflakeLongIdKeyGenerator()
         );
     }
 
     @Bean
     public DaoOnlyEntireLookupService<PbRecord> pbRecordDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
-                pbRecordDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbRecordDao
         );
     }
 
     @Bean
     public DaoOnlyPresetLookupService<PbRecord> pbRecordDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
-                pbRecordDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbRecordDao
         );
     }
 
     @Bean
     public CustomBatchCrudService<LongIdKey, PbFileInfo> pbFileInfoBatchCustomCrudService() {
         return new CustomBatchCrudService<>(
-                pbFileInfoCrudOperation,
-                generateConfiguration.snowflakeLongIdKeyGenerator(),
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbFileInfoCrudOperation,
+                generateConfiguration.snowflakeLongIdKeyGenerator()
         );
     }
 
     @Bean
     public DaoOnlyEntireLookupService<PbFileInfo> pbFileInfoDaoOnlyEntireLookupService() {
         return new DaoOnlyEntireLookupService<>(
-                pbFileInfoDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbFileInfoDao
         );
     }
 
     @Bean
     public DaoOnlyPresetLookupService<PbFileInfo> pbFileInfoDaoOnlyPresetLookupService() {
         return new DaoOnlyPresetLookupService<>(
-                pbFileInfoDao,
                 serviceExceptionMapperConfiguration.mapServiceExceptionMapper(),
-                LogLevel.WARN
+                LogLevel.WARN,
+                pbFileInfoDao
         );
     }
 }
