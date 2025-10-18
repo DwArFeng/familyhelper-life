@@ -4,6 +4,16 @@
 
 ### 功能构建
 
+- 导入运维指令。
+  - com.dwarfeng.datamark.service.telqos.*。
+
+- 增加 Hibernate 实体数据标记字段，并应用相关实体侦听器。
+  - com.dwarfeng.familyhelper.life.impl.bean.entity.HibernateActivityTypeIndicator。
+  - com.dwarfeng.familyhelper.life.impl.bean.entity.HibernateUser。
+
+- 增加依赖。
+  - 增加依赖 `dwarfeng-datamark` 以应用其新功能，版本为 `1.0.1.a`。
+
 - 优化开发环境支持。
   - 在 .gitignore 中添加 VSCode 相关文件的忽略规则。
   - 在 .gitignore 中添加 Cursor IDE 相关文件的忽略规则。

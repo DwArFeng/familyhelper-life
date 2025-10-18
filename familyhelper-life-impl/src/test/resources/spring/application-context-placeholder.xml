@@ -12,9 +12,11 @@
     <!-- 设置配置文件的路径 -->
     <context:property-placeholder
             location="classpath:database/*.properties,classpath:dubbo/*.properties,classpath:familyhelper/*.properties,
-            classpath:redis/*.properties,classpath:ftp/*.properties,classpath:curator/*.properties"
+            classpath:redis/*.properties,classpath:ftp/*.properties,classpath:curator/*.properties,
+            classpath:datamark/*.properties"
             local-override="true"
-            properties-ref="refProperties"/>
+            properties-ref="refProperties"
+    />
 
     <!-- 设置本地文件覆盖的路径 -->
     <bean id="refProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">

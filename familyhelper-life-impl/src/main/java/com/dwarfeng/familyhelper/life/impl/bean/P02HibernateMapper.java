@@ -232,6 +232,8 @@ public interface P02HibernateMapper {
     );
 
     @Mapping(target = "stringId", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     HibernateActivityTypeIndicator activityTypeIndicatorToHibernate(ActivityTypeIndicator activityTypeIndicator);
 
     @InheritInverseConfiguration

@@ -99,6 +99,8 @@ public interface P01HibernateMapper {
     @Mapping(target = "poatacs", ignore = true)
     @Mapping(target = "poads", ignore = true)
     @Mapping(target = "poacs", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
     @Mapping(target = "activityTemplateParticipants", ignore = true)
     @Mapping(target = "activityParticipants", ignore = true)
     HibernateUser userToHibernate(User user);
