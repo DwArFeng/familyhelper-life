@@ -1,24 +1,24 @@
 # ChangeLog
 
-### Release_1.2.0_20251018_build_A
+## Release_1.2.0_20251018_build_A
 
-#### 功能构建
-
-- (无)
-
-#### Bug修复
+### 功能构建
 
 - (无)
 
-#### 功能移除
+### Bug 修复
+
+- (无)
+
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.1_20240425_build_A
+## Release_1.1.1_20240425_build_A
 
-#### 功能构建
+### 功能构建
 
 - 增加服务方法。
   - com.dwarfeng.familyhelper.life.stack.service.ActivityFileOperateService。
@@ -98,21 +98,21 @@
   - 升级 `dwarfeng-ftp` 依赖版本为 `1.1.13.a` 以规避漏洞。
   - 升级 `spring-terminator` 依赖版本为 `1.0.12.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修复项目中部分依赖的异常代码偏移未能正确设置的 bug。
   - 修复 `subgrade` 依赖的异常代码偏移未能正确设置的 bug。
   - 修复 `snowflake` 依赖的异常代码偏移未能正确设置的 bug。
 
-#### 功能移除
+### 功能移除
 
 - (无)
 
 ---
 
-### Release_1.1.0_20240123_build_A
+## Release_1.1.0_20240123_build_A
 
-#### 功能构建
+### 功能构建
 
 - 优化部分操作服务及操作处理器。
   - 优化 PbSetOperateService 中方法的参数名称。
@@ -200,13 +200,13 @@
   - 升级 `spring-terminator` 依赖版本为 `1.0.10.a` 以规避漏洞。
   - 升级 `spring-telqos` 依赖版本为 `1.1.5.a` 以规避漏洞。
 
-#### Bug修复
+### Bug 修复
 
 - 修复删除逻辑错误。
   - 修复 `PbNodeCrudOperation` 删除实体方法的逻辑错误。
   - 修复 `PbRecordCrudOperation` 删除实体方法的逻辑错误。
 
-#### 功能移除
+### 功能移除
 
 - 删除不需要的依赖。
   - 删除 `commons-lang3` 依赖。
@@ -220,9 +220,9 @@
 
 ---
 
-### Release_1.0.0_20220719_build_A
+## Release_1.0.0_20220719_build_A
 
-#### 功能构建
+### 功能构建
 
 - 项目结构建立，程序清理测试通过。
 
@@ -244,10 +244,10 @@
   - com.dwarfeng.familyhelper.life.impl.service.PbRecordOperateServiceImpl。
   - com.dwarfeng.familyhelper.life.impl.service.PbFileOperateServiceImpl。
 
-#### Bug修复
+### Bug 修复
 
 - (无)
 
-#### 功能移除
+### 功能移除
 
 - (无)
