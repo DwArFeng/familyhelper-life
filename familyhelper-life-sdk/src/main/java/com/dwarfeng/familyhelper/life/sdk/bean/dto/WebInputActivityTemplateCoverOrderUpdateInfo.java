@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -28,8 +29,9 @@ public class WebInputActivityTemplateCoverOrderUpdateInfo implements Dto {
             return null;
         } else {
             return new ActivityTemplateCoverOrderUpdateInfo(
-                    webInput.getActivityTemplateCoverKeys().stream().map(WebInputLongIdKey::toStackBean)
-                            .collect(Collectors.toList())
+                    Optional.ofNullable(webInput.getActivityTemplateCoverKeys()).map(
+                            f -> f.stream().map(WebInputLongIdKey::toStackBean).collect(Collectors.toList())
+                    ).orElse(null)
             );
         }
     }

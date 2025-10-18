@@ -44,6 +44,11 @@
 
 ### Bug 修复
 
+- 修复部分功能性实体集合类型的字段在映射时有可能产生空指针异常的问题。
+  - com.dwarfeng.familyhelper.life.sdk.bean.dto.FastJsonActivityRemindedByDriverPushInfo。
+  - com.dwarfeng.familyhelper.life.sdk.bean.dto.WebInputActivityCoverOrderUpdateInfo。
+  - com.dwarfeng.familyhelper.life.sdk.bean.dto.WebInputActivityTemplateCoverOrderUpdateInfo。
+
 - 重置功能 bug 修复。
   - 在活动模板驱动未启动的状态下重置提醒驱动，会导致提醒驱动意外启动。
 

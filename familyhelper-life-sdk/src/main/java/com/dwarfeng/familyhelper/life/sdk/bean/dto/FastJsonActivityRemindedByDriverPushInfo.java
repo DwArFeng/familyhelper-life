@@ -8,6 +8,7 @@ import com.dwarfeng.subgrade.stack.bean.dto.Dto;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +27,9 @@ public class FastJsonActivityRemindedByDriverPushInfo implements Dto {
         } else {
             return new FastJsonActivityRemindedByDriverPushInfo(
                     FastJsonActivityTemplate.of(stackBean.getActivityTemplate()),
-                    stackBean.getAimedUsers().stream().map(FastJsonUser::of).collect(Collectors.toList())
+                    Optional.ofNullable(stackBean.getAimedUsers()).map(
+                            f -> f.stream().map(FastJsonUser::of).collect(Collectors.toList())
+                    ).orElse(null)
             );
         }
     }
