@@ -1,27 +1,20 @@
 package com.dwarfeng.familyhelper.life.impl.service;
 
-import com.dwarfeng.familyhelper.life.impl.handler.ActivityTemplateDriverSupporter;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityTemplateDriverSupport;
 import com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateDriverSupportMaintainService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyEntireLookupService;
 import com.dwarfeng.subgrade.impl.service.DaoOnlyPresetLookupService;
 import com.dwarfeng.subgrade.impl.service.GeneralBatchCrudService;
-import com.dwarfeng.subgrade.sdk.exception.ServiceExceptionHelper;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.BehaviorAnalyse;
 import com.dwarfeng.subgrade.sdk.interceptor.analyse.SkipRecord;
 import com.dwarfeng.subgrade.stack.bean.dto.PagedData;
 import com.dwarfeng.subgrade.stack.bean.dto.PagingInfo;
 import com.dwarfeng.subgrade.stack.bean.key.StringIdKey;
 import com.dwarfeng.subgrade.stack.exception.ServiceException;
-import com.dwarfeng.subgrade.stack.exception.ServiceExceptionMapper;
-import com.dwarfeng.subgrade.stack.log.LogLevel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ActivityTemplateDriverSupportMaintainServiceImpl implements ActivityTemplateDriverSupportMaintainService {
@@ -30,23 +23,14 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
     private final DaoOnlyEntireLookupService<ActivityTemplateDriverSupport> entireLookupService;
     private final DaoOnlyPresetLookupService<ActivityTemplateDriverSupport> presetLookupService;
 
-    private final List<ActivityTemplateDriverSupporter> activityTemplateDriverSupporters;
-
-    private final ServiceExceptionMapper sem;
-
     public ActivityTemplateDriverSupportMaintainServiceImpl(
             GeneralBatchCrudService<StringIdKey, ActivityTemplateDriverSupport> crudService,
             DaoOnlyEntireLookupService<ActivityTemplateDriverSupport> entireLookupService,
-            DaoOnlyPresetLookupService<ActivityTemplateDriverSupport> presetLookupService,
-            List<ActivityTemplateDriverSupporter> activityTemplateDriverSupporters,
-            ServiceExceptionMapper sem
+            DaoOnlyPresetLookupService<ActivityTemplateDriverSupport> presetLookupService
     ) {
         this.crudService = crudService;
         this.entireLookupService = entireLookupService;
         this.presetLookupService = presetLookupService;
-        this.activityTemplateDriverSupporters = Optional.ofNullable(activityTemplateDriverSupporters)
-                .orElse(Collections.emptyList());
-        this.sem = sem;
     }
 
     @Override
@@ -145,7 +129,8 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsert(@SkipRecord List<ActivityTemplateDriverSupport> elements) throws ServiceException {
+    public List<StringIdKey> batchInsert(@SkipRecord List<ActivityTemplateDriverSupport> elements) throws
+            ServiceException {
         return crudService.batchInsert(elements);
     }
 
@@ -167,7 +152,8 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public List<ActivityTemplateDriverSupport> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws ServiceException {
+    public List<ActivityTemplateDriverSupport> batchGetIfExists(@SkipRecord List<StringIdKey> keys) throws
+            ServiceException {
         return crudService.batchGetIfExists(keys);
     }
 
@@ -175,7 +161,8 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<ActivityTemplateDriverSupport> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertIfExists(@SkipRecord List<ActivityTemplateDriverSupport> elements) throws
+            ServiceException {
         return crudService.batchInsertIfExists(elements);
     }
 
@@ -197,7 +184,8 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", rollbackFor = Exception.class)
-    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<ActivityTemplateDriverSupport> elements) throws ServiceException {
+    public List<StringIdKey> batchInsertOrUpdate(@SkipRecord List<ActivityTemplateDriverSupport> elements) throws
+            ServiceException {
         return crudService.batchInsertOrUpdate(elements);
     }
 
@@ -229,27 +217,8 @@ public class ActivityTemplateDriverSupportMaintainServiceImpl implements Activit
     @BehaviorAnalyse
     @SkipRecord
     @Transactional(transactionManager = "hibernateTransactionManager", readOnly = true, rollbackFor = Exception.class)
-    public PagedData<ActivityTemplateDriverSupport> lookup(String preset, Object[] objs, PagingInfo pagingInfo) throws ServiceException {
+    public PagedData<ActivityTemplateDriverSupport> lookup(String preset, Object[] objs, PagingInfo pagingInfo)
+            throws ServiceException {
         return presetLookupService.lookup(preset, objs, pagingInfo);
-    }
-
-    @Override
-    @BehaviorAnalyse
-    public void reset() throws ServiceException {
-        try {
-            List<StringIdKey> remindDriverKeys = entireLookupService.lookup().getData().stream()
-                    .map(ActivityTemplateDriverSupport::getKey).collect(Collectors.toList());
-            crudService.batchDelete(remindDriverKeys);
-            List<ActivityTemplateDriverSupport> activityTemplateDriverSupports = activityTemplateDriverSupporters
-                    .stream().map(supporter -> new ActivityTemplateDriverSupport(
-                            new StringIdKey(supporter.provideType()),
-                            supporter.provideLabel(),
-                            supporter.provideDescription(),
-                            supporter.provideExampleParam()
-                    )).collect(Collectors.toList());
-            crudService.batchInsert(activityTemplateDriverSupports);
-        } catch (Exception e) {
-            throw ServiceExceptionHelper.logParse("重置调度器支持时发生异常", LogLevel.WARN, e, sem);
-        }
     }
 }
