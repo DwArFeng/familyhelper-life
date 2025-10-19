@@ -9,7 +9,7 @@
         http://dubbo.apache.org/schema/dubbo/dubbo.xsd"
 >
 
-    <dubbo:application name="familyhelper-life-test">
+    <dubbo:application name="familyhelper-life-impl-test">
         <dubbo:parameter key="qos.enable" value="false"/>
     </dubbo:application>
 
