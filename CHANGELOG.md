@@ -4,6 +4,15 @@
 
 ### 功能构建
 
+- 更新 README.md。
+
+- Wiki 编写。
+  - 构建 wiki 目录结构。
+  - docs/wiki/en-US/Contents.md。
+  - docs/wiki/en-US/Introduction.md。
+  - docs/wiki/zh-CN/Contents.md。
+  - docs/wiki/zh-CN/Introduction.md。
+
 - 优化部分单元测试代码，以规避潜在的 bug。
   - com.dwarfeng.familyhelper.life.impl.service.ActivityCoverInfoMaintainServiceImplTest。
   - com.dwarfeng.familyhelper.life.impl.service.ActivityDataItemMaintainServiceImplTest。
