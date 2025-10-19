@@ -146,7 +146,7 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             activityFileInfo.setCreatedDate(currentDate);
             activityFileInfo.setModifiedDate(currentDate);
             activityFileInfo.setInspectedDate(currentDate);
-            activityFileInfo.setRemark("通过 familyhelper-assets 服务上传/更新项目文件");
+            activityFileInfo.setRemark("通过 familyhelper-life 服务上传/更新项目文件");
             activityFileInfoMaintainService.insertOrUpdate(activityFileInfo);
         } catch (Exception e) {
             throw HandlerExceptionHelper.parse(e);
