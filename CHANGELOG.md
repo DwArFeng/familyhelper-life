@@ -4,6 +4,9 @@
 
 ### 功能构建
 
+- 为部分工具类中方法的入口参数增加 `@Nonnull` 注解。
+  - com.dwarfeng.familyhelper.life.impl.service.telqos.CommandUtil。
+
 - FTP 路径机制优化。
   - 新增 FtpPathResolver 代替 FtpConstants，使得 FTP 路径由静态定义变为动态解析。
   - 新增 `ftp/path.properties`，使得服务的 FTP 根路径支持动态配置。
@@ -88,6 +91,9 @@
   - 将支持实体维护服务的重置功能迁移至 QoS 服务。
 
 ### Bug 修复
+
+- 修复 telqos 工具类中部分注解不正确的 bug。
+  - com.dwarfeng.familyhelper.life.impl.service.telqos.CommandUtil。
 
 - 修复部分功能性实体集合类型的字段在映射时有可能产生空指针异常的问题。
   - com.dwarfeng.familyhelper.life.sdk.bean.dto.FastJsonActivityRemindedByDriverPushInfo。
