@@ -1,6 +1,6 @@
 package com.dwarfeng.familyhelper.life.impl.service.operation;
 
-import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
+import com.dwarfeng.familyhelper.life.impl.handler.FtpPathResolver;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbFileInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbRecord;
 import com.dwarfeng.familyhelper.life.stack.cache.PbRecordCache;
@@ -29,19 +29,25 @@ public class PbRecordCrudOperation implements BatchCrudOperation<LongIdKey, PbRe
 
     private final FtpHandler ftpHandler;
 
+    private final FtpPathResolver ftpPathResolver;
+
     @Value("${cache.timeout.entity.pb_record}")
     private long pbRecordTimeout;
 
     public PbRecordCrudOperation(
-            PbRecordDao pbRecordDao, PbRecordCache pbRecordCache,
-            PbFileInfoCrudOperation pbFileInfoCrudOperation, PbFileInfoDao pbFileInfoDao,
-            FtpHandler ftpHandler
+            PbRecordDao pbRecordDao,
+            PbRecordCache pbRecordCache,
+            PbFileInfoCrudOperation pbFileInfoCrudOperation,
+            PbFileInfoDao pbFileInfoDao,
+            FtpHandler ftpHandler,
+            FtpPathResolver ftpPathResolver
     ) {
         this.pbRecordDao = pbRecordDao;
         this.pbRecordCache = pbRecordCache;
         this.pbFileInfoCrudOperation = pbFileInfoCrudOperation;
         this.pbFileInfoDao = pbFileInfoDao;
         this.ftpHandler = ftpHandler;
+        this.ftpPathResolver = ftpPathResolver;
     }
 
     @Override
@@ -78,8 +84,12 @@ public class PbRecordCrudOperation implements BatchCrudOperation<LongIdKey, PbRe
     @Override
     public void delete(LongIdKey key) throws Exception {
         // 如果存在个人最佳文件，则删除个人最佳文件。
-        if (ftpHandler.existsFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(key))) {
-            ftpHandler.deleteFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(key));
+        if (ftpHandler.existsFile(
+                ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(key))
+        ) {
+            ftpHandler.deleteFile(
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(key)
+            );
         }
 
         // 查找删除所有相关的个人最佳文件信息。

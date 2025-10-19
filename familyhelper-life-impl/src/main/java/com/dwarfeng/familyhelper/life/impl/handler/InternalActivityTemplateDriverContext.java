@@ -1,6 +1,5 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
-import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityGeneratedByDriverPushInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityRemindedByDriverPushInfo;
@@ -55,6 +54,8 @@ public class InternalActivityTemplateDriverContext implements ActivityTemplateDr
     private final FtpHandler ftpHandler;
     private final PushHandler pushHandler;
 
+    private final FtpPathResolver ftpPathResolver;
+
     private final KeyGenerator<LongIdKey> longIdKeyGenerator;
 
     private final ExpressionParser expressionParser;
@@ -80,6 +81,7 @@ public class InternalActivityTemplateDriverContext implements ActivityTemplateDr
             ActivityFileInfoMaintainService activityFileInfoMaintainService,
             FtpHandler ftpHandler,
             PushHandler pushHandler,
+            FtpPathResolver ftpPathResolver,
             KeyGenerator<LongIdKey> longIdKeyGenerator,
             ExpressionParser expressionParser,
             ParserContext parserContext,
@@ -102,6 +104,7 @@ public class InternalActivityTemplateDriverContext implements ActivityTemplateDr
         this.activityFileInfoMaintainService = activityFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
         this.pushHandler = pushHandler;
+        this.ftpPathResolver = ftpPathResolver;
         this.longIdKeyGenerator = longIdKeyGenerator;
         this.expressionParser = expressionParser;
         this.parserContext = parserContext;
@@ -219,7 +222,7 @@ public class InternalActivityTemplateDriverContext implements ActivityTemplateDr
         }
     }
 
-    @SuppressWarnings({"ExtractMethodRecommender", "DuplicatedCode"})
+    @SuppressWarnings({"DuplicatedCode"})
     private Activity initActivityFromActivityTemplate(ActivityTemplate activityTemplate) throws Exception {
         // 展开参数。
         LongIdKey activityTemplateKey = activityTemplate.getKey();
@@ -295,12 +298,12 @@ public class InternalActivityTemplateDriverContext implements ActivityTemplateDr
                     activityCoverInfoActivityTemplateCoverInfoKeyMap.get(activityCoverInfoKey);
             // 获取活动模板封面文件的内容。
             byte[] content = ftpHandler.retrieveFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER,
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_COVER),
                     getActivityTemplateCoverFileName(activityTemplateCoverInfoKey)
             );
             // 将活动模板封面文件的内容复制到活动封面文件中。
             ftpHandler.storeFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_COVER,
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_COVER),
                     getActivityCoverFileName(activityCoverInfoKey),
                     content
             );
@@ -375,12 +378,12 @@ public class InternalActivityTemplateDriverContext implements ActivityTemplateDr
                     activityFileInfoActivityTemplateFileInfoKeyMap.get(activityFileInfoKey);
             // 获取活动模板文件文件的内容。
             byte[] content = ftpHandler.retrieveFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_FILE,
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_FILE),
                     getActivityTemplateFileFileName(activityTemplateFileInfoKey)
             );
             // 将活动模板文件文件的内容复制到活动文件文件中。
             ftpHandler.storeFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE,
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
                     getActivityFileFileName(activityFileInfoKey),
                     content
             );

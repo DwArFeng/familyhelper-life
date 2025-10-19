@@ -1,6 +1,5 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
-import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityTemplateCover;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityTemplateCoverOrderUpdateInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityTemplateCoverUploadInfo;
@@ -26,6 +25,8 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
     private final FtpHandler ftpHandler;
 
+    private final FtpPathResolver ftpPathResolver;
+
     private final KeyGenerator<LongIdKey> keyGenerator;
 
     private final HandlerValidator handlerValidator;
@@ -33,11 +34,13 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
     public ActivityTemplateCoverOperateHandlerImpl(
             ActivityTemplateCoverInfoMaintainService activityTemplateCoverInfoMaintainService,
             FtpHandler ftpHandler,
+            FtpPathResolver ftpPathResolver,
             KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityTemplateCoverInfoMaintainService = activityTemplateCoverInfoMaintainService;
         this.ftpHandler = ftpHandler;
+        this.ftpPathResolver = ftpPathResolver;
         this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
@@ -61,7 +64,8 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
             // 下载活动模板封面。
             byte[] content = ftpHandler.retrieveFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(coverKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_COVER),
+                    getFileName(coverKey)
             );
 
             // 构造返回值并返回。
@@ -90,7 +94,8 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
             // 获取活动模板封面内容并存储（覆盖）。
             byte[] content = coverUploadInfo.getContent();
             ftpHandler.storeFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(activityTemplateCoverKey),
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_COVER),
+                    getFileName(activityTemplateCoverKey),
                     content
             );
 
@@ -136,10 +141,12 @@ public class ActivityTemplateCoverOperateHandlerImpl implements ActivityTemplate
 
             // 如果存在 ActivityTemplateCover 文件，则删除。
             if (ftpHandler.existsFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(coverKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_COVER),
+                    getFileName(coverKey)
             )) {
                 ftpHandler.deleteFile(
-                        FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_COVER, getFileName(coverKey)
+                        ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_COVER),
+                        getFileName(coverKey)
                 );
             }
 

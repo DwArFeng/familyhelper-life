@@ -1,6 +1,6 @@
 package com.dwarfeng.familyhelper.life.impl.service.operation;
 
-import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
+import com.dwarfeng.familyhelper.life.impl.handler.FtpPathResolver;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbFileInfo;
 import com.dwarfeng.familyhelper.life.stack.cache.PbFileInfoCache;
 import com.dwarfeng.familyhelper.life.stack.dao.PbFileInfoDao;
@@ -22,16 +22,21 @@ public class PbFileInfoCrudOperation implements BatchCrudOperation<LongIdKey, Pb
 
     private final FtpHandler ftpHandler;
 
+    private final FtpPathResolver ftpPathResolver;
+
     @Value("${cache.timeout.entity.pb_file_info}")
     private long pbFileInfoTimeout;
 
     public PbFileInfoCrudOperation(
-            PbFileInfoDao pbFileInfoDao, PbFileInfoCache pbFileInfoCache,
-            FtpHandler ftpHandler
+            PbFileInfoDao pbFileInfoDao,
+            PbFileInfoCache pbFileInfoCache,
+            FtpHandler ftpHandler,
+            FtpPathResolver ftpPathResolver
     ) {
         this.pbFileInfoDao = pbFileInfoDao;
         this.pbFileInfoCache = pbFileInfoCache;
         this.ftpHandler = ftpHandler;
+        this.ftpPathResolver = ftpPathResolver;
     }
 
     @Override
@@ -68,8 +73,12 @@ public class PbFileInfoCrudOperation implements BatchCrudOperation<LongIdKey, Pb
     @Override
     public void delete(LongIdKey key) throws Exception {
         // 如果存在个人最佳文件，则删除个人最佳文件。
-        if (ftpHandler.existsFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(key))) {
-            ftpHandler.deleteFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(key));
+        if (ftpHandler.existsFile(
+                ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(key))
+        ) {
+            ftpHandler.deleteFile(
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(key)
+            );
         }
 
         // 删除个人最佳文件信息实体自身。

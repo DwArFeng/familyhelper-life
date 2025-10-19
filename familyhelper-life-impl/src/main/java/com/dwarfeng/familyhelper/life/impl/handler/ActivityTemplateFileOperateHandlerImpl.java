@@ -1,6 +1,5 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
-import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityTemplateFile;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityTemplateFileUpdateInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.ActivityTemplateFileUploadInfo;
@@ -21,7 +20,10 @@ import java.util.Date;
 public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateFileOperateHandler {
 
     private final ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService;
+
     private final FtpHandler ftpHandler;
+
+    private final FtpPathResolver ftpPathResolver;
 
     private final KeyGenerator<LongIdKey> keyGenerator;
 
@@ -30,17 +32,20 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
     public ActivityTemplateFileOperateHandlerImpl(
             ActivityTemplateFileInfoMaintainService activityTemplateFileInfoMaintainService,
             FtpHandler ftpHandler,
+            FtpPathResolver ftpPathResolver,
             KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityTemplateFileInfoMaintainService = activityTemplateFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
+        this.ftpPathResolver = ftpPathResolver;
         this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
 
     @Override
-    public ActivityTemplateFile downloadActivityTemplateFile(StringIdKey userKey, LongIdKey activityTemplateFileKey) throws HandlerException {
+    public ActivityTemplateFile downloadActivityTemplateFile(StringIdKey userKey, LongIdKey activityTemplateFileKey)
+            throws HandlerException {
         try {
             // 1. 确认用户存在。
             handlerValidator.makeSureUserExists(userKey);
@@ -58,7 +63,8 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
 
             // 4. 下载项目文件。
             byte[] content = ftpHandler.retrieveFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_FILE, getFileName(activityTemplateFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_FILE),
+                    getFileName(activityTemplateFileKey)
             );
 
             // 5. 更新文件的查看时间。
@@ -94,7 +100,8 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
             // 5. 项目文件内容并存储（覆盖）。
             byte[] content = activityTemplateFileUploadInfo.getContent();
             ftpHandler.storeFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_FILE, getFileName(activityTemplateFileKey), content
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_FILE),
+                    getFileName(activityTemplateFileKey), content
             );
 
             // 6. 根据 activityTemplateFileUploadInfo 构造 ActivityTemplateFileInfo，插入或更新。
@@ -134,7 +141,8 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
             // 4. 项目文件内容并存储（覆盖）。
             byte[] content = activityTemplateFileUpdateInfo.getContent();
             ftpHandler.storeFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_FILE, getFileName(activityTemplateFileKey), content
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_FILE),
+                    getFileName(activityTemplateFileKey), content
             );
 
             // 5. 根据 activityTemplateFileUpdateInfo 更新字段。
@@ -170,10 +178,12 @@ public class ActivityTemplateFileOperateHandlerImpl implements ActivityTemplateF
 
             // 4. 如果存在 ActivityTemplateFile 文件，则删除。
             if (ftpHandler.existsFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_FILE, getFileName(activityTemplateFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_FILE),
+                    getFileName(activityTemplateFileKey)
             )) {
                 ftpHandler.deleteFile(
-                        FtpConstants.FILE_PATHS_ACTIVITY_TEMPLATE_FILE, getFileName(activityTemplateFileKey)
+                        ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_TEMPLATE_FILE),
+                        getFileName(activityTemplateFileKey)
                 );
             }
 

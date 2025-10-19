@@ -1,7 +1,6 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
 import com.dwarfeng.dutil.basic.io.IOUtil;
-import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
 import com.dwarfeng.familyhelper.life.sdk.util.Constants;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.*;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.ActivityFileInfo;
@@ -23,7 +22,10 @@ import java.util.Date;
 public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandler {
 
     private final ActivityFileInfoMaintainService activityFileInfoMaintainService;
+
     private final FtpHandler ftpHandler;
+
+    private final FtpPathResolver ftpPathResolver;
 
     private final KeyGenerator<LongIdKey> keyGenerator;
 
@@ -32,11 +34,13 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
     public ActivityFileOperateHandlerImpl(
             ActivityFileInfoMaintainService activityFileInfoMaintainService,
             FtpHandler ftpHandler,
+            FtpPathResolver ftpPathResolver,
             KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.activityFileInfoMaintainService = activityFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
+        this.ftpPathResolver = ftpPathResolver;
         this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
@@ -60,7 +64,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
 
             // 下载项目文件。
             byte[] content = ftpHandler.retrieveFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                    getFileName(activityFileKey)
             );
 
             // 更新文件的查看时间。
@@ -94,7 +99,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
 
             // 获取项目文件的内容。
             InputStream content = ftpHandler.openInputStream(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                    getFileName(activityFileKey)
             );
 
             // 更新文件的查看时间。
@@ -132,7 +138,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             // 项目文件内容并存储（覆盖）。
             byte[] content = activityFileUploadInfo.getContent();
             ftpHandler.storeFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey), content
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                    getFileName(activityFileKey), content
             );
 
             // 根据 activityFileUploadInfo 构造 ActivityFileInfo，插入或更新。
@@ -177,7 +184,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             // 项目文件内容并存储（覆盖）。
             InputStream cin = activityFileStreamUploadInfo.getContent();
             try (OutputStream fout = ftpHandler.openOutputStream(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                    getFileName(activityFileKey)
             )) {
                 IOUtil.trans(cin, fout, Constants.IO_TRANS_BUFFER_SIZE);
             }
@@ -228,7 +236,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             // 项目文件内容并存储（覆盖）。
             byte[] content = activityFileUpdateInfo.getContent();
             ftpHandler.storeFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey), content
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                    getFileName(activityFileKey), content
             );
 
             // 根据 activityFileUpdateInfo 更新字段。
@@ -268,7 +277,8 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
             // 项目文件内容并存储（覆盖）。
             InputStream cin = activityFileStreamUpdateInfo.getContent();
             try (OutputStream fout = ftpHandler.openOutputStream(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                    getFileName(activityFileKey)
             )) {
                 IOUtil.trans(cin, fout, Constants.IO_TRANS_BUFFER_SIZE);
             }
@@ -303,10 +313,12 @@ public class ActivityFileOperateHandlerImpl implements ActivityFileOperateHandle
 
             // 如果存在 ActivityFile 文件，则删除。
             if (ftpHandler.existsFile(
-                    FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                    getFileName(activityFileKey)
             )) {
                 ftpHandler.deleteFile(
-                        FtpConstants.FILE_PATHS_ACTIVITY_FILE, getFileName(activityFileKey)
+                        ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_ACTIVITY_FILE),
+                        getFileName(activityFileKey)
                 );
             }
 

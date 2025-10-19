@@ -1,6 +1,5 @@
 package com.dwarfeng.familyhelper.life.impl.handler;
 
-import com.dwarfeng.familyhelper.life.impl.util.FtpConstants;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.PbFile;
 import com.dwarfeng.familyhelper.life.stack.bean.dto.PbFileUploadInfo;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.PbFileInfo;
@@ -20,7 +19,10 @@ import java.util.Date;
 public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
 
     private final PbFileInfoMaintainService pbFileInfoMaintainService;
+
     private final FtpHandler ftpHandler;
+
+    private final FtpPathResolver ftpPathResolver;
 
     private final KeyGenerator<LongIdKey> keyGenerator;
 
@@ -29,11 +31,13 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
     public PbFileOperateHandlerImpl(
             PbFileInfoMaintainService pbFileInfoMaintainService,
             FtpHandler ftpHandler,
+            FtpPathResolver ftpPathResolver,
             KeyGenerator<LongIdKey> keyGenerator,
             HandlerValidator handlerValidator
     ) {
         this.pbFileInfoMaintainService = pbFileInfoMaintainService;
         this.ftpHandler = ftpHandler;
+        this.ftpPathResolver = ftpPathResolver;
         this.keyGenerator = keyGenerator;
         this.handlerValidator = handlerValidator;
     }
@@ -53,7 +57,7 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
 
             // 4. 下载个人最佳文件。
             byte[] content = ftpHandler.retrieveFile(
-                    FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey)
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(pbFileKey)
             );
 
             // 5. 更新文件的查看时间。
@@ -85,7 +89,9 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
 
             // 5. 个人最佳文件内容并存储（覆盖）。
             byte[] content = pbFileUploadInfo.getContent();
-            ftpHandler.storeFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey), content);
+            ftpHandler.storeFile(
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(pbFileKey), content
+            );
 
             // 6. 根据 pbFileUploadInfo 构造 PbFileInfo，插入或更新。
             // 映射属性。
@@ -116,8 +122,12 @@ public class PbFileOperateHandlerImpl implements PbFileOperateHandler {
             handlerValidator.makeSureUserModifyPermittedForPbRecord(userKey, pbFileInfo.getRecordKey());
 
             // 4. 如果存在 PbFile 文件，则删除。
-            if (ftpHandler.existsFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey))) {
-                ftpHandler.deleteFile(FtpConstants.FILE_PATHS_PB_FILE, getFileName(pbFileKey));
+            if (ftpHandler.existsFile(
+                    ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(pbFileKey))
+            ) {
+                ftpHandler.deleteFile(
+                        ftpPathResolver.resolvePath(FtpPathResolver.RELATIVE_PATH_PB_FILE), getFileName(pbFileKey)
+                );
             }
 
             // 5. 如果存在 PbFileInfo 实体，则删除。
