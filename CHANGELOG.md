@@ -82,6 +82,9 @@
 
 ### 功能移除
 
+- 修复部分功能启动延时为 0 时行为不正确的 bug。
+  - 活动模板驱动服务启动。
+
 - 去除支持实体维护服务的重置功能。
   - com.dwarfeng.familyhelper.life.stack.service.ActivityTemplateDriverSupportMaintainService。
 

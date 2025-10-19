@@ -115,7 +115,7 @@ public class Launcher {
         if (enableActivityTemplateDriveDelay == 0) {
             LOGGER.info("立即启动活动模板驱动服务...");
             try {
-                activityTemplateDriveQosService.online();
+                activityTemplateDriveQosService.start();
             } catch (ServiceException e) {
                 LOGGER.error("无法启动活动模板驱动服务，异常原因如下", e);
             }
