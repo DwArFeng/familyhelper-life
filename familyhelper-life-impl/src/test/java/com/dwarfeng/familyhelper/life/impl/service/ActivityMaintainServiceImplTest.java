@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -57,6 +58,9 @@ public class ActivityMaintainServiceImplTest {
             }
         } finally {
             for (Activity activity : activities) {
+                if (Objects.isNull(activity.getKey())) {
+                    continue;
+                }
                 activityMaintainService.deleteIfExists(activity.getKey());
             }
         }

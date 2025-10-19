@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -71,9 +72,15 @@ public class PoacMaintainServiceImplTest {
             testPoac = poacMaintainService.get(poac.getKey());
             assertEquals(BeanUtils.describe(poac), BeanUtils.describe(testPoac));
         } finally {
-            activityMaintainService.deleteIfExists(activity.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poacMaintainService.deleteIfExists(poac.getKey());
+            if (Objects.nonNull(poac.getKey())) {
+                poacMaintainService.deleteIfExists(poac.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(activity.getKey())) {
+                activityMaintainService.deleteIfExists(activity.getKey());
+            }
         }
     }
 
@@ -87,9 +94,15 @@ public class PoacMaintainServiceImplTest {
             activityMaintainService.deleteIfExists(activity.getKey());
             assertFalse(poacMaintainService.exists(poac.getKey()));
         } finally {
-            activityMaintainService.deleteIfExists(activity.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poacMaintainService.deleteIfExists(poac.getKey());
+            if (Objects.nonNull(poac.getKey())) {
+                poacMaintainService.deleteIfExists(poac.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(activity.getKey())) {
+                activityMaintainService.deleteIfExists(activity.getKey());
+            }
         }
     }
 
@@ -103,9 +116,15 @@ public class PoacMaintainServiceImplTest {
             userMaintainService.deleteIfExists(user.getKey());
             assertFalse(poacMaintainService.exists(poac.getKey()));
         } finally {
-            activityMaintainService.deleteIfExists(activity.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poacMaintainService.deleteIfExists(poac.getKey());
+            if (Objects.nonNull(poac.getKey())) {
+                poacMaintainService.deleteIfExists(poac.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(activity.getKey())) {
+                activityMaintainService.deleteIfExists(activity.getKey());
+            }
         }
     }
 }

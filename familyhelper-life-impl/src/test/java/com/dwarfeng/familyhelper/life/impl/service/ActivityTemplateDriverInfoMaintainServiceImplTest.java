@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -78,6 +79,9 @@ public class ActivityTemplateDriverInfoMaintainServiceImplTest {
             }
         } finally {
             for (ActivityTemplateDriverInfo activityTemplateDriverInfo : activityTemplateDriverInfos) {
+                if (Objects.isNull(activityTemplateDriverInfo.getKey())) {
+                    continue;
+                }
                 activityTemplateDriverInfoMaintainService.deleteIfExists(activityTemplateDriverInfo.getKey());
             }
         }
@@ -106,8 +110,13 @@ public class ActivityTemplateDriverInfoMaintainServiceImplTest {
                     new Object[]{activityTemplate.getKey()}
             ).getCount());
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            }
             for (ActivityTemplateDriverInfo activityTemplateDriverInfo : activityTemplateDriverInfos) {
+                if (Objects.isNull(activityTemplateDriverInfo.getKey())) {
+                    continue;
+                }
                 activityTemplateDriverInfoMaintainService.deleteIfExists(activityTemplateDriverInfo.getKey());
             }
         }

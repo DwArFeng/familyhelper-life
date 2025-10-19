@@ -4,6 +4,35 @@
 
 ### 功能构建
 
+- 优化部分单元测试代码，以规避潜在的 bug。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityCoverInfoMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataItemMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataNodeMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataRecordMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataSetMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityFileInfoMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityParticipantMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateCoverInfoMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateDataInfoMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateDriverInfoMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateDriverSupportMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateFileInfoMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateParticipantMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTypeIndicatorMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PbFileInfoMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PbItemMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PbNodeMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PbRecordMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PbSetMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PoacMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PoadMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PoatacMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PoatMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.PopbMaintainServiceImplTest。
+  - com.dwarfeng.familyhelper.life.impl.service.UserMaintainServiceImplTest。
+
 - 依赖优化。
   - 优化部分依赖的排除项，以避免潜在的 `netty` 版本冲突问题。
 

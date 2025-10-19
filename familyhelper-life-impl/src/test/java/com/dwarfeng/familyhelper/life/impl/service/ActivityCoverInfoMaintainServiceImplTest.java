@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -68,6 +69,9 @@ public class ActivityCoverInfoMaintainServiceImplTest {
             }
         } finally {
             for (ActivityCoverInfo activityCoverInfo : activityCoverInfos) {
+                if (Objects.isNull(activityCoverInfo.getKey())) {
+                    continue;
+                }
                 activityCoverInfoMaintainService.deleteIfExists(activityCoverInfo.getKey());
             }
         }
@@ -92,9 +96,14 @@ public class ActivityCoverInfoMaintainServiceImplTest {
                     ActivityCoverInfoMaintainService.CHILD_FOR_ACTIVITY, new Object[]{activity.getKey()}
             ).getCount());
         } finally {
-            activityMaintainService.deleteIfExists(activity.getKey());
             for (ActivityCoverInfo activityCoverInfo : activityCoverInfos) {
+                if (Objects.isNull(activityCoverInfo.getKey())) {
+                    continue;
+                }
                 activityCoverInfoMaintainService.deleteIfExists(activityCoverInfo.getKey());
+            }
+            if (Objects.nonNull(activity.getKey())) {
+                activityMaintainService.deleteIfExists(activity.getKey());
             }
         }
     }

@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -68,6 +69,9 @@ public class PbItemMaintainServiceImplTest {
             }
         } finally {
             for (PbItem pbItem : pbItems) {
+                if (Objects.isNull(pbItem.getKey())) {
+                    continue;
+                }
                 pbItemMaintainService.deleteIfExists(pbItem.getKey());
             }
         }
@@ -92,9 +96,14 @@ public class PbItemMaintainServiceImplTest {
                     PbItemMaintainService.CHILD_FOR_NODE, new Object[]{pbNode.getKey()}
             ).getCount());
         } finally {
-            pbNodeMaintainService.deleteIfExists(pbNode.getKey());
             for (PbItem pbItem : pbItems) {
+                if (Objects.isNull(pbItem.getKey())) {
+                    continue;
+                }
                 pbItemMaintainService.deleteIfExists(pbItem.getKey());
+            }
+            if (Objects.nonNull(pbNode.getKey())) {
+                pbNodeMaintainService.deleteIfExists(pbNode.getKey());
             }
         }
     }
@@ -118,9 +127,14 @@ public class PbItemMaintainServiceImplTest {
                     PbItemMaintainService.CHILD_FOR_SET, new Object[]{pbSet.getKey()}
             ).getCount());
         } finally {
-            pbSetMaintainService.deleteIfExists(pbSet.getKey());
             for (PbItem pbItem : pbItems) {
+                if (Objects.isNull(pbItem.getKey())) {
+                    continue;
+                }
                 pbItemMaintainService.deleteIfExists(pbItem.getKey());
+            }
+            if (Objects.nonNull(pbSet.getKey())) {
+                pbSetMaintainService.deleteIfExists(pbSet.getKey());
             }
         }
     }

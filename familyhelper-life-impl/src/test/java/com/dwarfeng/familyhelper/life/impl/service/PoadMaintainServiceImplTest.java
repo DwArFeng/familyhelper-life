@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -68,9 +69,15 @@ public class PoadMaintainServiceImplTest {
             testPoad = poadMaintainService.get(poad.getKey());
             assertEquals(BeanUtils.describe(poad), BeanUtils.describe(testPoad));
         } finally {
-            activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poadMaintainService.deleteIfExists(poad.getKey());
+            if (Objects.nonNull(activityDataSet.getKey())) {
+                activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(poad.getKey())) {
+                poadMaintainService.deleteIfExists(poad.getKey());
+            }
         }
     }
 
@@ -84,9 +91,15 @@ public class PoadMaintainServiceImplTest {
             activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
             assertFalse(poadMaintainService.exists(poad.getKey()));
         } finally {
-            activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poadMaintainService.deleteIfExists(poad.getKey());
+            if (Objects.nonNull(activityDataSet.getKey())) {
+                activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(poad.getKey())) {
+                poadMaintainService.deleteIfExists(poad.getKey());
+            }
         }
     }
 
@@ -100,9 +113,15 @@ public class PoadMaintainServiceImplTest {
             userMaintainService.deleteIfExists(user.getKey());
             assertFalse(poadMaintainService.exists(poad.getKey()));
         } finally {
-            activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poadMaintainService.deleteIfExists(poad.getKey());
+            if (Objects.nonNull(activityDataSet.getKey())) {
+                activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(poad.getKey())) {
+                poadMaintainService.deleteIfExists(poad.getKey());
+            }
         }
     }
 }

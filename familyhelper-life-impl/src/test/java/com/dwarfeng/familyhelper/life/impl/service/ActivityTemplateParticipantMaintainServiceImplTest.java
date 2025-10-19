@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -83,9 +84,15 @@ public class ActivityTemplateParticipantMaintainServiceImplTest {
                     BeanUtils.describe(testActivityTemplateParticipant)
             );
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            activityTemplateParticipantMaintainService.deleteIfExists(activityTemplateParticipant.getKey());
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(activityTemplateParticipant.getKey())) {
+                activityTemplateParticipantMaintainService.deleteIfExists(activityTemplateParticipant.getKey());
+            }
         }
     }
 
@@ -99,9 +106,15 @@ public class ActivityTemplateParticipantMaintainServiceImplTest {
             activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
             assertFalse(activityTemplateParticipantMaintainService.exists(activityTemplateParticipant.getKey()));
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            activityTemplateParticipantMaintainService.deleteIfExists(activityTemplateParticipant.getKey());
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(activityTemplateParticipant.getKey())) {
+                activityTemplateParticipantMaintainService.deleteIfExists(activityTemplateParticipant.getKey());
+            }
         }
     }
 
@@ -115,9 +128,15 @@ public class ActivityTemplateParticipantMaintainServiceImplTest {
             userMaintainService.deleteIfExists(user.getKey());
             assertFalse(activityTemplateParticipantMaintainService.exists(activityTemplateParticipant.getKey()));
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            activityTemplateParticipantMaintainService.deleteIfExists(activityTemplateParticipant.getKey());
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(activityTemplateParticipant.getKey())) {
+                activityTemplateParticipantMaintainService.deleteIfExists(activityTemplateParticipant.getKey());
+            }
         }
     }
 }

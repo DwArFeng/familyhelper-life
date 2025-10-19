@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -68,9 +69,15 @@ public class PopbMaintainServiceImplTest {
             testPopb = popbMaintainService.get(popb.getKey());
             assertEquals(BeanUtils.describe(popb), BeanUtils.describe(testPopb));
         } finally {
-            pbSetMaintainService.deleteIfExists(pbSet.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            popbMaintainService.deleteIfExists(popb.getKey());
+            if (Objects.nonNull(pbSet.getKey())) {
+                pbSetMaintainService.deleteIfExists(pbSet.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(popb.getKey())) {
+                popbMaintainService.deleteIfExists(popb.getKey());
+            }
         }
     }
 
@@ -84,9 +91,15 @@ public class PopbMaintainServiceImplTest {
             pbSetMaintainService.deleteIfExists(pbSet.getKey());
             assertFalse(popbMaintainService.exists(popb.getKey()));
         } finally {
-            pbSetMaintainService.deleteIfExists(pbSet.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            popbMaintainService.deleteIfExists(popb.getKey());
+            if (Objects.nonNull(pbSet.getKey())) {
+                pbSetMaintainService.deleteIfExists(pbSet.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(popb.getKey())) {
+                popbMaintainService.deleteIfExists(popb.getKey());
+            }
         }
     }
 
@@ -100,9 +113,15 @@ public class PopbMaintainServiceImplTest {
             userMaintainService.deleteIfExists(user.getKey());
             assertFalse(popbMaintainService.exists(popb.getKey()));
         } finally {
-            pbSetMaintainService.deleteIfExists(pbSet.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            popbMaintainService.deleteIfExists(popb.getKey());
+            if (Objects.nonNull(pbSet.getKey())) {
+                pbSetMaintainService.deleteIfExists(pbSet.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(popb.getKey())) {
+                popbMaintainService.deleteIfExists(popb.getKey());
+            }
         }
     }
 }

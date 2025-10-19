@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -61,6 +62,9 @@ public class PbRecordMaintainServiceImplTest {
             }
         } finally {
             for (PbRecord pbRecord : pbRecords) {
+                if (Objects.isNull(pbRecord.getKey())) {
+                    continue;
+                }
                 pbRecordMaintainService.deleteIfExists(pbRecord.getKey());
             }
         }
@@ -85,8 +89,13 @@ public class PbRecordMaintainServiceImplTest {
                     PbRecordMaintainService.CHILD_FOR_ITEM, new Object[]{pbItem.getKey()}
             ).getCount());
         } finally {
-            pbItemMaintainService.deleteIfExists(pbItem.getKey());
+            if (Objects.nonNull(pbItem.getKey())) {
+                pbItemMaintainService.deleteIfExists(pbItem.getKey());
+            }
             for (PbRecord pbRecord : pbRecords) {
+                if (Objects.isNull(pbRecord.getKey())) {
+                    continue;
+                }
                 pbRecordMaintainService.deleteIfExists(pbRecord.getKey());
             }
         }

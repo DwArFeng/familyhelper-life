@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -64,6 +65,9 @@ public class ActivityDataNodeMaintainServiceImplTest {
             }
         } finally {
             for (ActivityDataNode activityDataNode : activityDataNodes) {
+                if (Objects.isNull(activityDataNode.getKey())) {
+                    continue;
+                }
                 activityDataNodeMaintainService.deleteIfExists(activityDataNode.getKey());
             }
         }
@@ -88,9 +92,14 @@ public class ActivityDataNodeMaintainServiceImplTest {
                     ActivityDataNodeMaintainService.CHILD_FOR_PARENT, new Object[]{parent.getKey()}
             ).getCount());
         } finally {
-            activityDataNodeMaintainService.deleteIfExists(parent.getKey());
             for (ActivityDataNode activityDataNode : activityDataNodes) {
+                if (Objects.isNull(activityDataNode.getKey())) {
+                    continue;
+                }
                 activityDataNodeMaintainService.deleteIfExists(activityDataNode.getKey());
+            }
+            if (Objects.nonNull(parent.getKey())) {
+                activityDataNodeMaintainService.deleteIfExists(parent.getKey());
             }
         }
     }
@@ -114,9 +123,14 @@ public class ActivityDataNodeMaintainServiceImplTest {
                     ActivityDataNodeMaintainService.CHILD_FOR_SET, new Object[]{activityDataSet.getKey()}
             ).getCount());
         } finally {
-            activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
             for (ActivityDataNode activityDataNode : activityDataNodes) {
+                if (Objects.isNull(activityDataNode.getKey())) {
+                    continue;
+                }
                 activityDataNodeMaintainService.deleteIfExists(activityDataNode.getKey());
+            }
+            if (Objects.nonNull(activityDataSet.getKey())) {
+                activityDataSetMaintainService.deleteIfExists(activityDataSet.getKey());
             }
         }
     }

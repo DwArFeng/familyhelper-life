@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -61,6 +62,9 @@ public class PbFileInfoMaintainServiceImplTest {
             }
         } finally {
             for (PbFileInfo pbFileInfo : pbFileInfos) {
+                if (Objects.isNull(pbFileInfo.getKey())) {
+                    continue;
+                }
                 pbFileInfoMaintainService.deleteIfExists(pbFileInfo.getKey());
             }
         }
@@ -85,9 +89,14 @@ public class PbFileInfoMaintainServiceImplTest {
                     PbFileInfoMaintainService.CHILD_FOR_RECORD, new Object[]{pbRecord.getKey()}
             ).getCount());
         } finally {
-            pbRecordMaintainService.deleteIfExists(pbRecord.getKey());
             for (PbFileInfo pbFileInfo : pbFileInfos) {
+                if (Objects.isNull(pbFileInfo.getKey())) {
+                    continue;
+                }
                 pbFileInfoMaintainService.deleteIfExists(pbFileInfo.getKey());
+            }
+            if (Objects.nonNull(pbRecord.getKey())) {
+                pbRecordMaintainService.deleteIfExists(pbRecord.getKey());
             }
         }
     }

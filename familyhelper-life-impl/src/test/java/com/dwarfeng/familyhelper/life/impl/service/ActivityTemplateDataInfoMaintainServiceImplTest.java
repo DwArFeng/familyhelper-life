@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -90,6 +91,9 @@ public class ActivityTemplateDataInfoMaintainServiceImplTest {
             }
         } finally {
             for (ActivityTemplateDataInfo activityTemplateDataInfo : activityTemplateDataInfos) {
+                if (Objects.isNull(activityTemplateDataInfo.getKey())) {
+                    continue;
+                }
                 activityTemplateDataInfoMaintainService.deleteIfExists(activityTemplateDataInfo.getKey());
             }
         }
@@ -118,9 +122,14 @@ public class ActivityTemplateDataInfoMaintainServiceImplTest {
                     new Object[]{activityTemplate.getKey()}
             ).getCount());
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
             for (ActivityTemplateDataInfo activityTemplateDataInfo : activityTemplateDataInfos) {
+                if (Objects.isNull(activityTemplateDataInfo.getKey())) {
+                    continue;
+                }
                 activityTemplateDataInfoMaintainService.deleteIfExists(activityTemplateDataInfo.getKey());
+            }
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
             }
         }
     }
@@ -148,9 +157,14 @@ public class ActivityTemplateDataInfoMaintainServiceImplTest {
                     new Object[]{activityDataItem.getKey()}
             ).getCount());
         } finally {
-            activityDataItemMaintainService.deleteIfExists(activityDataItem.getKey());
             for (ActivityTemplateDataInfo activityTemplateDataInfo : activityTemplateDataInfos) {
+                if (Objects.isNull(activityTemplateDataInfo.getKey())) {
+                    continue;
+                }
                 activityTemplateDataInfoMaintainService.deleteIfExists(activityTemplateDataInfo.getKey());
+            }
+            if (Objects.nonNull(activityDataItem.getKey())) {
+                activityDataItemMaintainService.deleteIfExists(activityDataItem.getKey());
             }
         }
     }

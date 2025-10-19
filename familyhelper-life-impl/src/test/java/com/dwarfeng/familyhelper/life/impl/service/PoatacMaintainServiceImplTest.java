@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -72,9 +73,15 @@ public class PoatacMaintainServiceImplTest {
             testPoatac = poatacMaintainService.get(poatac.getKey());
             assertEquals(BeanUtils.describe(poatac), BeanUtils.describe(testPoatac));
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poatacMaintainService.deleteIfExists(poatac.getKey());
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(poatac.getKey())) {
+                poatacMaintainService.deleteIfExists(poatac.getKey());
+            }
         }
     }
 
@@ -88,9 +95,15 @@ public class PoatacMaintainServiceImplTest {
             activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
             assertFalse(poatacMaintainService.exists(poatac.getKey()));
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poatacMaintainService.deleteIfExists(poatac.getKey());
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(poatac.getKey())) {
+                poatacMaintainService.deleteIfExists(poatac.getKey());
+            }
         }
     }
 
@@ -104,9 +117,15 @@ public class PoatacMaintainServiceImplTest {
             userMaintainService.deleteIfExists(user.getKey());
             assertFalse(poatacMaintainService.exists(poatac.getKey()));
         } finally {
-            activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
-            userMaintainService.deleteIfExists(user.getKey());
-            poatacMaintainService.deleteIfExists(poatac.getKey());
+            if (Objects.nonNull(activityTemplate.getKey())) {
+                activityTemplateMaintainService.deleteIfExists(activityTemplate.getKey());
+            }
+            if (Objects.nonNull(user.getKey())) {
+                userMaintainService.deleteIfExists(user.getKey());
+            }
+            if (Objects.nonNull(poatac.getKey())) {
+                poatacMaintainService.deleteIfExists(poatac.getKey());
+            }
         }
     }
 }
