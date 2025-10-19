@@ -4,6 +4,34 @@
 
 ### 功能构建
 
+- 优化部分维护服务实现中的部分方法的性能。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityCoverInfoMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataItemMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataNodeMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataRecordMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityDataSetMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityFileInfoMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityParticipantMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateCoverInfoMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateDataInfoMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateDriverInfoMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateDriverSupportMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateFileInfoMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTemplateParticipantMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.ActivityTypeIndicatorMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PbFileInfoMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PbItemMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PbNodeMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PbRecordMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PbSetMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PoacMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PoadMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PoatacMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PoatMaintainServiceImpl。
+  - com.dwarfeng.familyhelper.life.impl.service.PopbMaintainServiceImpl。
+
 - 导入运维指令。
   - com.dwarfeng.datamark.service.telqos.*。
 
