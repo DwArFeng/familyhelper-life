@@ -1,6 +1,6 @@
 package com.dwarfeng.familyhelper.life.node.configuration;
 
-import com.dwarfeng.familyhelper.life.impl.bean.P02HibernateMapper;
+import com.dwarfeng.familyhelper.life.impl.bean.BeanMapper;
 import com.dwarfeng.familyhelper.life.impl.bean.entity.*;
 import com.dwarfeng.familyhelper.life.impl.bean.key.*;
 import com.dwarfeng.familyhelper.life.impl.dao.preset.*;
@@ -97,8 +97,8 @@ public class P02DaoConfiguration {
     activityHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
-                new MapStructBeanTransformer<>(Activity.class, HibernateActivity.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Activity.class, HibernateActivity.class, BeanMapper.class),
                 HibernateActivity.class,
                 new DefaultDeletionMod<>(),
                 batchSize
@@ -109,7 +109,7 @@ public class P02DaoConfiguration {
     public HibernateEntireLookupDao<Activity, HibernateActivity> activityHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Activity.class, HibernateActivity.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Activity.class, HibernateActivity.class, BeanMapper.class),
                 HibernateActivity.class
         );
     }
@@ -118,7 +118,7 @@ public class P02DaoConfiguration {
     public HibernatePresetLookupDao<Activity, HibernateActivity> activityHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Activity.class, HibernateActivity.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Activity.class, HibernateActivity.class, BeanMapper.class),
                 HibernateActivity.class,
                 activityPresetCriteriaMaker
         );
@@ -129,9 +129,9 @@ public class P02DaoConfiguration {
     activityCoverInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityCoverInfo.class, HibernateActivityCoverInfo.class, P02HibernateMapper.class
+                        ActivityCoverInfo.class, HibernateActivityCoverInfo.class, BeanMapper.class
                 ),
                 HibernateActivityCoverInfo.class,
                 new DefaultDeletionMod<>(),
@@ -145,7 +145,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityCoverInfo.class, HibernateActivityCoverInfo.class, P02HibernateMapper.class
+                        ActivityCoverInfo.class, HibernateActivityCoverInfo.class, BeanMapper.class
                 ),
                 HibernateActivityCoverInfo.class
         );
@@ -157,7 +157,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityCoverInfo.class, HibernateActivityCoverInfo.class, P02HibernateMapper.class
+                        ActivityCoverInfo.class, HibernateActivityCoverInfo.class, BeanMapper.class
                 ),
                 HibernateActivityCoverInfo.class,
                 activityCoverInfoPresetCriteriaMaker
@@ -169,9 +169,9 @@ public class P02DaoConfiguration {
     activityDataItemHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityDataItem.class, HibernateActivityDataItem.class, P02HibernateMapper.class
+                        ActivityDataItem.class, HibernateActivityDataItem.class, BeanMapper.class
                 ),
                 HibernateActivityDataItem.class,
                 new DefaultDeletionMod<>(),
@@ -185,7 +185,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataItem.class, HibernateActivityDataItem.class, P02HibernateMapper.class
+                        ActivityDataItem.class, HibernateActivityDataItem.class, BeanMapper.class
                 ),
                 HibernateActivityDataItem.class
         );
@@ -197,7 +197,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataItem.class, HibernateActivityDataItem.class, P02HibernateMapper.class
+                        ActivityDataItem.class, HibernateActivityDataItem.class, BeanMapper.class
                 ),
                 HibernateActivityDataItem.class,
                 activityDataItemPresetCriteriaMaker
@@ -209,9 +209,9 @@ public class P02DaoConfiguration {
     activityDataNodeHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityDataNode.class, HibernateActivityDataNode.class, P02HibernateMapper.class
+                        ActivityDataNode.class, HibernateActivityDataNode.class, BeanMapper.class
                 ),
                 HibernateActivityDataNode.class,
                 new DefaultDeletionMod<>(),
@@ -225,7 +225,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataNode.class, HibernateActivityDataNode.class, P02HibernateMapper.class
+                        ActivityDataNode.class, HibernateActivityDataNode.class, BeanMapper.class
                 ),
                 HibernateActivityDataNode.class
         );
@@ -237,7 +237,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataNode.class, HibernateActivityDataNode.class, P02HibernateMapper.class
+                        ActivityDataNode.class, HibernateActivityDataNode.class, BeanMapper.class
                 ),
                 HibernateActivityDataNode.class,
                 activityDataNodePresetCriteriaMaker
@@ -249,9 +249,9 @@ public class P02DaoConfiguration {
     activityDataRecordHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityDataRecord.class, HibernateActivityDataRecord.class, P02HibernateMapper.class
+                        ActivityDataRecord.class, HibernateActivityDataRecord.class, BeanMapper.class
                 ),
                 HibernateActivityDataRecord.class,
                 new DefaultDeletionMod<>(),
@@ -265,7 +265,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataRecord.class, HibernateActivityDataRecord.class, P02HibernateMapper.class
+                        ActivityDataRecord.class, HibernateActivityDataRecord.class, BeanMapper.class
                 ),
                 HibernateActivityDataRecord.class
         );
@@ -277,7 +277,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataRecord.class, HibernateActivityDataRecord.class, P02HibernateMapper.class
+                        ActivityDataRecord.class, HibernateActivityDataRecord.class, BeanMapper.class
                 ),
                 HibernateActivityDataRecord.class,
                 activityDataRecordPresetCriteriaMaker
@@ -289,9 +289,9 @@ public class P02DaoConfiguration {
     activityDataSetHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityDataSet.class, HibernateActivityDataSet.class, P02HibernateMapper.class
+                        ActivityDataSet.class, HibernateActivityDataSet.class, BeanMapper.class
                 ),
                 HibernateActivityDataSet.class,
                 new DefaultDeletionMod<>(),
@@ -305,7 +305,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataSet.class, HibernateActivityDataSet.class, P02HibernateMapper.class
+                        ActivityDataSet.class, HibernateActivityDataSet.class, BeanMapper.class
                 ),
                 HibernateActivityDataSet.class
         );
@@ -317,7 +317,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityDataSet.class, HibernateActivityDataSet.class, P02HibernateMapper.class
+                        ActivityDataSet.class, HibernateActivityDataSet.class, BeanMapper.class
                 ),
                 HibernateActivityDataSet.class,
                 activityDataSetPresetCriteriaMaker
@@ -329,9 +329,9 @@ public class P02DaoConfiguration {
     activityFileInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityFileInfo.class, HibernateActivityFileInfo.class, P02HibernateMapper.class
+                        ActivityFileInfo.class, HibernateActivityFileInfo.class, BeanMapper.class
                 ),
                 HibernateActivityFileInfo.class,
                 new DefaultDeletionMod<>(),
@@ -345,7 +345,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityFileInfo.class, HibernateActivityFileInfo.class, P02HibernateMapper.class
+                        ActivityFileInfo.class, HibernateActivityFileInfo.class, BeanMapper.class
                 ),
                 HibernateActivityFileInfo.class
         );
@@ -357,7 +357,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityFileInfo.class, HibernateActivityFileInfo.class, P02HibernateMapper.class
+                        ActivityFileInfo.class, HibernateActivityFileInfo.class, BeanMapper.class
                 ),
                 HibernateActivityFileInfo.class,
                 activityFileInfoPresetCriteriaMaker
@@ -370,10 +370,10 @@ public class P02DaoConfiguration {
         return new HibernateBatchBaseDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityParticipantKey.class, HibernateActivityParticipantKey.class, P02HibernateMapper.class
+                        ActivityParticipantKey.class, HibernateActivityParticipantKey.class, BeanMapper.class
                 ),
                 new MapStructBeanTransformer<>(
-                        ActivityParticipant.class, HibernateActivityParticipant.class, P02HibernateMapper.class
+                        ActivityParticipant.class, HibernateActivityParticipant.class, BeanMapper.class
                 ),
                 HibernateActivityParticipant.class,
                 new DefaultDeletionMod<>(),
@@ -387,7 +387,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityParticipant.class, HibernateActivityParticipant.class, P02HibernateMapper.class
+                        ActivityParticipant.class, HibernateActivityParticipant.class, BeanMapper.class
                 ),
                 HibernateActivityParticipant.class
         );
@@ -399,7 +399,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityParticipant.class, HibernateActivityParticipant.class, P02HibernateMapper.class
+                        ActivityParticipant.class, HibernateActivityParticipant.class, BeanMapper.class
                 ),
                 HibernateActivityParticipant.class,
                 activityParticipantPresetCriteriaMaker
@@ -411,9 +411,9 @@ public class P02DaoConfiguration {
     activityTemplateHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityTemplate.class, HibernateActivityTemplate.class, P02HibernateMapper.class
+                        ActivityTemplate.class, HibernateActivityTemplate.class, BeanMapper.class
                 ),
                 HibernateActivityTemplate.class,
                 new DefaultDeletionMod<>(),
@@ -427,7 +427,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityTemplate.class, HibernateActivityTemplate.class, P02HibernateMapper.class
+                        ActivityTemplate.class, HibernateActivityTemplate.class, BeanMapper.class
                 ),
                 HibernateActivityTemplate.class
         );
@@ -439,7 +439,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityTemplate.class, HibernateActivityTemplate.class, P02HibernateMapper.class
+                        ActivityTemplate.class, HibernateActivityTemplate.class, BeanMapper.class
                 ),
                 HibernateActivityTemplate.class,
                 activityTemplatePresetCriteriaMaker
@@ -451,10 +451,10 @@ public class P02DaoConfiguration {
             HibernateActivityTemplateCoverInfo> activityTemplateCoverInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateCoverInfo.class, HibernateActivityTemplateCoverInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateCoverInfo.class,
                 new DefaultDeletionMod<>(),
@@ -469,7 +469,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateCoverInfo.class, HibernateActivityTemplateCoverInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateCoverInfo.class
         );
@@ -482,7 +482,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateCoverInfo.class, HibernateActivityTemplateCoverInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateCoverInfo.class,
                 activityTemplateCoverInfoPresetCriteriaMaker
@@ -494,10 +494,10 @@ public class P02DaoConfiguration {
             HibernateActivityTemplateDataInfo> activityTemplateDataInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDataInfo.class, HibernateActivityTemplateDataInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDataInfo.class,
                 new DefaultDeletionMod<>(),
@@ -512,7 +512,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDataInfo.class, HibernateActivityTemplateDataInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDataInfo.class
         );
@@ -525,7 +525,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDataInfo.class, HibernateActivityTemplateDataInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDataInfo.class,
                 activityTemplateDataInfoPresetCriteriaMaker
@@ -537,10 +537,10 @@ public class P02DaoConfiguration {
             HibernateActivityTemplateDriverInfo> activityTemplateDriverInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverInfo.class, HibernateActivityTemplateDriverInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDriverInfo.class,
                 new DefaultDeletionMod<>(),
@@ -555,7 +555,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverInfo.class, HibernateActivityTemplateDriverInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDriverInfo.class
         );
@@ -568,7 +568,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverInfo.class, HibernateActivityTemplateDriverInfo.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDriverInfo.class,
                 activityTemplateDriverInfoPresetCriteriaMaker
@@ -580,10 +580,10 @@ public class P02DaoConfiguration {
             HibernateActivityTemplateDriverSupport> activityTemplateDriverSupportHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverSupport.class, HibernateActivityTemplateDriverSupport.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDriverSupport.class,
                 new DefaultDeletionMod<>(),
@@ -598,7 +598,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverSupport.class, HibernateActivityTemplateDriverSupport.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDriverSupport.class
         );
@@ -611,7 +611,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverSupport.class, HibernateActivityTemplateDriverSupport.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateDriverSupport.class,
                 activityTemplateDriverSupportPresetCriteriaMaker
@@ -623,9 +623,9 @@ public class P02DaoConfiguration {
             HibernateActivityTemplateFileInfo> activityTemplateFileInfoHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(LongIdKey.class, HibernateLongIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityTemplateFileInfo.class, HibernateActivityTemplateFileInfo.class, P02HibernateMapper.class
+                        ActivityTemplateFileInfo.class, HibernateActivityTemplateFileInfo.class, BeanMapper.class
                 ),
                 HibernateActivityTemplateFileInfo.class,
                 new DefaultDeletionMod<>(),
@@ -639,7 +639,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityTemplateFileInfo.class, HibernateActivityTemplateFileInfo.class, P02HibernateMapper.class
+                        ActivityTemplateFileInfo.class, HibernateActivityTemplateFileInfo.class, BeanMapper.class
                 ),
                 HibernateActivityTemplateFileInfo.class
         );
@@ -651,7 +651,7 @@ public class P02DaoConfiguration {
         return new HibernatePresetLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityTemplateFileInfo.class, HibernateActivityTemplateFileInfo.class, P02HibernateMapper.class
+                        ActivityTemplateFileInfo.class, HibernateActivityTemplateFileInfo.class, BeanMapper.class
                 ),
                 HibernateActivityTemplateFileInfo.class,
                 activityTemplateFileInfoPresetCriteriaMaker
@@ -666,11 +666,11 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateParticipantKey.class, HibernateActivityTemplateParticipantKey.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateParticipant.class, HibernateActivityTemplateParticipant.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateParticipant.class,
                 new DefaultDeletionMod<>(),
@@ -685,7 +685,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateParticipant.class, HibernateActivityTemplateParticipant.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateParticipant.class
         );
@@ -698,7 +698,7 @@ public class P02DaoConfiguration {
                 template,
                 new MapStructBeanTransformer<>(
                         ActivityTemplateParticipant.class, HibernateActivityTemplateParticipant.class,
-                        P02HibernateMapper.class
+                        BeanMapper.class
                 ),
                 HibernateActivityTemplateParticipant.class,
                 activityTemplateParticipantPresetCriteriaMaker
@@ -710,9 +710,9 @@ public class P02DaoConfiguration {
             HibernateActivityTypeIndicator> activityTypeIndicatorHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(StringIdKey.class, HibernateStringIdKey.class, BeanMapper.class),
                 new MapStructBeanTransformer<>(
-                        ActivityTypeIndicator.class, HibernateActivityTypeIndicator.class, P02HibernateMapper.class
+                        ActivityTypeIndicator.class, HibernateActivityTypeIndicator.class, BeanMapper.class
                 ),
                 HibernateActivityTypeIndicator.class,
                 new DefaultDeletionMod<>(),
@@ -726,7 +726,7 @@ public class P02DaoConfiguration {
         return new HibernateEntireLookupDao<>(
                 template,
                 new MapStructBeanTransformer<>(
-                        ActivityTypeIndicator.class, HibernateActivityTypeIndicator.class, P02HibernateMapper.class
+                        ActivityTypeIndicator.class, HibernateActivityTypeIndicator.class, BeanMapper.class
                 ),
                 HibernateActivityTypeIndicator.class
         );
@@ -736,8 +736,8 @@ public class P02DaoConfiguration {
     public HibernateBatchBaseDao<PoacKey, HibernatePoacKey, Poac, HibernatePoac> poacHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(PoacKey.class, HibernatePoacKey.class, P02HibernateMapper.class),
-                new MapStructBeanTransformer<>(Poac.class, HibernatePoac.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(PoacKey.class, HibernatePoacKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Poac.class, HibernatePoac.class, BeanMapper.class),
                 HibernatePoac.class,
                 new DefaultDeletionMod<>(),
                 batchSize
@@ -748,7 +748,7 @@ public class P02DaoConfiguration {
     public HibernateEntireLookupDao<Poac, HibernatePoac> poacHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poac.class, HibernatePoac.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poac.class, HibernatePoac.class, BeanMapper.class),
                 HibernatePoac.class
         );
     }
@@ -757,7 +757,7 @@ public class P02DaoConfiguration {
     public HibernatePresetLookupDao<Poac, HibernatePoac> poacHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poac.class, HibernatePoac.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poac.class, HibernatePoac.class, BeanMapper.class),
                 HibernatePoac.class,
                 poacPresetCriteriaMaker
         );
@@ -767,8 +767,8 @@ public class P02DaoConfiguration {
     public HibernateBatchBaseDao<PoadKey, HibernatePoadKey, Poad, HibernatePoad> poadHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(PoadKey.class, HibernatePoadKey.class, P02HibernateMapper.class),
-                new MapStructBeanTransformer<>(Poad.class, HibernatePoad.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(PoadKey.class, HibernatePoadKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Poad.class, HibernatePoad.class, BeanMapper.class),
                 HibernatePoad.class,
                 new DefaultDeletionMod<>(),
                 batchSize
@@ -779,7 +779,7 @@ public class P02DaoConfiguration {
     public HibernateEntireLookupDao<Poad, HibernatePoad> poadHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poad.class, HibernatePoad.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poad.class, HibernatePoad.class, BeanMapper.class),
                 HibernatePoad.class
         );
     }
@@ -788,7 +788,7 @@ public class P02DaoConfiguration {
     public HibernatePresetLookupDao<Poad, HibernatePoad> poadHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poad.class, HibernatePoad.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poad.class, HibernatePoad.class, BeanMapper.class),
                 HibernatePoad.class,
                 poadPresetCriteriaMaker
         );
@@ -798,8 +798,8 @@ public class P02DaoConfiguration {
     public HibernateBatchBaseDao<PoatKey, HibernatePoatKey, Poat, HibernatePoat> poatHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(PoatKey.class, HibernatePoatKey.class, P02HibernateMapper.class),
-                new MapStructBeanTransformer<>(Poat.class, HibernatePoat.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(PoatKey.class, HibernatePoatKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Poat.class, HibernatePoat.class, BeanMapper.class),
                 HibernatePoat.class,
                 new DefaultDeletionMod<>(),
                 batchSize
@@ -810,7 +810,7 @@ public class P02DaoConfiguration {
     public HibernateEntireLookupDao<Poat, HibernatePoat> poatHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poat.class, HibernatePoat.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poat.class, HibernatePoat.class, BeanMapper.class),
                 HibernatePoat.class
         );
     }
@@ -819,7 +819,7 @@ public class P02DaoConfiguration {
     public HibernatePresetLookupDao<Poat, HibernatePoat> poatHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poat.class, HibernatePoat.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poat.class, HibernatePoat.class, BeanMapper.class),
                 HibernatePoat.class,
                 poatPresetCriteriaMaker
         );
@@ -829,8 +829,8 @@ public class P02DaoConfiguration {
     public HibernateBatchBaseDao<PoatacKey, HibernatePoatacKey, Poatac, HibernatePoatac> poatacHibernateBatchBaseDao() {
         return new HibernateBatchBaseDao<>(
                 template,
-                new MapStructBeanTransformer<>(PoatacKey.class, HibernatePoatacKey.class, P02HibernateMapper.class),
-                new MapStructBeanTransformer<>(Poatac.class, HibernatePoatac.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(PoatacKey.class, HibernatePoatacKey.class, BeanMapper.class),
+                new MapStructBeanTransformer<>(Poatac.class, HibernatePoatac.class, BeanMapper.class),
                 HibernatePoatac.class,
                 new DefaultDeletionMod<>(),
                 batchSize
@@ -841,7 +841,7 @@ public class P02DaoConfiguration {
     public HibernateEntireLookupDao<Poatac, HibernatePoatac> poatacHibernateEntireLookupDao() {
         return new HibernateEntireLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poatac.class, HibernatePoatac.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poatac.class, HibernatePoatac.class, BeanMapper.class),
                 HibernatePoatac.class
         );
     }
@@ -850,7 +850,7 @@ public class P02DaoConfiguration {
     public HibernatePresetLookupDao<Poatac, HibernatePoatac> poatacHibernatePresetLookupDao() {
         return new HibernatePresetLookupDao<>(
                 template,
-                new MapStructBeanTransformer<>(Poatac.class, HibernatePoatac.class, P02HibernateMapper.class),
+                new MapStructBeanTransformer<>(Poatac.class, HibernatePoatac.class, BeanMapper.class),
                 HibernatePoatac.class,
                 poatacPresetCriteriaMaker
         );

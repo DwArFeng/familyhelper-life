@@ -1,6 +1,6 @@
 package com.dwarfeng.familyhelper.life.node.configuration;
 
-import com.dwarfeng.familyhelper.life.sdk.bean.P01FastJsonMapper;
+import com.dwarfeng.familyhelper.life.sdk.bean.BeanMapper;
 import com.dwarfeng.familyhelper.life.sdk.bean.entity.*;
 import com.dwarfeng.familyhelper.life.sdk.bean.key.formatter.PopbStringKeyFormatter;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
@@ -46,7 +46,7 @@ public class P01CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonUser>) template,
                 new StringIdStringKeyFormatter(userPrefix),
-                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, P01FastJsonMapper.class)
+                new MapStructBeanTransformer<>(User.class, FastJsonUser.class, BeanMapper.class)
         );
     }
 
@@ -56,7 +56,7 @@ public class P01CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPopb>) template,
                 new PopbStringKeyFormatter(popbPrefix),
-                new MapStructBeanTransformer<>(Popb.class, FastJsonPopb.class, P01FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Popb.class, FastJsonPopb.class, BeanMapper.class)
         );
     }
 
@@ -66,7 +66,7 @@ public class P01CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbSet>) template,
                 new LongIdStringKeyFormatter(pbSetPrefix),
-                new MapStructBeanTransformer<>(PbSet.class, FastJsonPbSet.class, P01FastJsonMapper.class)
+                new MapStructBeanTransformer<>(PbSet.class, FastJsonPbSet.class, BeanMapper.class)
         );
     }
 
@@ -76,7 +76,7 @@ public class P01CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbNode>) template,
                 new LongIdStringKeyFormatter(pbNodePrefix),
-                new MapStructBeanTransformer<>(PbNode.class, FastJsonPbNode.class, P01FastJsonMapper.class)
+                new MapStructBeanTransformer<>(PbNode.class, FastJsonPbNode.class, BeanMapper.class)
         );
     }
 
@@ -86,7 +86,7 @@ public class P01CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbItem>) template,
                 new LongIdStringKeyFormatter(pbItemPrefix),
-                new MapStructBeanTransformer<>(PbItem.class, FastJsonPbItem.class, P01FastJsonMapper.class)
+                new MapStructBeanTransformer<>(PbItem.class, FastJsonPbItem.class, BeanMapper.class)
         );
     }
 
@@ -96,7 +96,7 @@ public class P01CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbRecord>) template,
                 new LongIdStringKeyFormatter(pbRecordPrefix),
-                new MapStructBeanTransformer<>(PbRecord.class, FastJsonPbRecord.class, P01FastJsonMapper.class)
+                new MapStructBeanTransformer<>(PbRecord.class, FastJsonPbRecord.class, BeanMapper.class)
         );
     }
 
@@ -106,7 +106,7 @@ public class P01CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPbFileInfo>) template,
                 new LongIdStringKeyFormatter(pbFileInfoPrefix),
-                new MapStructBeanTransformer<>(PbFileInfo.class, FastJsonPbFileInfo.class, P01FastJsonMapper.class)
+                new MapStructBeanTransformer<>(PbFileInfo.class, FastJsonPbFileInfo.class, BeanMapper.class)
         );
     }
 }

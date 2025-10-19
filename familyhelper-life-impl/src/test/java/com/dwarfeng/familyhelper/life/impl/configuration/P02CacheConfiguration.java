@@ -1,6 +1,6 @@
 package com.dwarfeng.familyhelper.life.impl.configuration;
 
-import com.dwarfeng.familyhelper.life.sdk.bean.P02FastJsonMapper;
+import com.dwarfeng.familyhelper.life.sdk.bean.BeanMapper;
 import com.dwarfeng.familyhelper.life.sdk.bean.entity.*;
 import com.dwarfeng.familyhelper.life.sdk.bean.key.formatter.*;
 import com.dwarfeng.familyhelper.life.stack.bean.entity.*;
@@ -72,7 +72,7 @@ public class P02CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonActivity>) template,
                 new LongIdStringKeyFormatter(activityPrefix),
-                new MapStructBeanTransformer<>(Activity.class, FastJsonActivity.class, P02FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Activity.class, FastJsonActivity.class, BeanMapper.class)
         );
     }
 
@@ -84,7 +84,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityCoverInfo>) template,
                 new LongIdStringKeyFormatter(activityCoverInfoPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityCoverInfo.class, FastJsonActivityCoverInfo.class, P02FastJsonMapper.class
+                        ActivityCoverInfo.class, FastJsonActivityCoverInfo.class, BeanMapper.class
                 )
         );
     }
@@ -97,7 +97,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityDataItem>) template,
                 new LongIdStringKeyFormatter(activityDataItemPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityDataItem.class, FastJsonActivityDataItem.class, P02FastJsonMapper.class
+                        ActivityDataItem.class, FastJsonActivityDataItem.class, BeanMapper.class
                 )
         );
     }
@@ -110,7 +110,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityDataNode>) template,
                 new LongIdStringKeyFormatter(activityDataNodePrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityDataNode.class, FastJsonActivityDataNode.class, P02FastJsonMapper.class
+                        ActivityDataNode.class, FastJsonActivityDataNode.class, BeanMapper.class
                 )
         );
     }
@@ -123,7 +123,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityDataRecord>) template,
                 new LongIdStringKeyFormatter(activityDataRecordPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityDataRecord.class, FastJsonActivityDataRecord.class, P02FastJsonMapper.class
+                        ActivityDataRecord.class, FastJsonActivityDataRecord.class, BeanMapper.class
                 )
         );
     }
@@ -136,7 +136,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityDataSet>) template,
                 new LongIdStringKeyFormatter(activityDataSetPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityDataSet.class, FastJsonActivityDataSet.class, P02FastJsonMapper.class
+                        ActivityDataSet.class, FastJsonActivityDataSet.class, BeanMapper.class
                 )
         );
     }
@@ -149,7 +149,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityFileInfo>) template,
                 new LongIdStringKeyFormatter(activityFileInfoPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityFileInfo.class, FastJsonActivityFileInfo.class, P02FastJsonMapper.class
+                        ActivityFileInfo.class, FastJsonActivityFileInfo.class, BeanMapper.class
                 )
         );
     }
@@ -162,7 +162,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityParticipant>) template,
                 new ActivityParticipantStringKeyFormatter(activityParticipantPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityParticipant.class, FastJsonActivityParticipant.class, P02FastJsonMapper.class
+                        ActivityParticipant.class, FastJsonActivityParticipant.class, BeanMapper.class
                 )
         );
     }
@@ -175,7 +175,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityTemplate>) template,
                 new LongIdStringKeyFormatter(activityTemplatePrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityTemplate.class, FastJsonActivityTemplate.class, P02FastJsonMapper.class
+                        ActivityTemplate.class, FastJsonActivityTemplate.class, BeanMapper.class
                 )
         );
     }
@@ -188,7 +188,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityTemplateCoverInfo>) template,
                 new LongIdStringKeyFormatter(activityTemplateCoverInfoPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityTemplateCoverInfo.class, FastJsonActivityTemplateCoverInfo.class, P02FastJsonMapper.class
+                        ActivityTemplateCoverInfo.class, FastJsonActivityTemplateCoverInfo.class, BeanMapper.class
                 )
         );
     }
@@ -201,7 +201,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityTemplateDataInfo>) template,
                 new LongIdStringKeyFormatter(activityTemplateDataInfoPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityTemplateDataInfo.class, FastJsonActivityTemplateDataInfo.class, P02FastJsonMapper.class
+                        ActivityTemplateDataInfo.class, FastJsonActivityTemplateDataInfo.class, BeanMapper.class
                 )
         );
     }
@@ -215,7 +215,7 @@ public class P02CacheConfiguration {
                 new LongIdStringKeyFormatter(activityTemplateDriverInfoPrefix),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverInfo.class, FastJsonActivityTemplateDriverInfo.class,
-                        P02FastJsonMapper.class
+                        BeanMapper.class
                 )
         );
     }
@@ -229,7 +229,7 @@ public class P02CacheConfiguration {
                 new StringIdStringKeyFormatter(activityTemplateDriverSupportPrefix),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateDriverSupport.class, FastJsonActivityTemplateDriverSupport.class,
-                        P02FastJsonMapper.class
+                        BeanMapper.class
                 )
         );
     }
@@ -242,7 +242,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityTemplateFileInfo>) template,
                 new LongIdStringKeyFormatter(activityTemplateFileInfoPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityTemplateFileInfo.class, FastJsonActivityTemplateFileInfo.class, P02FastJsonMapper.class
+                        ActivityTemplateFileInfo.class, FastJsonActivityTemplateFileInfo.class, BeanMapper.class
                 )
         );
     }
@@ -256,7 +256,7 @@ public class P02CacheConfiguration {
                 new ActivityTemplateParticipantStringKeyFormatter(activityTemplateParticipantPrefix),
                 new MapStructBeanTransformer<>(
                         ActivityTemplateParticipant.class, FastJsonActivityTemplateParticipant.class,
-                        P02FastJsonMapper.class
+                        BeanMapper.class
                 )
         );
     }
@@ -269,7 +269,7 @@ public class P02CacheConfiguration {
                 (RedisTemplate<String, FastJsonActivityTypeIndicator>) template,
                 new StringIdStringKeyFormatter(activityTypeIndicatorPrefix),
                 new MapStructBeanTransformer<>(
-                        ActivityTypeIndicator.class, FastJsonActivityTypeIndicator.class, P02FastJsonMapper.class
+                        ActivityTypeIndicator.class, FastJsonActivityTypeIndicator.class, BeanMapper.class
                 )
         );
     }
@@ -280,7 +280,7 @@ public class P02CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPoac>) template,
                 new PoacStringKeyFormatter(poacPrefix),
-                new MapStructBeanTransformer<>(Poac.class, FastJsonPoac.class, P02FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Poac.class, FastJsonPoac.class, BeanMapper.class)
         );
     }
 
@@ -290,7 +290,7 @@ public class P02CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPoad>) template,
                 new PoadStringKeyFormatter(poadPrefix),
-                new MapStructBeanTransformer<>(Poad.class, FastJsonPoad.class, P02FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Poad.class, FastJsonPoad.class, BeanMapper.class)
         );
     }
 
@@ -300,7 +300,7 @@ public class P02CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPoat>) template,
                 new PoatStringKeyFormatter(poatPrefix),
-                new MapStructBeanTransformer<>(Poat.class, FastJsonPoat.class, P02FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Poat.class, FastJsonPoat.class, BeanMapper.class)
         );
     }
 
@@ -310,7 +310,7 @@ public class P02CacheConfiguration {
         return new RedisBatchBaseCache<>(
                 (RedisTemplate<String, FastJsonPoatac>) template,
                 new PoatacStringKeyFormatter(poatacPrefix),
-                new MapStructBeanTransformer<>(Poatac.class, FastJsonPoatac.class, P02FastJsonMapper.class)
+                new MapStructBeanTransformer<>(Poatac.class, FastJsonPoatac.class, BeanMapper.class)
         );
     }
 }

@@ -13,14 +13,18 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 /**
- * Hibernate Bean 映射器。
+ * Bean 映射器。
+ *
+ * <p>
+ * 该映射器中包含了 <code>impl</code> 模块中所有实体与 <code>stack</code> 模块中对应实体的映射方法。
  *
  * @author DwArFeng
- * @since 1.1.0
+ * @since 1.2.0
  */
 @Mapper
-public interface P02HibernateMapper {
+public interface BeanMapper {
 
+    // -----------------------------------------------------------Subgrade Key-----------------------------------------------------------
     HibernateLongIdKey longIdKeyToHibernate(LongIdKey longIdKey);
 
     @InheritInverseConfiguration
@@ -31,6 +35,7 @@ public interface P02HibernateMapper {
     @InheritInverseConfiguration
     StringIdKey stringIdKeyFromHibernate(HibernateStringIdKey hibernateStringIdKey);
 
+    // -----------------------------------------------------------Familyhelper-life Key-----------------------------------------------------------
     HibernateActivityParticipantKey activityParticipantKeyToHibernate(ActivityParticipantKey activityParticipantKey);
 
     @InheritInverseConfiguration
@@ -67,6 +72,12 @@ public interface P02HibernateMapper {
     @InheritInverseConfiguration
     PoatKey poatKeyFromHibernate(HibernatePoatKey hibernatePoatKey);
 
+    HibernatePopbKey popbKeyToHibernate(PopbKey popbKey);
+
+    @InheritInverseConfiguration
+    PopbKey popbKeyFromHibernate(HibernatePopbKey hibernatePopbKey);
+
+    // -----------------------------------------------------------Familyhelper-life Entity-----------------------------------------------------------
     @Mapping(target = "poacs", ignore = true)
     @Mapping(target = "longId", ignore = true)
     @Mapping(target = "activityParticipants", ignore = true)
@@ -241,6 +252,54 @@ public interface P02HibernateMapper {
             HibernateActivityTypeIndicator hibernateActivityTypeIndicator
     );
 
+    @Mapping(target = "recordLongId", ignore = true)
+    @Mapping(target = "record", ignore = true)
+    @Mapping(target = "longId", ignore = true)
+    HibernatePbFileInfo pbFileInfoToHibernate(PbFileInfo pbFileInfo);
+
+    @InheritInverseConfiguration
+    PbFileInfo pbFileInfoFromHibernate(HibernatePbFileInfo hibernatePbFileInfo);
+
+    @Mapping(target = "setLongId", ignore = true)
+    @Mapping(target = "set", ignore = true)
+    @Mapping(target = "records", ignore = true)
+    @Mapping(target = "nodeLongId", ignore = true)
+    @Mapping(target = "node", ignore = true)
+    @Mapping(target = "longId", ignore = true)
+    HibernatePbItem pbItemToHibernate(PbItem pbItem);
+
+    @InheritInverseConfiguration
+    PbItem pbItemFromHibernate(HibernatePbItem hibernatePbItem);
+
+    @Mapping(target = "setLongId", ignore = true)
+    @Mapping(target = "set", ignore = true)
+    @Mapping(target = "pbItems", ignore = true)
+    @Mapping(target = "parentLongId", ignore = true)
+    @Mapping(target = "parent", ignore = true)
+    @Mapping(target = "longId", ignore = true)
+    HibernatePbNode pbNodeToHibernate(PbNode pbNode);
+
+    @InheritInverseConfiguration
+    PbNode pbNodeFromHibernate(HibernatePbNode hibernatePbNode);
+
+    @Mapping(target = "longId", ignore = true)
+    @Mapping(target = "itemLongId", ignore = true)
+    @Mapping(target = "item", ignore = true)
+    @Mapping(target = "fileInfos", ignore = true)
+    HibernatePbRecord pbRecordToHibernate(PbRecord pbRecord);
+
+    @InheritInverseConfiguration
+    PbRecord pbRecordFromHibernate(HibernatePbRecord hibernatePbRecord);
+
+    @Mapping(target = "popbs", ignore = true)
+    @Mapping(target = "nodes", ignore = true)
+    @Mapping(target = "longId", ignore = true)
+    @Mapping(target = "items", ignore = true)
+    HibernatePbSet pbSetToHibernate(PbSet pbSet);
+
+    @InheritInverseConfiguration
+    PbSet pbSetFromHibernate(HibernatePbSet hibernatePbSet);
+
     @Mapping(target = "userStringId", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "activityLongId", ignore = true)
@@ -276,4 +335,28 @@ public interface P02HibernateMapper {
 
     @InheritInverseConfiguration
     Poatac poatacFromHibernate(HibernatePoatac hibernatePoatac);
+
+    @Mapping(target = "userStringId", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "pbSet", ignore = true)
+    @Mapping(target = "pbLongId", ignore = true)
+    HibernatePopb popbToHibernate(Popb popb);
+
+    @InheritInverseConfiguration
+    Popb popbFromHibernate(HibernatePopb hibernatePopb);
+
+    @Mapping(target = "stringId", ignore = true)
+    @Mapping(target = "popbs", ignore = true)
+    @Mapping(target = "poats", ignore = true)
+    @Mapping(target = "poatacs", ignore = true)
+    @Mapping(target = "poads", ignore = true)
+    @Mapping(target = "poacs", ignore = true)
+    @Mapping(target = "modifiedDatamark", ignore = true)
+    @Mapping(target = "createdDatamark", ignore = true)
+    @Mapping(target = "activityTemplateParticipants", ignore = true)
+    @Mapping(target = "activityParticipants", ignore = true)
+    HibernateUser userToHibernate(User user);
+
+    @InheritInverseConfiguration
+    User userFromHibernate(HibernateUser hibernateUser);
 }
